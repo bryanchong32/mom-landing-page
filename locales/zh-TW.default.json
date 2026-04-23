@@ -1,0 +1,17 @@
+{
+  "general": {
+    "meta": {
+      "title": "Homega 魚油王 | IFOS 5星法國魚油 + K2 D3 | 香港",
+      "description": "IFOS 5星認證法國深海魚油，EPA 312mg + DHA 156mg，獨家添加維他命K2及D3。支持心血管健康，適合關注膽固醇及血壓人士。香港直送，免運費優惠。"
+    },
+    "accessibility": {
+      "skip_to_content": "跳至主要內容"
+    }
+  },
+  "products": {
+    "homega": {
+      "add_to_cart": "加入購物車",
+      "shop_now": "立即選購"
+    }
+  }
+}

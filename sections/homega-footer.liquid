@@ -1,0 +1,76 @@
+{%- comment -%}
+  Section 10: Footer
+  Background: --color-bg-dark (dark charcoal)
+  Minimal links, compliance disclaimer, NPRA registration
+{%- endcomment -%}
+
+{%- liquid
+  assign is_en = false
+  if request.locale.iso_code == 'en'
+    assign is_en = true
+  endif
+-%}
+
+<footer class="site-footer bg-dark" role="contentinfo">
+  <div class="container site-footer__inner">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        {%- comment -%} Logo — white version for dark bg {%- endcomment -%}
+        <img
+          src="{{ 'Homega_Logo_White.png' | asset_url }}"
+          alt="Homega"
+          width="140"
+          height="40"
+          loading="lazy"
+          class="site-footer__logo"
+        >
+      </div>
+
+      <nav class="site-footer__nav" aria-label="{% if is_en %}Footer navigation{% else %}頁腳導覽{% endif %}">
+        <ul>
+          <li><a href="#pricing">{% if is_en %}Shop{% else %}選購{% endif %}</a></li>
+          <li><a href="#faq-heading">{% if is_en %}FAQ{% else %}常見問題{% endif %}</a></li>
+          <li><a href="/policies/privacy-policy">{% if is_en %}Privacy Policy{% else %}私隱政策{% endif %}</a></li>
+          <li><a href="/policies/terms-of-service">{% if is_en %}Terms of Service{% else %}服務條款{% endif %}</a></li>
+          <li><a href="/policies/refund-policy">{% if is_en %}Refund Policy{% else %}退換政策{% endif %}</a></li>
+        </ul>
+      </nav>
+
+      {%- comment -%} Language switcher {%- endcomment -%}
+      <div class="site-footer__lang">
+        {%- if is_en -%}
+          <a href="/products/homega" class="site-footer__lang-link" hreflang="zh-Hant-HK">繁體中文</a>
+          <span class="site-footer__lang-current">English</span>
+        {%- else -%}
+          <span class="site-footer__lang-current">繁體中文</span>
+          <a href="/en/products/homega" class="site-footer__lang-link" hreflang="en-HK">English</a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} Compliance disclaimer — both languages always visible {%- endcomment -%}
+    <div class="site-footer__disclaimer">
+      <p class="text-small">
+        此產品為健康補充品，並非藥品。本產品並無根據《藥劑業及毒藥條例》或《中醫藥條例》註冊。為本產品作出的任何聲稱亦沒有為進行該等註冊而接受評核。此產品並不用於診斷、治療、治愈或預防任何疾病。所有用家分享均為個人體驗，效果因人而異。如有任何健康疑問，請諮詢醫療專業人士。Minionions Marketing為Wellous授權經銷商。
+      </p>
+      <p class="text-small">
+        This product is a dietary supplement, not a medicine. It is not registered under the Pharmacy and Poisons Ordinance or the Chinese Medicine Ordinance. Any claim made for this product has not been subject to evaluation for such registration. This product is not intended to diagnose, treat, cure, or prevent any disease. All user testimonials reflect individual experiences; results vary from person to person. Consult a healthcare professional if you have any health concerns. Minionions Marketing is an authorized distributor of Wellous products.
+      </p>
+      <p class="text-small site-footer__npra">
+        NPRA Registration: MAL19096038NC
+      </p>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p class="text-small">&copy; {{ 'now' | date: '%Y' }} Minionions Marketing. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Homega Footer",
+  "tag": "div",
+  "class": "homega-footer-wrapper"
+}
+{% endschema %}

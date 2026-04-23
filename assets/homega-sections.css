@@ -1,0 +1,1040 @@
+/* =================================================================
+   HOMEGA Landing Page — Section Styles
+   All component styles for the 11-section landing page.
+   References design-tokens.css custom properties throughout.
+   Mobile-first approach.
+   ================================================================= */
+
+/* ---------------------------------------------------------------
+   1. HERO SECTION
+   --------------------------------------------------------------- */
+.hero {
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-6);
+}
+
+.hero__grid {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+  display: grid;
+  gap: var(--space-6);
+}
+
+/* Mobile: image first, text second */
+.hero__image {
+  order: -1;
+  display: flex;
+  justify-content: center;
+}
+
+.hero__image img,
+.hero__image-placeholder {
+  max-width: 320px;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-xl);
+}
+
+.hero__overline {
+  border-left: 4px solid var(--color-secondary);
+  padding-left: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.hero__headline {
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.hero__subtitle {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-6);
+}
+
+.hero__trust-row {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  color: var(--color-text-secondary);
+  font-size: var(--text-small);
+}
+
+.hero__trust-row li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.hero__check-icon {
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-12);
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero__grid {
+    grid-template-columns: 1fr 0.7fr;
+    align-items: center;
+  }
+
+  .hero__image {
+    order: 1;
+  }
+
+  .hero__image img,
+  .hero__image-placeholder {
+    max-width: 100%;
+  }
+}
+
+/* ---------------------------------------------------------------
+   2. TRUST BAR
+   --------------------------------------------------------------- */
+.trust-bar {
+  border-top: 1px solid var(--color-secondary-muted);
+  border-bottom: 1px solid var(--color-secondary-muted);
+}
+
+.trust-bar__inner {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.trust-bar__inner::-webkit-scrollbar {
+  display: none;
+}
+
+.trust-bar__list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+  min-height: 44px;
+  padding: var(--space-2) var(--container-padding);
+  white-space: nowrap;
+}
+
+.trust-bar__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-overline);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.trust-bar__icon {
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+.trust-bar__divider {
+  width: 1px;
+  height: 20px;
+  background-color: var(--color-secondary-muted);
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .trust-bar__list {
+    min-height: 48px;
+  }
+}
+
+/* ---------------------------------------------------------------
+   3. STATS BAR
+   --------------------------------------------------------------- */
+.stats-bar {
+  border-top: 1px solid var(--color-secondary-muted);
+  border-bottom: 1px solid var(--color-secondary-muted);
+  padding-block: var(--space-8);
+}
+
+.stats-bar__grid {
+  display: grid;
+  gap: var(--space-6);
+  text-align: left;
+}
+
+.stats-bar__number {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: var(--text-h1);
+  font-weight: var(--weight-bold);
+  color: var(--color-primary);
+  line-height: var(--leading-snug);
+}
+
+.stats-bar__label {
+  display: block;
+  margin-top: var(--space-1);
+}
+
+.stats-bar__divider {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .stats-bar__grid {
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    align-items: center;
+  }
+
+  .stats-bar__divider {
+    display: block;
+    width: 1px;
+    height: 48px;
+    background-color: var(--color-secondary-muted);
+  }
+}
+
+/* ---------------------------------------------------------------
+   4. WHY THIS FISH OIL
+   --------------------------------------------------------------- */
+.why-fish-oil__grid {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.why-fish-oil__overline {
+  margin-bottom: var(--space-3);
+}
+
+.why-fish-oil__content h2 {
+  margin-bottom: var(--space-4);
+}
+
+.why-fish-oil__lead {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.why-fish-oil__transition {
+  margin-bottom: var(--space-8);
+}
+
+/* Mechanism cards — numbered editorial */
+.mechanism-cards {
+  margin-bottom: var(--space-8);
+}
+
+.mechanism-card {
+  padding: var(--space-5) 0;
+}
+
+.mechanism-card__number {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  color: var(--color-primary);
+  opacity: 0.3;
+  margin-bottom: var(--space-2);
+}
+
+.mechanism-card__title {
+  margin-bottom: var(--space-3);
+}
+
+.mechanism-card__details {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+}
+
+.mechanism-card__details li {
+  padding-left: var(--space-4);
+  position: relative;
+}
+
+.mechanism-card__details li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-primary-light);
+}
+
+.mechanism-card__divider {
+  border: none;
+  height: 1px;
+  background-color: var(--color-secondary-muted);
+  margin: 0;
+}
+
+/* Sourcing callout */
+.sourcing-callout {
+  border: 1px solid var(--color-secondary-muted);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  color: var(--color-text-secondary);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+}
+
+/* Visual column */
+.why-fish-oil__visual {
+  display: none;
+}
+
+.why-fish-oil__img {
+  border-radius: var(--radius-xl);
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+@media (min-width: 1024px) {
+  .why-fish-oil__grid {
+    grid-template-columns: 1fr 0.6fr;
+    align-items: start;
+  }
+
+  .why-fish-oil__visual {
+    display: block;
+    position: sticky;
+    top: var(--space-8);
+  }
+}
+
+/* ---------------------------------------------------------------
+   5. TESTIMONIALS
+   --------------------------------------------------------------- */
+.testimonials__overline {
+  margin-bottom: var(--space-3);
+}
+
+.testimonials h2 {
+  margin-bottom: var(--space-4);
+}
+
+.testimonials__intro {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-8);
+  max-width: 720px;
+}
+
+.testimonials__grid {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.testimonial-card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-secondary-muted);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+}
+
+.testimonial-card__metrics {
+  margin-bottom: var(--space-3);
+}
+
+.testimonial-card__metric-pair {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.testimonial-card__metric-value {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+}
+
+.testimonial-card__metric-label {
+  display: block;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-1);
+}
+
+.testimonial-card__arrow {
+  font-size: var(--text-h2);
+  color: var(--color-success);
+  font-weight: var(--weight-bold);
+}
+
+.testimonial-card__unit {
+  display: block;
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+
+.testimonial-card__duration-badge {
+  display: inline-block;
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-small);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-3);
+}
+
+.testimonial-card__description {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-3);
+}
+
+.testimonial-card__attribution {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.testimonial-card__disclaimer {
+  color: var(--color-text-muted);
+}
+
+/* Consumer Council context */
+.testimonials__context {
+  max-width: 720px;
+  border-left: 4px solid var(--color-primary);
+  padding-left: var(--space-4);
+  color: var(--color-text-secondary);
+}
+
+@media (min-width: 768px) {
+  .testimonials__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ---------------------------------------------------------------
+   6. COMPARISON TABLE
+   --------------------------------------------------------------- */
+.comparison__overline {
+  margin-bottom: var(--space-3);
+}
+
+.comparison h2 {
+  margin-bottom: var(--space-6);
+}
+
+.comparison__table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.comparison__table {
+  width: 100%;
+  min-width: 500px;
+  border-collapse: collapse;
+  background-color: var(--color-bg-card);
+  font-size: var(--text-body);
+}
+
+.comparison__table thead {
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+}
+
+.comparison__table th {
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-overline);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.comparison__table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-secondary-muted);
+  vertical-align: top;
+}
+
+/* Sticky first column (feature names) */
+.comparison__feature-header,
+.comparison__feature {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 140px;
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+}
+
+.comparison__feature-header {
+  background-color: var(--color-primary);
+}
+
+.comparison__feature {
+  background-color: var(--color-bg-card);
+}
+
+/* HOMEGA column highlighted */
+.comparison__homega-header {
+  background-color: var(--color-primary-dark);
+}
+
+.comparison__homega-cell {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+}
+
+.comparison__generic-cell {
+  color: var(--color-text-secondary);
+}
+
+/* Badge for "+60%+" */
+.comparison__badge {
+  display: inline-block;
+  background-color: var(--color-success);
+  color: #fff;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-small);
+  font-weight: var(--weight-semibold);
+  margin-left: var(--space-2);
+  white-space: nowrap;
+}
+
+/* Check and cross icons */
+.comparison__check {
+  color: var(--color-success);
+  margin-right: var(--space-1);
+}
+
+.comparison__cross {
+  color: var(--color-text-muted);
+  margin-right: var(--space-1);
+}
+
+/* ---------------------------------------------------------------
+   7. NUTRITIONIST + CERTIFICATIONS (Dark Section)
+   --------------------------------------------------------------- */
+.nutritionist__overline {
+  color: var(--color-secondary);
+  margin-bottom: var(--space-3);
+}
+
+.nutritionist h2 {
+  margin-bottom: var(--space-6);
+}
+
+.nutritionist__grid {
+  display: grid;
+  gap: var(--space-8);
+}
+
+/* Video */
+.nutritionist__video-wrapper {
+  margin-bottom: var(--space-6);
+}
+
+.nutritionist__video {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+  background-color: #000;
+  aspect-ratio: 16 / 9;
+}
+
+.nutritionist__attribution {
+  color: var(--color-text-on-dark);
+  opacity: 0.7;
+  margin-top: var(--space-3);
+}
+
+/* Pull quote */
+.nutritionist__quote {
+  border-left: 4px solid var(--color-secondary);
+  padding-left: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.nutritionist__quote p {
+  font-family: var(--font-heading);
+  font-size: var(--text-body-lg);
+  line-height: var(--leading-body-lg);
+  color: var(--color-text-on-dark);
+  font-style: italic;
+}
+
+.nutritionist__quote-footer {
+  margin-top: var(--space-3);
+}
+
+.nutritionist__quote-footer cite {
+  color: var(--color-secondary);
+  font-size: var(--text-small);
+  font-style: normal;
+}
+
+/* Certification stack */
+.nutritionist__certs-heading {
+  color: var(--color-text-on-dark);
+  margin-bottom: var(--space-5);
+}
+
+.cert-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.cert-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.cert-item__badge {
+  flex-shrink: 0;
+}
+
+.cert-item__text strong {
+  display: block;
+  color: var(--color-text-on-dark);
+  margin-bottom: var(--space-1);
+}
+
+.cert-item__text p {
+  color: var(--color-text-on-dark);
+  opacity: 0.75;
+}
+
+@media (min-width: 1024px) {
+  .nutritionist__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ---------------------------------------------------------------
+   8. PRICING / BUNDLES
+   --------------------------------------------------------------- */
+.pricing__overline {
+  margin-bottom: var(--space-3);
+}
+
+.pricing h2 {
+  margin-bottom: var(--space-3);
+}
+
+.pricing__subtitle {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-8);
+}
+
+.pricing__grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.pricing-card {
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  position: relative;
+}
+
+/* Recommended card */
+.pricing-card--recommended {
+  border-top: 4px solid var(--color-primary);
+}
+
+.pricing-card__badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+  padding: var(--space-1) var(--space-4);
+  border-radius: var(--radius-full);
+  font-size: var(--text-small);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+}
+
+.pricing-card__title {
+  font-family: var(--font-heading);
+  margin-bottom: var(--space-1);
+}
+
+.pricing-card__capsules {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-1);
+}
+
+.pricing-card__plan-label {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-3);
+}
+
+.pricing-card__price {
+  margin-bottom: var(--space-3);
+}
+
+.pricing-card__currency {
+  font-size: var(--text-h3);
+  color: var(--color-text-secondary);
+  vertical-align: top;
+}
+
+.pricing-card__amount {
+  font-family: var(--font-heading);
+  font-size: var(--text-h1);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+}
+
+.pricing-card__per-box {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-1);
+}
+
+.pricing-card__per-day {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.pricing-card__savings {
+  color: var(--color-success);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-2);
+}
+
+.pricing-card__shipping {
+  margin-bottom: var(--space-4);
+}
+
+.pricing-card__shipping-free {
+  color: var(--color-success);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+}
+
+.pricing-card__cta {
+  margin-top: auto;
+  width: 100%;
+}
+
+/* Mobile: recommended card first */
+@media (max-width: 767px) {
+  .pricing-card--recommended {
+    order: -1;
+  }
+}
+
+@media (min-width: 768px) {
+  .pricing__grid {
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+  }
+
+  .pricing-card--recommended {
+    transform: scale(1.03);
+  }
+}
+
+.pricing__notes {
+  margin-top: var(--space-6);
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+.pricing__notes ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: var(--text-body);
+}
+
+.pricing__notes li {
+  padding-left: var(--space-4);
+  position: relative;
+}
+
+.pricing__notes li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-primary-light);
+}
+
+/* ---------------------------------------------------------------
+   9. FAQ ACCORDION
+   --------------------------------------------------------------- */
+.faq__inner {
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+.faq__overline {
+  margin-bottom: var(--space-3);
+}
+
+.faq h2 {
+  margin-bottom: var(--space-6);
+}
+
+.faq__list {
+  border-top: 1px solid var(--color-secondary-muted);
+}
+
+.faq__item {
+  border-bottom: 1px solid var(--color-secondary-muted);
+}
+
+.faq__question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  width: 100%;
+  text-align: left;
+  /* Remove default marker */
+}
+
+.faq__question::-webkit-details-marker {
+  display: none;
+}
+
+.faq__question::marker {
+  display: none;
+  content: '';
+}
+
+/* Chevron rotation */
+.faq__chevron {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+  transition: transform var(--transition-base);
+}
+
+details[open] .faq__chevron {
+  transform: rotate(180deg);
+}
+
+/* Answer panel */
+.faq__answer {
+  padding: 0 0 var(--space-4) 0;
+  color: var(--color-text-secondary);
+  line-height: var(--leading-body);
+}
+
+.faq__answer p {
+  margin-bottom: var(--space-3);
+}
+
+.faq__answer p:last-child {
+  margin-bottom: 0;
+}
+
+.faq__answer a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* ---------------------------------------------------------------
+   10. FOOTER
+   --------------------------------------------------------------- */
+.site-footer {
+  padding-block: var(--space-10);
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.site-footer__top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.site-footer__logo {
+  width: 140px;
+  height: auto;
+}
+
+.site-footer__nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.site-footer__nav a {
+  color: var(--color-text-on-dark);
+  opacity: 0.7;
+  text-decoration: none;
+  font-size: var(--text-small);
+  transition: opacity var(--transition-fast);
+}
+
+.site-footer__nav a:hover {
+  opacity: 1;
+  color: var(--color-text-on-dark);
+}
+
+.site-footer__lang {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  font-size: var(--text-small);
+}
+
+.site-footer__lang-current {
+  color: var(--color-text-on-dark);
+  font-weight: var(--weight-semibold);
+}
+
+.site-footer__lang-link {
+  color: var(--color-text-on-dark);
+  opacity: 0.6;
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.site-footer__lang-link:hover {
+  opacity: 1;
+  color: var(--color-text-on-dark);
+}
+
+.site-footer__disclaimer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.site-footer__disclaimer p {
+  color: var(--color-text-on-dark);
+  opacity: 0.5;
+  line-height: var(--leading-body);
+}
+
+.site-footer__npra {
+  opacity: 0.6 !important;
+  font-weight: var(--weight-medium);
+}
+
+.site-footer__bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: var(--space-4);
+}
+
+.site-footer__bottom p {
+  color: var(--color-text-on-dark);
+  opacity: 0.4;
+}
+
+@media (min-width: 768px) {
+  .site-footer__top {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* ---------------------------------------------------------------
+   11. STICKY MOBILE CTA
+   --------------------------------------------------------------- */
+.sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-sticky-cta);
+  background-color: var(--color-bg-card);
+  box-shadow: 0 -4px 16px rgba(26, 42, 40, 0.12);
+  /* No animation — instant show/hide to avoid CLS */
+}
+
+.sticky-cta__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--container-padding);
+  max-width: var(--container-max);
+  margin-inline: auto;
+  height: 68px;
+  padding-bottom: calc(var(--space-2) + env(safe-area-inset-bottom, 0px));
+}
+
+.sticky-cta__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.sticky-cta__product-name {
+  font-size: var(--text-small);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+}
+
+.sticky-cta__price {
+  font-size: var(--text-body);
+  color: var(--color-text-primary);
+  font-weight: var(--weight-semibold);
+}
+
+.sticky-cta__btn {
+  min-width: 120px;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-5);
+  font-size: var(--text-body);
+}
+
+/* Hide sticky CTA on tablet and above */
+@media (min-width: 768px) {
+  .sticky-cta {
+    display: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------
+   SINGLE-OPEN ACCORDION JS HELPER
+   The <details> elements implement single-open behavior via JS.
+   This script is in the FAQ section but backed up by CSS here.
+   --------------------------------------------------------------- */

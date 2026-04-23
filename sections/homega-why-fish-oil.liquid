@@ -1,0 +1,126 @@
+{%- comment -%}
+  Section 4: Why This Fish Oil
+  Background: --color-bg-secondary (ivory)
+  Numbered editorial mechanism cards (01, 02, 03)
+  Two-column desktop (text left, visual right)
+{%- endcomment -%}
+
+{%- liquid
+  assign is_en = false
+  if request.locale.iso_code == 'en'
+    assign is_en = true
+  endif
+-%}
+
+<section class="why-fish-oil bg-secondary section-padding" aria-labelledby="why-heading">
+  <div class="container">
+    <div class="why-fish-oil__grid">
+      <div class="why-fish-oil__content">
+        <p class="text-overline why-fish-oil__overline">
+          {% if is_en %}WHY THIS FISH OIL{% else %}為什麼選擇 HOMEGA{% endif %}
+        </p>
+
+        <h2 id="why-heading">
+          {% if is_en %}Why Generic Fish Oil Falls Short{% else %}點解普通魚油不足夠{% endif %}
+        </h2>
+
+        <p class="text-body-lg why-fish-oil__lead">
+          {% if is_en %}Not all fish oil is the same. Hong Kong's Consumer Council found contaminants including carcinogens in over half the fish oil products they tested. Low concentrations, cheap extraction methods, and no independent quality verification — that is the reality of most off-the-shelf fish oil.{% else %}市面魚油產品良莠不齊。消委會測試發現，超過半數魚油含有致癌污染物，近全部樣本驗出3-MCPD。低純度、低濃度、欠缺第三方檢測 — 這正是大部分藥房魚油的現實。{% endif %}
+        </p>
+
+        <p class="why-fish-oil__transition">
+          {% if is_en %}Homega was designed differently. Instead of just delivering Omega-3, its triple-action formula addresses both cholesterol buildup and arterial calcification simultaneously.{% else %}Homega 魚油王的不同之處，在於配方設計。不是單純補充奧米加3，而是三重成分為你的身體提供更全面的營養支持。{% endif %}
+        </p>
+
+        {%- comment -%} Mechanism Cards — numbered editorial layout {%- endcomment -%}
+        <div class="mechanism-cards">
+          {%- comment -%} Card 1: Omega-3 {%- endcomment -%}
+          <article class="mechanism-card animate-on-scroll">
+            <span class="mechanism-card__number">01</span>
+            <h3 class="mechanism-card__title">
+              {% if is_en %}Omega-3 Deep-Sea Fish Oil{% else %}奧米加3 深海魚油{% endif %}
+            </h3>
+            <ul class="mechanism-card__details">
+              <li>{% if is_en %}780mg Omegavie fish oil per capsule{% else %}Omegavie 魚油 780mg（每粒）{% endif %}</li>
+              <li>{% if is_en %}EPA 312mg — an essential fatty acid your body cannot produce on its own. Research has established EPA's role in cardiovascular function.{% else %}EPA 312mg — 人體無法自行製造的必需脂肪酸，研究指出EPA與心血管功能息息相關{% endif %}</li>
+              <li>{% if is_en %}DHA 156mg — a key structural component of the brain and retina{% else %}DHA 156mg — 腦部及視網膜的重要結構成分{% endif %}</li>
+              <li>{% if is_en %}Sourced by POLARIS (France) from sardines, anchovies, and mackerel caught in the open waters of Peru, Chile, and Morocco{% else %}法國POLARIS出品，原料取自秘魯、智利及摩洛哥公海的沙丁魚、鯷魚及鯖魚{% endif %}</li>
+              <li>{% if is_en %}Small, short-lifespan deep-sea fish with naturally lower environmental contaminant levels{% else %}短壽命小型深海魚，環境污染物含量天然較低{% endif %}</li>
+            </ul>
+          </article>
+
+          <hr class="mechanism-card__divider" aria-hidden="true">
+
+          {%- comment -%} Card 2: Vitamin K2 {%- endcomment -%}
+          <article class="mechanism-card animate-on-scroll">
+            <span class="mechanism-card__number">02</span>
+            <h3 class="mechanism-card__title">
+              {% if is_en %}Vitamin K2 (MenaquinGold){% else %}維他命K2 (MenaquinGold){% endif %}
+            </h3>
+            <ul class="mechanism-card__details">
+              <li>{% if is_en %}100mcg per capsule{% else %}每粒含100mcg{% endif %}</li>
+              <li>{% if is_en %}Activates Matrix GLA Protein (MGP), directing calcium to your bones — not your artery walls{% else %}激活基質GLA蛋白（MGP），將鈣質引導至骨骼而非血管壁{% endif %}</li>
+              <li>{% if is_en %}Supports normal arterial flexibility{% else %}維持血管正常彈性{% endif %}</li>
+              <li>{% if is_en %}Most fish oil products do not include K2. This is what sets Homega apart.{% else %}大部分魚油產品不含K2 — 這是Homega的關鍵差異{% endif %}</li>
+            </ul>
+          </article>
+
+          <hr class="mechanism-card__divider" aria-hidden="true">
+
+          {%- comment -%} Card 3: Vitamin D3 {%- endcomment -%}
+          <article class="mechanism-card animate-on-scroll">
+            <span class="mechanism-card__number">03</span>
+            <h3 class="mechanism-card__title">
+              {% if is_en %}Vitamin D3{% else %}維他命D3{% endif %}
+            </h3>
+            <ul class="mechanism-card__details">
+              <li>{% if is_en %}500IU per capsule{% else %}每粒含500IU{% endif %}</li>
+              <li>{% if is_en %}Promotes calcium absorption and supports bone health{% else %}促進鈣質吸收，支持骨骼健康{% endif %}</li>
+              <li>{% if is_en %}Supports normal immune system function{% else %}支持免疫系統正常運作{% endif %}</li>
+              <li>{% if is_en %}Research has established a close relationship between adequate Vitamin D levels and overall cardiovascular wellness{% else %}研究顯示維他命D充足與整體心血管健康有密切關係{% endif %}</li>
+            </ul>
+          </article>
+        </div>
+
+        {%- comment -%} Sourcing callout {%- endcomment -%}
+        <div class="sourcing-callout animate-on-scroll">
+          <p>
+            {% if is_en %}French POLARIS deep-sea fish oil, processed with QualitySilver stabilization technology for 3x the oxidative stability of standard fish oil. Purified through advanced molecular distillation to remove mercury, dioxins, heavy metals, and other contaminants.{% else %}嚴選法國POLARIS深海魚油，經QualitySilver穩定技術處理，穩定性為市場同類產品的3倍。超純油高科技純化及分子蒸餾工序，去除重金屬、汞、二噁英及其他污染物。{% endif %}
+          </p>
+        </div>
+      </div>
+
+      <div class="why-fish-oil__visual">
+        {%- comment -%}
+          Visual column: product photography placeholder.
+          Ingredient/lifestyle photography not yet available (Open Items).
+          Using product bottle image as placeholder.
+        {%- endcomment -%}
+        {%- if product.images.size > 1 -%}
+          <img
+            src="{{ product.images[1] | image_url: width: 600 }}"
+            srcset="
+              {{ product.images[1] | image_url: width: 300 }} 300w,
+              {{ product.images[1] | image_url: width: 450 }} 450w,
+              {{ product.images[1] | image_url: width: 600 }} 600w
+            "
+            sizes="(max-width: 1023px) 100vw, 40vw"
+            width="600"
+            height="750"
+            alt="{% if is_en %}Homega vs generic fish oil ingredient comparison{% else %}Homega與普通魚油成分比較圖{% endif %}"
+            loading="lazy"
+            class="why-fish-oil__img"
+          >
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Homega Why Fish Oil",
+  "tag": "div",
+  "class": "homega-why-fish-oil-wrapper"
+}
+{% endschema %}

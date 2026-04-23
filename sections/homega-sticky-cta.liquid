@@ -1,0 +1,41 @@
+{%- comment -%}
+  Section 11: Sticky Mobile CTA
+  Fixed bottom bar, mobile only (below 768px)
+  Hidden until hero CTA scrolls out of viewport (Intersection Observer)
+  Height 68px + iOS safe area
+  Z-index 50
+{%- endcomment -%}
+
+{%- liquid
+  assign is_en = false
+  if request.locale.iso_code == 'en'
+    assign is_en = true
+  endif
+-%}
+
+<div
+  id="sticky-mobile-cta"
+  class="sticky-cta"
+  aria-hidden="true"
+  role="complementary"
+  aria-label="{% if is_en %}Quick purchase{% else %}快速購買{% endif %}"
+  style="display: none;"
+>
+  <div class="sticky-cta__inner">
+    <div class="sticky-cta__info">
+      <span class="sticky-cta__product-name">HOMEGA {% if is_en %}Fish Oil{% else %}魚油王{% endif %}</span>
+      <span class="sticky-cta__price">HK$550{% if is_en %}/box{% else %}/盒{% endif %}{% if is_en %} from{% else %}起{% endif %}</span>
+    </div>
+    <a href="#pricing" class="btn-cta sticky-cta__btn">
+      {% if is_en %}Shop Now{% else %}立即選購{% endif %}
+    </a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Homega Sticky CTA",
+  "tag": "div",
+  "class": "homega-sticky-cta-wrapper"
+}
+{% endschema %}

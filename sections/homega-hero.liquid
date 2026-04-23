@@ -1,0 +1,190 @@
+{%- comment -%}
+  Section 1: Hero
+  Background: --color-bg-primary (cream)
+  Split layout: 60% text / 40% image on desktop
+  Mobile: image first, text second
+  Product bottle image = LCP element — preloaded
+{%- endcomment -%}
+
+{%- liquid
+  assign is_en = false
+  if request.locale.iso_code == 'en'
+    assign is_en = true
+  endif
+-%}
+
+<section class="hero bg-primary" aria-label="{% if is_en %}Hero{% else %}主頁橫幅{% endif %}">
+  <div class="container hero__grid">
+    <div class="hero__image">
+      {%- comment -%} LCP element — eager loaded, preloaded via link in head {%- endcomment -%}
+      {%- if product.featured_image -%}
+        <img
+          src="{{ product.featured_image | image_url: width: 800 }}"
+          srcset="
+            {{ product.featured_image | image_url: width: 400 }} 400w,
+            {{ product.featured_image | image_url: width: 600 }} 600w,
+            {{ product.featured_image | image_url: width: 800 }} 800w,
+            {{ product.featured_image | image_url: width: 1000 }} 1000w,
+            {{ product.featured_image | image_url: width: 1200 }} 1200w
+          "
+          sizes="(max-width: 767px) 100vw, 40vw"
+          width="800"
+          height="1000"
+          alt="{% if is_en %}Homega Fish Oil IFOS 5-star certified French deep-sea fish oil bottle{% else %}Homega 魚油王 IFOS 5星認證法國深海魚油瓶裝產品{% endif %}"
+          loading="eager"
+          fetchpriority="high"
+        >
+      {%- else -%}
+        {%- comment -%} Placeholder if no product image yet {%- endcomment -%}
+        <div class="hero__image-placeholder" aria-hidden="true">
+          <svg viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="500" rx="16" fill="var(--color-bg-secondary)"/>
+            <text x="200" y="250" text-anchor="middle" fill="var(--color-text-muted)" font-size="16">Product Image</text>
+          </svg>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="hero__content">
+      {%- comment -%} Overline badge {%- endcomment -%}
+      <p class="hero__overline text-overline">
+        {% if is_en %}IFOS 5-Star Certified | French Deep-Sea Fish Oil{% else %}IFOS 5-Star Certified | 法國深海魚油{% endif %}
+      </p>
+
+      {%- comment -%} Semantic H1 for SEO — may differ from visual headline {%- endcomment -%}
+      <h1 class="sr-only">
+        {% if is_en %}French IFOS 5-Star Fish Oil — Complete Cardiovascular Support Formula{% else %}法國IFOS 5星魚油 — 支持心血管健康的全方位配方{% endif %}
+      </h1>
+
+      {%- comment -%} Visual headline — display text {%- endcomment -%}
+      <p class="hero__headline text-display" aria-hidden="true">
+        {% if is_en %}Your Arteries Are Aging — Silently{% else %}你的血管，正在無聲老化{% endif %}
+      </p>
+
+      {%- comment -%} Subtitle {%- endcomment -%}
+      <p class="hero__subtitle text-body-lg">
+        {% if is_en %}Cholesterol buildup, arterial calcification, sluggish circulation. After 40, these changes accelerate. What does your body need? French deep-sea fish oil, Vitamin K2, and D3 — three nutrients closely linked to cardiovascular health by research.{% else %}膽固醇沉積、動脈鈣化、血液循環減慢 — 這些變化在40歲後加速發生。你的身體需要什麼？法國深海魚油、維他命K2及D3 — 三種經研究證實與心血管健康密切相關的營養素。{% endif %}
+      </p>
+
+      {%- comment -%} CTA button {%- endcomment -%}
+      <a href="#pricing" class="btn-cta btn-cta--full-mobile hero__cta">
+        {% if is_en %}Shop Now{% else %}立即選購{% endif %}
+      </a>
+
+      {%- comment -%} Micro trust row {%- endcomment -%}
+      <ul class="hero__trust-row" aria-label="{% if is_en %}Trust indicators{% else %}信譽指標{% endif %}">
+        <li>
+          <svg class="hero__check-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M13.5 4.5L6.5 11.5L3 8" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          {% if is_en %}IFOS 5-Star Certified{% else %}IFOS 5星認證{% endif %}
+        </li>
+        <li>
+          <svg class="hero__check-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M13.5 4.5L6.5 11.5L3 8" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          {% if is_en %}French POLARIS Deep-Sea Fish Oil{% else %}法國POLARIS深海魚油{% endif %}
+        </li>
+        <li>
+          <svg class="hero__check-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M13.5 4.5L6.5 11.5L3 8" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          {% if is_en %}Free Shipping · SF Express 1-2 Days{% else %}全單免運費 · 順豐1-2日送達{% endif %}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  {%- comment -%} Product Schema (JSON-LD) {%- endcomment -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Homega 魚油王 — Fish Oil + Vitamin K2 & D3",
+    "description": "IFOS 5-star certified French deep-sea fish oil with EPA 312mg, DHA 156mg, Vitamin K2 100mcg, and Vitamin D3 500IU. Supports cardiovascular health.",
+    "brand": {
+      "@type": "Brand",
+      "name": "Homega (Tigrox Series by Wellous)"
+    },
+    "sku": "HMG-60",
+    "image": "{{ product.featured_image | image_url: width: 1200 | default: '' }}",
+    "offers": {
+      "@type": "AggregateOffer",
+      "priceCurrency": "HKD",
+      "lowPrice": "500",
+      "highPrice": "700",
+      "offerCount": "3",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "1 Box (60 capsules)",
+          "price": "700",
+          "priceCurrency": "HKD",
+          "availability": "https://schema.org/InStock",
+          "url": "https://tigroxglobal.com/products/homega",
+          "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": "0",
+              "currency": "HKD"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "HK"
+            }
+          }
+        },
+        {
+          "@type": "Offer",
+          "name": "3 Boxes (180 capsules)",
+          "price": "1650",
+          "priceCurrency": "HKD",
+          "availability": "https://schema.org/InStock",
+          "url": "https://tigroxglobal.com/products/homega",
+          "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": "0",
+              "currency": "HKD"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "HK"
+            }
+          }
+        },
+        {
+          "@type": "Offer",
+          "name": "6 Boxes (360 capsules)",
+          "price": "3000",
+          "priceCurrency": "HKD",
+          "availability": "https://schema.org/InStock",
+          "url": "https://tigroxglobal.com/products/homega",
+          "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": "0",
+              "currency": "HKD"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "HK"
+            }
+          }
+        }
+      ]
+    }
+  }
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Homega Hero",
+  "tag": "div",
+  "class": "homega-hero-wrapper"
+}
+{% endschema %}

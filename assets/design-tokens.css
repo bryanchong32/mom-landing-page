@@ -1,0 +1,163 @@
+/* =================================================================
+   TIGROX / HOMEGA Landing Page — Design Tokens
+   Client: Minionions Marketing (Wellous distributor)
+   Brand: Tigrox series — Homega product accent
+   Last updated: 2026-04-23
+   ================================================================= */
+
+:root {
+  /* ---------------------------------------------------------------
+     COLOR — Primary (Tigrox Teal — Homega accent)
+     Sampled from actual Homega packaging teal wave element.
+     Swap these 3 tokens for other product pages:
+       Tiger Milk King: #2D6A3F / #1F4F2D / #4A9E6B
+       Imuglo: #6B3A7D / #4F2A5E / #8E5CA8
+     --------------------------------------------------------------- */
+  --color-primary: #1B6B63;
+  --color-primary-dark: #145550;
+  --color-primary-light: #3DA89E;
+
+  /* ---------------------------------------------------------------
+     COLOR — Secondary (Kraft/Sand)
+     Drawn from the kraft cardboard packaging tones.
+     These stay constant across all Tigrox products.
+     --------------------------------------------------------------- */
+  --color-secondary: #B49A6B;
+  --color-secondary-light: #D2BF9A;
+  --color-secondary-muted: #C4B8A4;
+
+  /* ---------------------------------------------------------------
+     COLOR — Backgrounds
+     --------------------------------------------------------------- */
+  --color-bg-primary: #FAF7F2;
+  --color-bg-secondary: #F3EDE4;
+  --color-bg-dark: #1C1917;
+  --color-bg-card: #FFFFFF;
+
+  /* ---------------------------------------------------------------
+     COLOR — Text
+     --------------------------------------------------------------- */
+  --color-text-primary: #2C1810;
+  --color-text-secondary: #5C4F47;
+  --color-text-muted: #7A6E66;
+  --color-text-on-dark: #FAF7F2;
+  --color-text-on-primary: #FFFFFF;
+
+  /* ---------------------------------------------------------------
+     COLOR — CTA / Semantic
+     --------------------------------------------------------------- */
+  --color-cta: #B5501F;
+  --color-cta-hover: #9E4018;
+  --color-cta-text: #FFFFFF;
+  --color-success: #2D6A4F;
+  --color-warning: #D4A017;
+  --color-error: #B91C1C;
+
+  /* ---------------------------------------------------------------
+     TYPOGRAPHY — Font Families
+     --------------------------------------------------------------- */
+  --font-heading: 'Noto Serif TC', 'Noto Serif', 'Songti TC', 'PMingLiU', Georgia, serif;
+  --font-body: 'Noto Sans TC', 'Noto Sans HK', Inter, 'PingFang TC', 'Microsoft JhengHei', -apple-system, sans-serif;
+
+  /* ---------------------------------------------------------------
+     TYPOGRAPHY — Scale (fluid with clamp)
+     --------------------------------------------------------------- */
+  --text-display: clamp(2.5rem, 5vw, 3.5rem);
+  --text-h1: clamp(2rem, 4vw, 2.75rem);
+  --text-h2: clamp(1.5rem, 3vw, 2rem);
+  --text-h3: clamp(1.125rem, 2vw, 1.5rem);
+  --text-body: clamp(0.9375rem, 1.5vw, 1.0625rem);
+  --text-body-lg: clamp(1rem, 1.8vw, 1.1875rem);
+  --text-small: clamp(0.8125rem, 1.2vw, 0.875rem);
+  --text-overline: clamp(0.6875rem, 1vw, 0.75rem);
+
+  /* ---------------------------------------------------------------
+     TYPOGRAPHY — Weights
+     --------------------------------------------------------------- */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* ---------------------------------------------------------------
+     TYPOGRAPHY — Line Heights
+     --------------------------------------------------------------- */
+  --leading-tight: 1.1;
+  --leading-snug: 1.15;
+  --leading-normal: 1.2;
+  --leading-relaxed: 1.3;
+  --leading-body: 1.7;
+  --leading-body-lg: 1.65;
+
+  /* ---------------------------------------------------------------
+     TYPOGRAPHY — Letter Spacing
+     --------------------------------------------------------------- */
+  --tracking-display: -0.025em;
+  --tracking-h1: -0.02em;
+  --tracking-h2: -0.015em;
+  --tracking-h3: -0.01em;
+  --tracking-overline: 0.08em;
+
+  /* ---------------------------------------------------------------
+     SPACING — 8px base grid
+     --------------------------------------------------------------- */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.5rem;    /* 24px */
+  --space-6: 2rem;      /* 32px */
+  --space-8: 3rem;      /* 48px */
+  --space-10: 4rem;     /* 64px */
+  --space-12: 5rem;     /* 80px */
+  --space-16: 8rem;     /* 128px */
+
+  /* ---------------------------------------------------------------
+     BORDER RADIUS
+     --------------------------------------------------------------- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* ---------------------------------------------------------------
+     SHADOWS (teal-tinted neutral)
+     --------------------------------------------------------------- */
+  --shadow-sm: 0 1px 2px rgba(26, 42, 40, 0.06);
+  --shadow-md: 0 4px 12px rgba(26, 42, 40, 0.08);
+  --shadow-lg: 0 8px 24px rgba(26, 42, 40, 0.12);
+  --shadow-xl: 0 16px 48px rgba(26, 42, 40, 0.16);
+
+  /* ---------------------------------------------------------------
+     TRANSITIONS
+     --------------------------------------------------------------- */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease-out;
+  --transition-slow: 400ms ease-out;
+
+  /* ---------------------------------------------------------------
+     LAYOUT
+     --------------------------------------------------------------- */
+  --container-max: 1200px;
+  --container-padding: var(--space-5);
+
+  /* ---------------------------------------------------------------
+     Z-INDEX SCALE
+     --------------------------------------------------------------- */
+  --z-base: 1;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-overlay: 30;
+  --z-modal: 40;
+  --z-sticky-cta: 50;
+}
+
+/* =================================================================
+   MEDIA QUERY REFERENCE (use in Shopify CSS)
+   Mobile-first: styles apply from 0px up, add complexity at larger
+   =================================================================
+   @media (min-width: 768px)  { tablet }
+   @media (min-width: 1024px) { desktop }
+   @media (min-width: 1280px) { wide }
+   ================================================================= */

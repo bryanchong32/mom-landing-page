@@ -1,0 +1,61 @@
+{
+  "sections": {
+    "hero": {
+      "type": "homega-hero",
+      "settings": {}
+    },
+    "trust-bar": {
+      "type": "homega-trust-bar",
+      "settings": {}
+    },
+    "stats-bar": {
+      "type": "homega-stats-bar",
+      "settings": {}
+    },
+    "why-fish-oil": {
+      "type": "homega-why-fish-oil",
+      "settings": {}
+    },
+    "testimonials": {
+      "type": "homega-testimonials",
+      "settings": {}
+    },
+    "comparison": {
+      "type": "homega-comparison",
+      "settings": {}
+    },
+    "nutritionist": {
+      "type": "homega-nutritionist",
+      "settings": {}
+    },
+    "pricing": {
+      "type": "homega-pricing",
+      "settings": {}
+    },
+    "faq": {
+      "type": "homega-faq",
+      "settings": {}
+    },
+    "footer": {
+      "type": "homega-footer",
+      "settings": {}
+    },
+    "sticky-cta": {
+      "type": "homega-sticky-cta",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "trust-bar",
+    "stats-bar",
+    "why-fish-oil",
+    "testimonials",
+    "comparison",
+    "nutritionist",
+    "pricing",
+    "faq",
+    "footer",
+    "sticky-cta"
+  ]
+}

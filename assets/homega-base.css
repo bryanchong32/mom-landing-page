@@ -1,0 +1,244 @@
+/* =================================================================
+   HOMEGA Landing Page — Base Styles
+   Imports design-tokens.css via theme.liquid <link>
+   ================================================================= */
+
+/* ---------------------------------------------------------------
+   RESET & BASE
+   --------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary-dark);
+}
+
+/* Focus styles — visible for keyboard, hidden for mouse */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------------------------------------------------------------
+   TYPOGRAPHY
+   --------------------------------------------------------------- */
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  color: var(--color-text-primary);
+  font-weight: var(--weight-bold);
+}
+
+h1 {
+  font-size: var(--text-h1);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-h1);
+}
+
+h2 {
+  font-size: var(--text-h2);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-h2);
+}
+
+h3 {
+  font-size: var(--text-h3);
+  line-height: var(--leading-relaxed);
+  letter-spacing: var(--tracking-h3);
+  font-weight: var(--weight-semibold);
+}
+
+.text-display {
+  font-family: var(--font-heading);
+  font-size: var(--text-display);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+}
+
+.text-body-lg {
+  font-size: var(--text-body-lg);
+  line-height: var(--leading-body-lg);
+}
+
+.text-small {
+  font-size: var(--text-small);
+}
+
+.text-overline {
+  font-family: var(--font-body);
+  font-size: var(--text-overline);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+/* ---------------------------------------------------------------
+   LAYOUT UTILITIES
+   --------------------------------------------------------------- */
+.container {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.section-padding {
+  padding-block: var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding-block: var(--space-10);
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding-block: var(--space-12);
+  }
+}
+
+/* ---------------------------------------------------------------
+   BUTTON STYLES
+   --------------------------------------------------------------- */
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+  color: var(--color-cta-text);
+  background-color: var(--color-cta);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-6);
+  min-height: 52px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-cta:hover {
+  background-color: var(--color-cta-hover);
+  color: var(--color-cta-text);
+  text-decoration: none;
+}
+
+.btn-cta:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 767px) {
+  .btn-cta--full-mobile {
+    width: 100%;
+    min-height: 56px;
+  }
+}
+
+/* ---------------------------------------------------------------
+   SECTION BACKGROUNDS
+   --------------------------------------------------------------- */
+.bg-primary {
+  background-color: var(--color-bg-primary);
+}
+
+.bg-secondary {
+  background-color: var(--color-bg-secondary);
+}
+
+.bg-dark {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-on-dark);
+}
+
+.bg-dark h2,
+.bg-dark h3 {
+  color: var(--color-text-on-dark);
+}
+
+/* ---------------------------------------------------------------
+   ENTRANCE ANIMATIONS (CSS-only, IO triggers)
+   --------------------------------------------------------------- */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
+}
+
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-on-scroll {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------
+   VISUALLY HIDDEN (for screen readers)
+   --------------------------------------------------------------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

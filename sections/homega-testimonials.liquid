@@ -1,0 +1,158 @@
+{%- comment -%}
+  Section 5: Clinical Proof / Testimonials
+  Background: --color-bg-primary (cream)
+  4 testimonial cards with before/after metrics
+  2-column grid desktop
+{%- endcomment -%}
+
+{%- liquid
+  assign is_en = false
+  if request.locale.iso_code == 'en'
+    assign is_en = true
+  endif
+-%}
+
+<section class="testimonials bg-primary section-padding" aria-labelledby="testimonials-heading">
+  <div class="container">
+    <p class="text-overline testimonials__overline">
+      {% if is_en %}REAL RESULTS{% else %}真實用家分享{% endif %}
+    </p>
+
+    <h2 id="testimonials-heading">
+      {% if is_en %}Real Results from Real People{% else %}真實用家分享{% endif %}
+    </h2>
+
+    <p class="testimonials__intro">
+      {% if is_en %}The following are personal health journeys shared by real Homega users. Each individual's diet, exercise, and lifestyle differ — these experiences are shared for reference only. Homega is a nutritional supplement, not a medicine.{% else %}以下為真實用家的個人健康旅程記錄。每位用家的飲食習慣、運動量及生活方式均不相同，以下體驗僅供參考。Homega為營養補充品，並非藥品。{% endif %}
+    </p>
+
+    <div class="testimonials__grid">
+      {%- comment -%} Testimonial 1 — Cholesterol {%- endcomment -%}
+      <article class="testimonial-card animate-on-scroll">
+        <div class="testimonial-card__metrics">
+          <div class="testimonial-card__metric-pair">
+            <div class="testimonial-card__before">
+              <span class="testimonial-card__metric-label text-small">{% if is_en %}Before{% else %}服用前{% endif %}</span>
+              <span class="testimonial-card__metric-value">{% if is_en %}Total Chol. 6.4{% else %}總膽固醇 6.4{% endif %}</span>
+            </div>
+            <span class="testimonial-card__arrow" aria-hidden="true">→</span>
+            <div class="testimonial-card__after">
+              <span class="testimonial-card__metric-label text-small">{% if is_en %}After{% else %}服用後{% endif %}</span>
+              <span class="testimonial-card__metric-value">3.3</span>
+            </div>
+          </div>
+          <span class="testimonial-card__unit text-small">mmol/L</span>
+        </div>
+        <span class="testimonial-card__duration-badge">{% if is_en %}3 months{% else %}3個月{% endif %}</span>
+        <p class="testimonial-card__description">
+          {% if is_en %}Ms. Wong, 46, female. Took Homega 2 capsules daily for 3 months. LDL dropped from 4.3 to 2.27 mmol/L.{% else %}黃小姐，46歲女性。服用Homega魚油王每日2粒，3個月。LDL由4.3降至2.27 mmol/L。{% endif %}
+        </p>
+        <p class="testimonial-card__attribution text-small">
+          {% if is_en %}46, Female{% else %}46歲女性{% endif %}
+        </p>
+        <p class="testimonial-card__disclaimer text-small">
+          {% if is_en %}<em>A personal health journey involving diet, exercise, and lifestyle factors. Results vary. This product is a nutritional supplement.</em>{% else %}<em>個人健康旅程記錄，涉及飲食、運動及生活方式等多重因素。效果因人而異，本產品為營養補充品。</em>{% endif %}
+        </p>
+      </article>
+
+      {%- comment -%} Testimonial 2 — Blood Pressure {%- endcomment -%}
+      <article class="testimonial-card animate-on-scroll">
+        <div class="testimonial-card__metrics">
+          <div class="testimonial-card__metric-pair">
+            <div class="testimonial-card__before">
+              <span class="testimonial-card__metric-label text-small">{% if is_en %}Before{% else %}服用前{% endif %}</span>
+              <span class="testimonial-card__metric-value">144/90</span>
+            </div>
+            <span class="testimonial-card__arrow" aria-hidden="true">→</span>
+            <div class="testimonial-card__after">
+              <span class="testimonial-card__metric-label text-small">{% if is_en %}After{% else %}服用後{% endif %}</span>
+              <span class="testimonial-card__metric-value">122/78</span>
+            </div>
+          </div>
+          <span class="testimonial-card__unit text-small">mmHg</span>
+        </div>
+        <span class="testimonial-card__duration-badge">{% if is_en %}4 months{% else %}4個月{% endif %}</span>
+        <p class="testimonial-card__description">
+          {% if is_en %}Louis, 50, male. Took Homega 2 capsules daily alongside prescription medication for 4 months. Blood pressure confirmed stable by his doctor.{% else %}Louis，50歲男性。配合西藥服用Homega魚油王每日2粒，4個月。醫生確認血壓已穩定。{% endif %}
+        </p>
+        <p class="testimonial-card__attribution text-small">
+          {% if is_en %}50, Male{% else %}50歲男性{% endif %}
+        </p>
+        <p class="testimonial-card__disclaimer text-small">
+          {% if is_en %}<em>A personal health journey involving diet, exercise, and lifestyle factors. Results vary. This product is a nutritional supplement.</em>{% else %}<em>個人健康旅程記錄，涉及飲食、運動及生活方式等多重因素。效果因人而異，本產品為營養補充品。</em>{% endif %}
+        </p>
+      </article>
+
+      {%- comment -%} Testimonial 3 — Limb Numbness {%- endcomment -%}
+      <article class="testimonial-card animate-on-scroll">
+        <div class="testimonial-card__metrics">
+          <div class="testimonial-card__metric-pair">
+            <div class="testimonial-card__before">
+              <span class="testimonial-card__metric-label text-small">{% if is_en %}Before{% else %}服用前{% endif %}</span>
+              <span class="testimonial-card__metric-value">{% if is_en %}Persistent{% else %}持續麻痺{% endif %}</span>
+            </div>
+            <span class="testimonial-card__arrow" aria-hidden="true">→</span>
+            <div class="testimonial-card__after">
+              <span class="testimonial-card__metric-label text-small">{% if is_en %}After{% else %}服用後{% endif %}</span>
+              <span class="testimonial-card__metric-value">{% if is_en %}Resolved{% else %}消失{% endif %}</span>
+            </div>
+          </div>
+          <span class="testimonial-card__unit text-small">{% if is_en %}Palm numbness{% else %}手掌麻痺{% endif %}</span>
+        </div>
+        <span class="testimonial-card__duration-badge">{% if is_en %}3 months{% else %}3個月{% endif %}</span>
+        <p class="testimonial-card__description">
+          {% if is_en %}Florence Chan, 43, female. Took Homega 2 capsules daily for 3 months. Persistent numbness in palms resolved.{% else %}Florence Chan，43歲女性。服用Homega魚油王每日2粒，3個月。手掌持續麻痺情況改善消失。{% endif %}
+        </p>
+        <p class="testimonial-card__attribution text-small">
+          {% if is_en %}43, Female{% else %}43歲女性{% endif %}
+        </p>
+        <p class="testimonial-card__disclaimer text-small">
+          {% if is_en %}<em>A personal health journey involving diet, exercise, and lifestyle factors. Results vary. This product is a nutritional supplement.</em>{% else %}<em>個人健康旅程記錄，涉及飲食、運動及生活方式等多重因素。效果因人而異，本產品為營養補充品。</em>{% endif %}
+        </p>
+      </article>
+
+      {%- comment -%} Testimonial 4 — Arterial Blockage {%- endcomment -%}
+      <article class="testimonial-card animate-on-scroll">
+        <div class="testimonial-card__metrics">
+          <div class="testimonial-card__metric-pair">
+            <div class="testimonial-card__before">
+              <span class="testimonial-card__metric-label text-small">{% if is_en %}Before{% else %}服用前{% endif %}</span>
+              <span class="testimonial-card__metric-value">44%</span>
+            </div>
+            <span class="testimonial-card__arrow" aria-hidden="true">→</span>
+            <div class="testimonial-card__after">
+              <span class="testimonial-card__metric-label text-small">{% if is_en %}After{% else %}服用後{% endif %}</span>
+              <span class="testimonial-card__metric-value">28%</span>
+            </div>
+          </div>
+          <span class="testimonial-card__unit text-small">{% if is_en %}Arterial blockage (CT scan){% else %}血管阻塞（CT掃描）{% endif %}</span>
+        </div>
+        <span class="testimonial-card__duration-badge">{% if is_en %}6 months{% else %}6個月{% endif %}</span>
+        <p class="testimonial-card__description">
+          {% if is_en %}Mr. So, 56, male. Took Homega 2 capsules daily for 6 months. CT scan showed arterial blockage reduced from 44% to 28%.{% else %}蘇先生，56歲男性。服用Homega魚油王每日2粒，6個月。CT掃描顯示血管阻塞由44%降至28%。{% endif %}
+        </p>
+        <p class="testimonial-card__attribution text-small">
+          {% if is_en %}56, Male{% else %}56歲男性{% endif %}
+        </p>
+        <p class="testimonial-card__disclaimer text-small">
+          {% if is_en %}<em>A personal health journey involving diet, exercise, and lifestyle factors. Results vary. This product is a nutritional supplement.</em>{% else %}<em>個人健康旅程記錄，涉及飲食、運動及生活方式等多重因素。效果因人而異，本產品為營養補充品。</em>{% endif %}
+        </p>
+      </article>
+    </div>
+
+    {%- comment -%} Consumer Council context paragraph {%- endcomment -%}
+    <div class="testimonials__context animate-on-scroll">
+      <p>
+        {% if is_en %}In 2022, Hong Kong's Consumer Council tested 25 fish oil products and found contaminants in every single sample — with over half containing carcinogens. Homega was not among the products tested, but we hold ourselves to the highest international standard: IFOS 5-star certification, which means independent third-party verification of purity, potency, and freshness.{% else %}2022年，香港消委會測試25款魚油產品，發現全部樣本含有污染物，超過半數驗出致癌物。Homega並非該次測試之樣本，但我們選擇以國際最高標準自我要求 — IFOS 5星認證代表獨立第三方對純度、效力及新鮮度的全面驗證。{% endif %}
+      </p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Homega Testimonials",
+  "tag": "div",
+  "class": "homega-testimonials-wrapper"
+}
+{% endschema %}

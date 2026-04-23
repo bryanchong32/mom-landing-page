@@ -1,0 +1,138 @@
+{%- comment -%}
+  Section 6: Comparison Table
+  Background: --color-bg-secondary (ivory)
+  Horizontally scrollable on mobile, sticky first column
+  HOMEGA column highlighted
+{%- endcomment -%}
+
+{%- liquid
+  assign is_en = false
+  if request.locale.iso_code == 'en'
+    assign is_en = true
+  endif
+-%}
+
+<section class="comparison bg-secondary section-padding" aria-labelledby="comparison-heading">
+  <div class="container">
+    <p class="text-overline comparison__overline">
+      {% if is_en %}COMPARE{% else %}比較一下{% endif %}
+    </p>
+
+    <h2 id="comparison-heading">
+      {% if is_en %}How Homega Compares{% else %}同普通魚油有甚麼分別{% endif %}
+    </h2>
+
+    <div class="comparison__table-wrapper">
+      <table class="comparison__table" role="table">
+        <thead>
+          <tr>
+            <th class="comparison__feature-header" scope="col">
+              {% if is_en %}{% else %}比較項目{% endif %}
+            </th>
+            <th class="comparison__homega-header" scope="col">
+              Homega {% if is_en %}{% else %}魚油王{% endif %}
+            </th>
+            <th class="comparison__generic-header" scope="col">
+              {% if is_en %}Generic Pharmacy Fish Oil{% else %}普通藥房魚油{% endif %}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- comment -%} Row 1: EPA {%- endcomment -%}
+          <tr>
+            <td class="comparison__feature">{% if is_en %}EPA per capsule{% else %}EPA含量（每粒）{% endif %}</td>
+            <td class="comparison__homega-cell"><strong>312mg</strong></td>
+            <td class="comparison__generic-cell">{% if is_en %}~180mg{% else %}約180mg{% endif %}</td>
+          </tr>
+          {%- comment -%} Row 2: DHA {%- endcomment -%}
+          <tr>
+            <td class="comparison__feature">{% if is_en %}DHA per capsule{% else %}DHA含量（每粒）{% endif %}</td>
+            <td class="comparison__homega-cell"><strong>156mg</strong></td>
+            <td class="comparison__generic-cell">{% if is_en %}~120mg{% else %}約120mg{% endif %}</td>
+          </tr>
+          {%- comment -%} Row 3: Total EPA+DHA with badge {%- endcomment -%}
+          <tr>
+            <td class="comparison__feature">{% if is_en %}Total EPA+DHA{% else %}EPA+DHA 總含量{% endif %}</td>
+            <td class="comparison__homega-cell">
+              <strong>468mg</strong>
+              <span class="comparison__badge">+60%+</span>
+            </td>
+            <td class="comparison__generic-cell">{% if is_en %}~300mg{% else %}約300mg{% endif %}</td>
+          </tr>
+          {%- comment -%} Row 4: Fish source {%- endcomment -%}
+          <tr>
+            <td class="comparison__feature">{% if is_en %}Fish source{% else %}魚油來源{% endif %}</td>
+            <td class="comparison__homega-cell">
+              <strong>{% if is_en %}French POLARIS — sardines, anchovies, mackerel from Peru/Chile/Morocco{% else %}法國POLARIS，秘魯/智利/摩洛哥深海小魚{% endif %}</strong>
+            </td>
+            <td class="comparison__generic-cell">{% if is_en %}Undisclosed or mixed species{% else %}來源不明或混合魚種{% endif %}</td>
+          </tr>
+          {%- comment -%} Row 5: Vitamin K2 {%- endcomment -%}
+          <tr>
+            <td class="comparison__feature">{% if is_en %}Vitamin K2{% else %}維他命K2{% endif %}</td>
+            <td class="comparison__homega-cell">
+              <span class="comparison__check" aria-hidden="true">&#10003;</span>
+              <strong>{% if is_en %}100mcg MenaquinGold included{% else %}含100mcg MenaquinGold{% endif %}</strong>
+            </td>
+            <td class="comparison__generic-cell">
+              <span class="comparison__cross" aria-hidden="true">&#10007;</span>
+              {% if is_en %}Not included{% else %}不含{% endif %}
+            </td>
+          </tr>
+          {%- comment -%} Row 6: Vitamin D3 {%- endcomment -%}
+          <tr>
+            <td class="comparison__feature">{% if is_en %}Vitamin D3{% else %}維他命D3{% endif %}</td>
+            <td class="comparison__homega-cell">
+              <span class="comparison__check" aria-hidden="true">&#10003;</span>
+              <strong>{% if is_en %}500IU included{% else %}含500IU{% endif %}</strong>
+            </td>
+            <td class="comparison__generic-cell">
+              <span class="comparison__cross" aria-hidden="true">&#10007;</span>
+              {% if is_en %}Not included or trace amounts{% else %}不含或極少量{% endif %}
+            </td>
+          </tr>
+          {%- comment -%} Row 7: IFOS {%- endcomment -%}
+          <tr>
+            <td class="comparison__feature">{% if is_en %}IFOS certification{% else %}IFOS認證{% endif %}</td>
+            <td class="comparison__homega-cell">
+              <span class="comparison__check" aria-hidden="true">&#10003;</span>
+              <strong>{% if is_en %}5-Star (highest rating){% else %}5星（最高評級）{% endif %}</strong>
+            </td>
+            <td class="comparison__generic-cell">
+              <span class="comparison__cross" aria-hidden="true">&#10007;</span>
+              {% if is_en %}Uncertified or undisclosed{% else %}未經認證或無公開評級{% endif %}
+            </td>
+          </tr>
+          {%- comment -%} Row 8: Purity test {%- endcomment -%}
+          <tr>
+            <td class="comparison__feature">{% if is_en %}Third-party purity test{% else %}第三方純度檢測{% endif %}</td>
+            <td class="comparison__homega-cell">
+              <span class="comparison__check" aria-hidden="true">&#10003;</span>
+              <strong>{% if is_en %}Passed — mercury, dioxins, heavy metals removed{% else %}通過 — 去除重金屬、汞、二噁英{% endif %}</strong>
+            </td>
+            <td class="comparison__generic-cell">
+              <span class="comparison__cross" aria-hidden="true">&#10007;</span>
+              {% if is_en %}Most provide no test reports{% else %}多數未提供檢測報告{% endif %}
+            </td>
+          </tr>
+          {%- comment -%} Row 9: Stabilization {%- endcomment -%}
+          <tr>
+            <td class="comparison__feature">{% if is_en %}Stabilization{% else %}穩定技術{% endif %}</td>
+            <td class="comparison__homega-cell">
+              <strong>{% if is_en %}QualitySilver — 3x oxidative stability{% else %}QualitySilver — 穩定性達3倍{% endif %}</strong>
+            </td>
+            <td class="comparison__generic-cell">{% if is_en %}Standard processing{% else %}標準處理{% endif %}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Homega Comparison",
+  "tag": "div",
+  "class": "homega-comparison-wrapper"
+}
+{% endschema %}

@@ -1,0 +1,236 @@
+{%- comment -%}
+  Section 9: FAQ
+  Background: --color-bg-secondary (ivory)
+  Accordion (single-open, all closed default)
+  8 questions per language
+  FAQPage schema implemented
+  Content in crawlable HTML — not hidden behind JS
+{%- endcomment -%}
+
+{%- liquid
+  assign is_en = false
+  if request.locale.iso_code == 'en'
+    assign is_en = true
+  endif
+-%}
+
+<section class="faq bg-secondary section-padding" aria-labelledby="faq-heading">
+  <div class="container">
+    <div class="faq__inner">
+      <p class="text-overline faq__overline">
+        {% if is_en %}FAQ{% else %}常見問題{% endif %}
+      </p>
+
+      <h2 id="faq-heading">
+        {% if is_en %}Frequently Asked Questions{% else %}常見問題{% endif %}
+      </h2>
+
+      <div class="faq__list" role="list">
+        {%- comment -%} Q1 {%- endcomment -%}
+        <details class="faq__item" role="listitem">
+          <summary class="faq__question">
+            <span>{% if is_en %}Why is there so much interest in fish oil and cardiovascular health?{% else %}為什麼這麼多人關注魚油與心血管健康的關係？{% endif %}</span>
+            <svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="faq__answer">
+            <p>{% if is_en %}Omega-3 fatty acids are essential — your body cannot produce them on its own. A substantial body of international research has explored the relationship between EPA, DHA, and cardiovascular function, and the American Heart Association (AHA) recommends adequate weekly Omega-3 intake. However, most modern diets fall short on Omega-3, especially for people who don't regularly eat deep-sea fish. Each Homega capsule provides EPA 312mg and DHA 156mg — a high-concentration nutritional supplement. We recommend pairing supplementation with a balanced diet and regular health check-ups.{% else %}奧米加3脂肪酸是人體無法自行製造的必需脂肪酸。國際間大量研究探討了EPA和DHA與心血管功能之間的關係，美國心臟協會（AHA）亦建議每週攝取足夠的奧米加3。然而，現代飲食中奧米加3攝取量普遍不足，尤其是不常進食深海魚類的人士。Homega每粒含EPA 312mg及DHA 156mg，提供高濃度的奧米加3營養補充。建議配合均衡飲食及定期身體檢查。{% endif %}</p>
+            <p class="text-small" style="color: var(--color-text-muted); font-style: italic;">{% if is_en %}Consult a healthcare professional if you have specific concerns.{% else %}如有任何健康疑問，請諮詢醫療專業人士。{% endif %}</p>
+          </div>
+        </details>
+
+        {%- comment -%} Q2 {%- endcomment -%}
+        <details class="faq__item" role="listitem">
+          <summary class="faq__question">
+            <span>{% if is_en %}What does IFOS 5-star certification mean?{% else %}IFOS 5星認證代表甚麼？為甚麼重要？{% endif %}</span>
+            <svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="faq__answer">
+            <p>{% if is_en %}IFOS (International Fish Oil Standards) is the world's most rigorous quality assessment program for fish oil. A 5-star rating — the highest possible — means the product meets or exceeds international benchmarks for purity, potency, and freshness. Testing covers heavy metals (mercury, lead), carcinogens (dioxins, PCBs), and oxidation levels. For context, Hong Kong's Consumer Council found contaminants in every single fish oil product they tested in 2022 — with carcinogens in over half. IFOS 5-star certification means Homega has been independently verified by a third party, not just the manufacturer.{% else %}IFOS是國際魚油標準認證機構（International Fish Oil Standards），是全球最嚴格的魚油品質評估體系。5星為最高評級，代表產品在純度、效力及新鮮度三方面均達到或超越國際標準。測試項目包括重金屬（汞、鉛）、致癌物（二噁英、多氯聯苯）及氧化值。2022年香港消委會測試發現，超過半數魚油含致癌污染物。IFOS 5星認證意味着Homega已通過獨立第三方的全面品質驗證，而非僅靠廠商自行聲明。{% endif %}</p>
+          </div>
+        </details>
+
+        {%- comment -%} Q3 {%- endcomment -%}
+        <details class="faq__item" role="listitem">
+          <summary class="faq__question">
+            <span>{% if is_en %}When should I take Homega and how much?{% else %}魚油應該甚麼時候服用？服用多少？{% endif %}</span>
+            <svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="faq__answer">
+            <p>{% if is_en %}Take Homega after a meal for best absorption. As a fat-soluble supplement, it absorbs more effectively when consumed with food. For active cardiovascular support (managing cholesterol, blood pressure, or circulation concerns), take 2 capsules per day. For general daily maintenance, 1 capsule per day is sufficient. Each box contains 60 capsules — that is approximately a 30-day supply at 2 per day, or a 60-day supply at 1 per day.{% else %}建議餐後服用。Homega是脂溶性補充品，隨餐或餐後服用吸收效果更佳。劑量方面，有特定健康需要的人士（如關注膽固醇或血壓），建議每日2粒（治療劑量）；純粹日常保健則每日1粒（維持劑量）。每盒60粒，以每日2粒計算可服用約30日，每日1粒則可服用約60日。{% endif %}</p>
+          </div>
+        </details>
+
+        {%- comment -%} Q4 {%- endcomment -%}
+        <details class="faq__item" role="listitem">
+          <summary class="faq__question">
+            <span>{% if is_en %}How is Homega different from pharmacy fish oil brands?{% else %}Homega同普通藥房魚油有甚麼分別？{% endif %}</span>
+            <svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="faq__answer">
+            <p>{% if is_en %}Three key differences. First, concentration: Homega delivers EPA 312mg and DHA 156mg per capsule. A typical pharmacy brand offers roughly EPA 180mg and DHA 120mg — Homega provides over 60% more combined EPA+DHA. Second, formulation: Homega uniquely includes Vitamin K2 (100mcg) and D3 (500IU), creating a triple-action formula for cardiovascular support that standard fish oil does not offer. Third, quality assurance: Homega holds the highest IFOS 5-star rating, is sourced from POLARIS in France, and undergoes molecular distillation to remove mercury, dioxins, and heavy metals. Most pharmacy brands do not provide independent third-party test results.{% else %}主要區別有三方面。第一，濃度：Homega每粒含EPA 312mg及DHA 156mg，一般藥房魚油約為EPA 180mg及DHA 120mg，Homega的EPA+DHA總含量高出約60%。第二，配方：Homega獨家添加維他命K2（100mcg）及D3（500IU），形成針對心血管的三重配方，一般魚油不含此組合。第三，品質認證：Homega持有IFOS 5星最高評級，原料由法國POLARIS供應，經分子蒸餾去除重金屬及污染物。大部分藥房魚油未提供獨立第三方檢測報告。{% endif %}</p>
+          </div>
+        </details>
+
+        {%- comment -%} Q5 {%- endcomment -%}
+        <details class="faq__item" role="listitem">
+          <summary class="faq__question">
+            <span>{% if is_en %}Are there any side effects of taking fish oil?{% else %}服用魚油有沒有副作用？{% endif %}</span>
+            <svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="faq__answer">
+            <p>{% if is_en %}Side effects are generally mild. Some people experience a slight fishy aftertaste or occasional digestive discomfort — taking Homega with a meal usually minimizes this. You should consult your doctor before taking Homega if you are on blood-thinning medication (especially warfarin), about to undergo surgery, or pregnant/nursing. People taking warfarin should not take Homega, as fish oil has natural anticoagulant properties. If you experience bruising, bleeding gums, or an allergic reaction, stop taking Homega immediately and seek medical advice.{% else %}一般而言，魚油的副作用輕微。少數人可能出現輕微魚腥味或偶爾腸胃不適，通常隨餐服用可減少此類反應。以下人士應在服用前諮詢醫生：正在服用薄血藥（特別是華法林）者、即將接受手術者、孕婦及哺乳期婦女。服用華法林的人士不應服用Homega，因為魚油具有天然抗凝作用。如出現瘀傷、牙齦出血或過敏反應，請立即停止服用並就醫。{% endif %}</p>
+          </div>
+        </details>
+
+        {%- comment -%} Q6 {%- endcomment -%}
+        <details class="faq__item" role="listitem">
+          <summary class="faq__question">
+            <span>{% if is_en %}How long should I take Homega?{% else %}一般要服用多久？{% endif %}</span>
+            <svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="faq__answer">
+            <p>{% if is_en %}Nutritional supplementation is an ongoing process. Your body needs time to absorb and respond to nutrients, and everyone starts from a different baseline with different dietary and lifestyle habits. Our users generally commit to at least 90 days, giving their body adequate time to absorb and adjust. We recommend regular health check-ups before and during supplementation so you can track your own health indicators objectively.{% else %}營養補充是一個持續的過程。身體從攝取營養素到產生變化需要時間，每個人的基礎狀況、飲食及生活習慣都不同。我們的用家一般會持續服用至少90日，讓身體有充分時間吸收和適應。建議在開始服用前後定期進行身體檢查，以客觀了解自己的健康狀況變化。{% endif %}</p>
+            <p class="text-small" style="color: var(--color-text-muted); font-style: italic;">{% if is_en %}Nutritional supplement outcomes vary by individual and are influenced by diet, exercise, and lifestyle factors.{% else %}營養補充品的效果因人而異，受飲食、運動及生活方式等多重因素影響。{% endif %}</p>
+          </div>
+        </details>
+
+        {%- comment -%} Q7 {%- endcomment -%}
+        <details class="faq__item" role="listitem">
+          <summary class="faq__question">
+            <span>{% if is_en %}Why does Homega include Vitamin K2 and D3?{% else %}為甚麼Homega要加維他命K2和D3？{% endif %}</span>
+            <svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="faq__answer">
+            <p>{% if is_en %}This is the core of Homega's formulation philosophy. Most fish oils only deliver Omega-3, which addresses cholesterol. But cardiovascular health is not just about cholesterol — arterial calcification is an equally important risk factor. Vitamin K2 (100mcg MenaquinGold per capsule) activates Matrix GLA Protein, directing calcium to your bones instead of letting it deposit on artery walls. This supports arterial flexibility. Vitamin D3 (500IU per capsule) enhances calcium absorption and supports immune regulation. Together, these three ingredients address both cholesterol buildup and arterial calcification — offering more comprehensive cardiovascular support than Omega-3 alone.{% else %}這是Homega的核心配方設計。大部分魚油只提供奧米加3，處理膽固醇問題。但心血管健康不僅關乎膽固醇 — 動脈鈣化同樣是重要風險因素。維他命K2（每粒100mcg MenaquinGold）能激活基質GLA蛋白，將鈣質引導至骨骼，避免在動脈壁沉積，有助維持血管彈性。維他命D3（每粒500IU）增強鈣質吸收並支持免疫調節。三種成分配合，同步處理膽固醇積聚與動脈鈣化，提供比單純魚油更全面的心血管支持。{% endif %}</p>
+          </div>
+        </details>
+
+        {%- comment -%} Q8 {%- endcomment -%}
+        <details class="faq__item" role="listitem">
+          <summary class="faq__question">
+            <span>{% if is_en %}Is Homega suitable for pregnant women, elderly, or children?{% else %}孕婦、長者或兒童可以服用嗎？{% endif %}</span>
+            <svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="faq__answer">
+            <p>{% if is_en %}Homega is formulated for adults aged 18 and above, and is particularly suited for those over 40 who are focused on cardiovascular health. Pregnant and nursing women should not take Homega. For anyone under 18, consult a pediatrician first. Elderly adults can generally take Homega at the standard dosage, but should consult their doctor if they are on blood thinners or other long-term medications. People with diabetes, high blood pressure, or high cholesterol can take Homega. However, anyone on warfarin should not take this product.{% else %}Homega專為18歲或以上成年人設計，特別適合40歲以上關注心血管健康的人士。孕婦及哺乳期婦女不建議服用。18歲以下人士如需服用，請先諮詢兒科醫生。長者一般可正常服用，但如正在服用薄血藥或其他長期藥物，建議先諮詢醫生。糖尿病、高血壓、高膽固醇人士均可服用。正在服用華法林的人士不應服用Homega。{% endif %}</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} FAQPage Schema (JSON-LD) — populated with all 8 Q&A pairs {%- endcomment -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "{% if is_en %}Why is there so much interest in fish oil and cardiovascular health?{% else %}為什麼這麼多人關注魚油與心血管健康的關係？{% endif %}",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "{% if is_en %}Omega-3 fatty acids are essential — your body cannot produce them on its own. A substantial body of international research has explored the relationship between EPA, DHA, and cardiovascular function, and the American Heart Association (AHA) recommends adequate weekly Omega-3 intake. However, most modern diets fall short on Omega-3, especially for people who don't regularly eat deep-sea fish. Each Homega capsule provides EPA 312mg and DHA 156mg — a high-concentration nutritional supplement. We recommend pairing supplementation with a balanced diet and regular health check-ups.{% else %}奧米加3脂肪酸是人體無法自行製造的必需脂肪酸。國際間大量研究探討了EPA和DHA與心血管功能之間的關係，美國心臟協會（AHA）亦建議每週攝取足夠的奧米加3。然而，現代飲食中奧米加3攝取量普遍不足，尤其是不常進食深海魚類的人士。Homega每粒含EPA 312mg及DHA 156mg，提供高濃度的奧米加3營養補充。建議配合均衡飲食及定期身體檢查。{% endif %}"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "{% if is_en %}What does IFOS 5-star certification mean?{% else %}IFOS 5星認證代表甚麼？為甚麼重要？{% endif %}",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "{% if is_en %}IFOS (International Fish Oil Standards) is the world's most rigorous quality assessment program for fish oil. A 5-star rating — the highest possible — means the product meets or exceeds international benchmarks for purity, potency, and freshness. Testing covers heavy metals (mercury, lead), carcinogens (dioxins, PCBs), and oxidation levels. IFOS 5-star certification means Homega has been independently verified by a third party, not just the manufacturer.{% else %}IFOS是國際魚油標準認證機構，是全球最嚴格的魚油品質評估體系。5星為最高評級，代表產品在純度、效力及新鮮度三方面均達到或超越國際標準。測試項目包括重金屬（汞、鉛）、致癌物（二噁英、多氯聯苯）及氧化值。IFOS 5星認證意味着Homega已通過獨立第三方的全面品質驗證，而非僅靠廠商自行聲明。{% endif %}"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "{% if is_en %}When should I take Homega and how much?{% else %}魚油應該甚麼時候服用？服用多少？{% endif %}",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "{% if is_en %}Take Homega after a meal for best absorption. For active cardiovascular support, take 2 capsules per day. For general daily maintenance, 1 capsule per day is sufficient. Each box contains 60 capsules — approximately a 30-day supply at 2 per day, or a 60-day supply at 1 per day.{% else %}建議餐後服用。Homega是脂溶性補充品，隨餐或餐後服用吸收效果更佳。有特定健康需要的人士建議每日2粒；純粹日常保健則每日1粒。每盒60粒，以每日2粒計算可服用約30日，每日1粒則可服用約60日。{% endif %}"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "{% if is_en %}How is Homega different from pharmacy fish oil brands?{% else %}Homega同普通藥房魚油有甚麼分別？{% endif %}",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "{% if is_en %}Three key differences. Concentration: Homega provides over 60% more combined EPA+DHA. Formulation: Homega uniquely includes Vitamin K2 (100mcg) and D3 (500IU). Quality assurance: Homega holds the highest IFOS 5-star rating, is sourced from POLARIS in France, and undergoes molecular distillation.{% else %}主要區別有三方面。濃度：Homega的EPA+DHA總含量高出約60%。配方：Homega獨家添加維他命K2（100mcg）及D3（500IU）。品質認證：Homega持有IFOS 5星最高評級，原料由法國POLARIS供應，經分子蒸餾去除重金屬及污染物。{% endif %}"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "{% if is_en %}Are there any side effects of taking fish oil?{% else %}服用魚油有沒有副作用？{% endif %}",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "{% if is_en %}Side effects are generally mild. Some people experience a slight fishy aftertaste or occasional digestive discomfort — taking Homega with a meal usually minimizes this. Consult your doctor if you are on blood-thinning medication, about to undergo surgery, or pregnant/nursing. People taking warfarin should not take Homega.{% else %}一般而言，魚油的副作用輕微。少數人可能出現輕微魚腥味或偶爾腸胃不適，通常隨餐服用可減少此類反應。正在服用薄血藥者、即將接受手術者、孕婦及哺乳期婦女應在服用前諮詢醫生。服用華法林的人士不應服用Homega。{% endif %}"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "{% if is_en %}How long should I take Homega?{% else %}一般要服用多久？{% endif %}",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "{% if is_en %}Our users generally commit to at least 90 days, giving their body adequate time to absorb and adjust. We recommend regular health check-ups before and during supplementation so you can track your own health indicators objectively.{% else %}我們的用家一般會持續服用至少90日，讓身體有充分時間吸收和適應。建議在開始服用前後定期進行身體檢查，以客觀了解自己的健康狀況變化。{% endif %}"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "{% if is_en %}Why does Homega include Vitamin K2 and D3?{% else %}為甚麼Homega要加維他命K2和D3？{% endif %}",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "{% if is_en %}Most fish oils only deliver Omega-3 for cholesterol. But cardiovascular health also involves arterial calcification. Vitamin K2 activates Matrix GLA Protein, directing calcium to bones instead of artery walls. Vitamin D3 enhances calcium absorption and supports immune regulation. Together, these three ingredients offer more comprehensive cardiovascular support than Omega-3 alone.{% else %}大部分魚油只提供奧米加3處理膽固醇問題。但心血管健康不僅關乎膽固醇，動脈鈣化同樣是重要風險因素。維他命K2能激活基質GLA蛋白，將鈣質引導至骨骼。維他命D3增強鈣質吸收並支持免疫調節。三種成分配合，提供比單純魚油更全面的心血管支持。{% endif %}"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "{% if is_en %}Is Homega suitable for pregnant women, elderly, or children?{% else %}孕婦、長者或兒童可以服用嗎？{% endif %}",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "{% if is_en %}Homega is formulated for adults aged 18 and above, particularly suited for those over 40 focused on cardiovascular health. Pregnant and nursing women should not take Homega. For anyone under 18, consult a pediatrician. Elderly adults can generally take it, but should consult their doctor if on blood thinners. Anyone on warfarin should not take this product.{% else %}Homega專為18歲或以上成年人設計，特別適合40歲以上關注心血管健康的人士。孕婦及哺乳期婦女不建議服用。18歲以下人士請先諮詢兒科醫生。長者一般可正常服用，但如正在服用薄血藥建議先諮詢醫生。服用華法林的人士不應服用Homega。{% endif %}"
+        }
+      }
+    ]
+  }
+  </script>
+</section>
+
+{%- comment -%} Single-open accordion behavior {%- endcomment -%}
+<script>
+  (function() {
+    var faqList = document.querySelector('.faq__list');
+    if (!faqList) return;
+    faqList.addEventListener('toggle', function(e) {
+      if (!e.target.open) return;
+      var items = faqList.querySelectorAll('details');
+      items.forEach(function(item) {
+        if (item !== e.target && item.open) {
+          item.open = false;
+        }
+      });
+    }, true);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Homega FAQ",
+  "tag": "div",
+  "class": "homega-faq-wrapper"
+}
+{% endschema %}
