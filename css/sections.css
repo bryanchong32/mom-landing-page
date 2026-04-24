@@ -679,6 +679,20 @@
   white-space: nowrap;
 }
 
+/* Product thumbnail in pricing card */
+.pricing-card__product-img {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+}
+
+.pricing-card__product-img img {
+  width: 80px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(26, 42, 40, 0.1));
+}
+
 .pricing-card__title {
   font-family: var(--font-heading);
   margin-bottom: var(--space-1);
