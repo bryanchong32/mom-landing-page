@@ -1,0 +1,16 @@
+/* =================================================================
+   TIGROX / TIGER MILK KING Landing Page — Design Token Overrides
+   Only overrides primary color tokens. All other tokens inherited
+   from parent design-tokens.css.
+   Last updated: 2026-04-24
+   ================================================================= */
+
+:root {
+  /* ---------------------------------------------------------------
+     COLOR — Primary (Tiger Milk King Green accent)
+     Swapped from Homega teal to TMK green.
+     --------------------------------------------------------------- */
+  --color-primary: #2D6A3F;
+  --color-primary-dark: #1F4F2D;
+  --color-primary-light: #4A9E6B;
+}

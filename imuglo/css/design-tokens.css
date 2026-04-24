@@ -1,0 +1,15 @@
+/* =================================================================
+   IMUGLO Landing Page — Design Token Overrides
+   Only overrides primary color tokens. All other tokens inherited
+   from ../css/design-tokens.css
+   ================================================================= */
+
+:root {
+  /* ---------------------------------------------------------------
+     COLOR — Primary (Imuglo Purple accent)
+     Swap from Homega teal to Imuglo purple.
+     --------------------------------------------------------------- */
+  --color-primary: #6B3A7D;
+  --color-primary-dark: #4F2A5E;
+  --color-primary-light: #8E5CA8;
+}
