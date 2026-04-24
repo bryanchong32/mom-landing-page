@@ -31,7 +31,7 @@
   height: 64px;
 }
 
-/* Brand name */
+/* Brand logo */
 .site-header__brand {
   display: flex;
   align-items: center;
@@ -39,18 +39,9 @@
   flex-shrink: 0;
 }
 
-.site-header__brand-name {
-  font-family: var(--font-heading);
-  font-size: clamp(1.25rem, 2vw, 1.5rem);
-  font-weight: var(--weight-bold);
-  color: var(--color-text-primary);
-  letter-spacing: 0.02em;
-}
-
-.site-header__brand-name sup {
-  font-size: 0.5em;
-  vertical-align: super;
-  color: var(--color-text-muted);
+.site-header__brand-logo {
+  width: 100px;
+  height: auto;
 }
 
 /* Product family nav (desktop) */
@@ -871,6 +862,61 @@
   opacity: 0.75;
 }
 
+/* Test reports gallery */
+.cert-reports {
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cert-reports__heading {
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-on-dark);
+  margin-bottom: var(--space-3);
+}
+
+.cert-reports__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.cert-reports__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.cert-reports__item:hover {
+  transform: scale(1.03);
+  opacity: 0.9;
+}
+
+.cert-reports__item img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cert-reports__item span {
+  color: var(--color-text-on-dark);
+  opacity: 0.6;
+  text-align: center;
+}
+
+.cert-reports__note {
+  margin-top: var(--space-3);
+  color: var(--color-text-on-dark);
+  opacity: 0.4;
+  font-style: italic;
+}
+
 @media (min-width: 1024px) {
   .nutritionist__grid {
     grid-template-columns: 1fr 1fr;
@@ -1016,10 +1062,20 @@
   transform: none;
 }
 
-/* Mobile: recommended card first */
+/* Mobile: recommended card first, 2-per-row grid */
 @media (max-width: 767px) {
+  .pricing__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+
   .pricing-card--recommended {
     order: -1;
+    grid-column: 1 / -1;
+  }
+
+  .pricing-card__product-img img {
+    width: 60px;
   }
 }
 
