@@ -75,6 +75,63 @@
 <body>
   <a class="sr-only" href="#main-content">Skip to content</a>
 
+  <!-- ============================================================
+       Site Header
+       ============================================================ -->
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="/en/" class="site-header__logo-link" aria-label="Homega Home">
+        <img
+          src="../images/homega-logo-black.png"
+          alt="Homega"
+          width="120"
+          height="34"
+          class="site-header__logo"
+        >
+      </a>
+
+      <nav class="site-header__nav" aria-label="Main navigation">
+        <ul class="site-header__links">
+          <li><a href="#why-heading">Formula</a></li>
+          <li><a href="#testimonials-heading">Testimonials</a></li>
+          <li><a href="#faq-heading">FAQ</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-header__actions">
+        <div class="site-header__lang">
+          <a href="/" class="site-header__lang-link" hreflang="zh-Hant-HK">中文</a>
+          <span class="site-header__lang-current">EN</span>
+        </div>
+        <a href="#pricing" class="btn-cta site-header__cta">View Plans</a>
+      </div>
+
+      <button class="site-header__menu-toggle" aria-label="Open menu" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="site-header__mobile-menu" aria-hidden="true">
+      <nav aria-label="Mobile navigation">
+        <ul>
+          <li><a href="#why-heading">Formula</a></li>
+          <li><a href="#testimonials-heading">Testimonials</a></li>
+          <li><a href="#faq-heading">FAQ</a></li>
+          <li><a href="#pricing">View Plans</a></li>
+        </ul>
+      </nav>
+      <div class="site-header__mobile-lang">
+        <a href="/" hreflang="zh-Hant-HK">中文</a>
+        <span class="site-header__lang-current">EN</span>
+      </div>
+    </div>
+  </header>
+
   <main id="main-content" role="main">
 
     <!-- ============================================================

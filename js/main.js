@@ -3,17 +3,54 @@
  * Plain vanilla JS, no dependencies.
  *
  * Features:
- * 1. FAQ accordion (single-open behavior using <details>)
- * 2. Sticky mobile CTA (Intersection Observer)
- * 3. Scroll-triggered entrance animations (Intersection Observer)
- * 4. Language switcher (handled via footer links — no JS needed)
+ * 1. Site header — scroll shadow + mobile menu toggle
+ * 2. FAQ accordion (single-open behavior using <details>)
+ * 3. Sticky mobile CTA (Intersection Observer)
+ * 4. Scroll-triggered entrance animations (Intersection Observer)
+ * 5. Language switcher (handled via footer links — no JS needed)
  */
 
 (function () {
   'use strict';
 
   /* -----------------------------------------------------------------
-     1. FAQ Accordion — Single-open behavior
+     1. Site Header — scroll shadow + mobile menu
+     ----------------------------------------------------------------- */
+  var header = document.querySelector('.site-header');
+  var menuToggle = document.querySelector('.site-header__menu-toggle');
+  var mobileMenu = document.querySelector('.site-header__mobile-menu');
+
+  // Add shadow on scroll
+  if (header) {
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 10) {
+        header.classList.add('site-header--scrolled');
+      } else {
+        header.classList.remove('site-header--scrolled');
+      }
+    }, { passive: true });
+  }
+
+  // Mobile menu toggle
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', function () {
+      var isOpen = mobileMenu.classList.toggle('is-open');
+      menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      mobileMenu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+    });
+
+    // Close menu when a link is clicked
+    mobileMenu.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        mobileMenu.classList.remove('is-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+      });
+    });
+  }
+
+  /* -----------------------------------------------------------------
+     2. FAQ Accordion — Single-open behavior
      When one <details> opens, close all others in the same list.
      ----------------------------------------------------------------- */
   var faqList = document.querySelector('.faq__list');

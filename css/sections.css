@@ -6,6 +6,192 @@
    ================================================================= */
 
 /* ---------------------------------------------------------------
+   0. SITE HEADER
+   --------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background-color: var(--color-bg-primary);
+  border-bottom: 1px solid var(--color-secondary-muted);
+  transition: box-shadow var(--transition-base);
+}
+
+.site-header--scrolled {
+  box-shadow: var(--shadow-md);
+}
+
+.site-header__inner {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.site-header__logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.site-header__logo {
+  width: 120px;
+  height: auto;
+}
+
+/* Desktop nav links */
+.site-header__nav {
+  display: none;
+}
+
+.site-header__links {
+  list-style: none;
+  display: flex;
+  gap: var(--space-5);
+}
+
+.site-header__links a {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  transition: color var(--transition-fast);
+}
+
+.site-header__links a:hover {
+  color: var(--color-primary);
+}
+
+/* Actions (lang + CTA) */
+.site-header__actions {
+  display: none;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.site-header__lang {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-small);
+}
+
+.site-header__lang-current {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.site-header__lang-link {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.site-header__lang-link:hover {
+  color: var(--color-primary);
+}
+
+.site-header__cta {
+  padding: var(--space-2) var(--space-4);
+  min-height: 40px;
+  font-size: var(--text-small);
+}
+
+/* Hamburger toggle — mobile only */
+.site-header__menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  padding: var(--space-2);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Mobile menu */
+.site-header__mobile-menu {
+  display: none;
+  background-color: var(--color-bg-primary);
+  border-top: 1px solid var(--color-secondary-muted);
+  padding: var(--space-4) var(--container-padding) var(--space-5);
+}
+
+.site-header__mobile-menu.is-open {
+  display: block;
+}
+
+.site-header__mobile-menu ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.site-header__mobile-menu a {
+  display: block;
+  padding: var(--space-3) 0;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  font-size: var(--text-body-lg);
+  font-weight: var(--weight-medium);
+  border-bottom: 1px solid var(--color-secondary-muted);
+}
+
+.site-header__mobile-menu a:hover {
+  color: var(--color-primary);
+}
+
+.site-header__mobile-lang {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  font-size: var(--text-small);
+}
+
+.site-header__mobile-lang .site-header__lang-current {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.site-header__mobile-lang a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border: none;
+  padding: 0;
+  font-size: var(--text-small);
+}
+
+/* Desktop: show nav + actions, hide hamburger */
+@media (min-width: 768px) {
+  .site-header__inner {
+    height: 72px;
+  }
+
+  .site-header__nav {
+    display: block;
+  }
+
+  .site-header__actions {
+    display: flex;
+  }
+
+  .site-header__menu-toggle {
+    display: none;
+  }
+
+  .site-header__mobile-menu {
+    display: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------
    1. HERO SECTION
    --------------------------------------------------------------- */
 .hero {
