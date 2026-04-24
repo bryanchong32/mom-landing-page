@@ -80,24 +80,21 @@
        ============================================================ -->
   <header class="site-header" role="banner">
     <div class="site-header__inner">
-      <a href="/en/" class="site-header__logo-link" aria-label="Homega Home">
-        <img
-          src="../images/homega-logo-black.png"
-          alt="Homega"
-          width="120"
-          height="34"
-          class="site-header__logo"
-        >
+      <!-- Brand -->
+      <a href="/en/" class="site-header__brand" aria-label="Tigrox Home">
+        <span class="site-header__brand-name">tigrox<sup>™</sup></span>
       </a>
 
-      <nav class="site-header__nav" aria-label="Main navigation">
-        <ul class="site-header__links">
-          <li><a href="#why-heading">Formula</a></li>
-          <li><a href="#testimonials-heading">Testimonials</a></li>
-          <li><a href="#faq-heading">FAQ</a></li>
+      <!-- Product family nav (desktop) -->
+      <nav class="site-header__products" aria-label="Product Family">
+        <ul class="site-header__product-list">
+          <li><a href="/en/" class="site-header__product-link is-active" aria-current="page">HOMEGA</a></li>
+          <li><a href="#" class="site-header__product-link is-coming-soon" tabindex="-1">TIGER MILK KING</a></li>
+          <li><a href="#" class="site-header__product-link is-coming-soon" tabindex="-1">IMUGLO</a></li>
         </ul>
       </nav>
 
+      <!-- Actions (desktop) -->
       <div class="site-header__actions">
         <div class="site-header__lang">
           <a href="/" class="site-header__lang-link" hreflang="zh-Hant-HK">中文</a>
@@ -106,6 +103,7 @@
         <a href="#pricing" class="btn-cta site-header__cta">View Plans</a>
       </div>
 
+      <!-- Hamburger (mobile) -->
       <button class="site-header__menu-toggle" aria-label="Open menu" aria-expanded="false">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <line x1="3" y1="6" x2="21" y2="6"/>
@@ -117,14 +115,32 @@
 
     <!-- Mobile menu -->
     <div class="site-header__mobile-menu" aria-hidden="true">
-      <nav aria-label="Mobile navigation">
-        <ul>
-          <li><a href="#why-heading">Formula</a></li>
-          <li><a href="#testimonials-heading">Testimonials</a></li>
-          <li><a href="#faq-heading">FAQ</a></li>
-          <li><a href="#pricing">View Plans</a></li>
-        </ul>
-      </nav>
+      <!-- Product family -->
+      <div class="site-header__mobile-products">
+        <p class="site-header__mobile-section-label">Product Family</p>
+        <nav aria-label="Product Family">
+          <ul>
+            <li><a href="/en/" class="is-active" aria-current="page">HOMEGA Fish Oil</a></li>
+            <li><a href="#" class="is-coming-soon">TIGER MILK KING<span class="coming-soon-tag">Coming Soon</span></a></li>
+            <li><a href="#" class="is-coming-soon">IMUGLO<span class="coming-soon-tag">Coming Soon</span></a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Page sections -->
+      <div class="site-header__mobile-sections">
+        <p class="site-header__mobile-section-label">On This Page</p>
+        <nav aria-label="Page navigation">
+          <ul>
+            <li><a href="#why-heading">Formula</a></li>
+            <li><a href="#testimonials-heading">Testimonials</a></li>
+            <li><a href="#faq-heading">FAQ</a></li>
+            <li><a href="#pricing">View Plans</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Language -->
       <div class="site-header__mobile-lang">
         <a href="/" hreflang="zh-Hant-HK">中文</a>
         <span class="site-header__lang-current">EN</span>

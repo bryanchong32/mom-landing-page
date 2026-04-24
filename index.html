@@ -80,24 +80,21 @@
        ============================================================ -->
   <header class="site-header" role="banner">
     <div class="site-header__inner">
-      <a href="/" class="site-header__logo-link" aria-label="Homega 首頁">
-        <img
-          src="images/homega-logo-black.png"
-          alt="Homega"
-          width="120"
-          height="34"
-          class="site-header__logo"
-        >
+      <!-- Brand -->
+      <a href="/" class="site-header__brand" aria-label="Tigrox 首頁">
+        <span class="site-header__brand-name">tigrox<sup>™</sup></span>
       </a>
 
-      <nav class="site-header__nav" aria-label="主導覽">
-        <ul class="site-header__links">
-          <li><a href="#why-heading">配方</a></li>
-          <li><a href="#testimonials-heading">用家分享</a></li>
-          <li><a href="#faq-heading">常見問題</a></li>
+      <!-- Product family nav (desktop) -->
+      <nav class="site-header__products" aria-label="產品系列">
+        <ul class="site-header__product-list">
+          <li><a href="/" class="site-header__product-link is-active" aria-current="page">HOMEGA</a></li>
+          <li><a href="#" class="site-header__product-link is-coming-soon" tabindex="-1">TIGER MILK KING</a></li>
+          <li><a href="#" class="site-header__product-link is-coming-soon" tabindex="-1">IMUGLO</a></li>
         </ul>
       </nav>
 
+      <!-- Actions (desktop) -->
       <div class="site-header__actions">
         <div class="site-header__lang">
           <span class="site-header__lang-current">中文</span>
@@ -106,6 +103,7 @@
         <a href="#pricing" class="btn-cta site-header__cta">查看方案</a>
       </div>
 
+      <!-- Hamburger (mobile) -->
       <button class="site-header__menu-toggle" aria-label="開啟選單" aria-expanded="false">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <line x1="3" y1="6" x2="21" y2="6"/>
@@ -117,14 +115,32 @@
 
     <!-- Mobile menu -->
     <div class="site-header__mobile-menu" aria-hidden="true">
-      <nav aria-label="手機導覽">
-        <ul>
-          <li><a href="#why-heading">配方</a></li>
-          <li><a href="#testimonials-heading">用家分享</a></li>
-          <li><a href="#faq-heading">常見問題</a></li>
-          <li><a href="#pricing">查看方案</a></li>
-        </ul>
-      </nav>
+      <!-- Product family -->
+      <div class="site-header__mobile-products">
+        <p class="site-header__mobile-section-label">產品系列</p>
+        <nav aria-label="產品系列">
+          <ul>
+            <li><a href="/" class="is-active" aria-current="page">HOMEGA 魚油王</a></li>
+            <li><a href="#" class="is-coming-soon">TIGER MILK KING<span class="coming-soon-tag">即將推出</span></a></li>
+            <li><a href="#" class="is-coming-soon">IMUGLO<span class="coming-soon-tag">即將推出</span></a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Page sections -->
+      <div class="site-header__mobile-sections">
+        <p class="site-header__mobile-section-label">本頁導覽</p>
+        <nav aria-label="頁面導覽">
+          <ul>
+            <li><a href="#why-heading">配方</a></li>
+            <li><a href="#testimonials-heading">用家分享</a></li>
+            <li><a href="#faq-heading">常見問題</a></li>
+            <li><a href="#pricing">查看方案</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Language -->
       <div class="site-header__mobile-lang">
         <span class="site-header__lang-current">中文</span>
         <a href="/en/" hreflang="en-HK">EN</a>
