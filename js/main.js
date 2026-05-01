@@ -97,7 +97,135 @@
   }
 
   /* -----------------------------------------------------------------
-     3. Sticky mobile CTA
+     3. Testimonials Carousel
+     Infinite-loop auto-scrolling carousel with prev/next and dots.
+     ----------------------------------------------------------------- */
+  var carousel = document.getElementById('testimonials-carousel');
+  var prevBtn = document.getElementById('testimonials-prev');
+  var nextBtn = document.getElementById('testimonials-next');
+  var dotsContainer = document.getElementById('testimonials-dots');
+
+  if (carousel && prevBtn && nextBtn && dotsContainer) {
+    var originalCards = Array.from(carousel.querySelectorAll('.testimonial-card'));
+    var totalOriginal = originalCards.length;
+    var currentIndex = 0;
+    var autoplayInterval;
+    var autoplayDelay = 2500;
+
+    // Clone all cards and append for infinite loop
+    originalCards.forEach(function (card) {
+      var clone = card.cloneNode(true);
+      clone.classList.add('is-clone');
+      carousel.appendChild(clone);
+    });
+
+    var allCards = carousel.querySelectorAll('.testimonial-card');
+
+    // Create dots (only for original cards)
+    originalCards.forEach(function (_, i) {
+      var dot = document.createElement('button');
+      dot.className = 'testimonials__dot' + (i === 0 ? ' is-active' : '');
+      dot.setAttribute('aria-label', '第' + (i + 1) + '個用家分享');
+      dot.addEventListener('click', function () {
+        scrollToCard(i);
+        resetAutoplay();
+      });
+      dotsContainer.appendChild(dot);
+    });
+
+    function updateDots(index) {
+      var mapped = index % totalOriginal;
+      var dots = dotsContainer.querySelectorAll('.testimonials__dot');
+      dots.forEach(function (d, i) {
+        d.classList.toggle('is-active', i === mapped);
+      });
+    }
+
+    function scrollToCard(index) {
+      var cards = Array.from(allCards);
+      if (index < 0 || index >= cards.length) return;
+      var card = cards[index];
+      carousel.scrollTo({ left: card.offsetLeft - carousel.offsetLeft, behavior: 'smooth' });
+      currentIndex = index;
+      updateDots(index);
+    }
+
+    // When scroll reaches cloned section, silently jump back to original
+    function handleInfiniteLoop() {
+      var cards = Array.from(allCards);
+      var firstClone = cards[totalOriginal];
+      if (!firstClone) return;
+      var cloneStart = firstClone.offsetLeft - carousel.offsetLeft;
+      if (carousel.scrollLeft >= cloneStart - 10) {
+        carousel.style.scrollBehavior = 'auto';
+        carousel.scrollLeft = 0;
+        currentIndex = 0;
+        updateDots(0);
+        // Restore smooth after the jump
+        requestAnimationFrame(function () {
+          carousel.style.scrollBehavior = '';
+        });
+      }
+    }
+
+    prevBtn.addEventListener('click', function () {
+      if (currentIndex <= 0) {
+        scrollToCard(totalOriginal - 1);
+      } else {
+        scrollToCard(currentIndex - 1);
+      }
+      resetAutoplay();
+    });
+
+    nextBtn.addEventListener('click', function () {
+      scrollToCard(currentIndex + 1);
+      resetAutoplay();
+    });
+
+    // Update dots on manual scroll/swipe
+    var scrollTimer;
+    carousel.addEventListener('scroll', function () {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(function () {
+        handleInfiniteLoop();
+        var scrollLeft = carousel.scrollLeft;
+        var closestIndex = 0;
+        var closestDist = Infinity;
+        Array.from(allCards).forEach(function (card, i) {
+          var dist = Math.abs(card.offsetLeft - carousel.offsetLeft - scrollLeft);
+          if (dist < closestDist) {
+            closestDist = dist;
+            closestIndex = i;
+          }
+        });
+        currentIndex = closestIndex;
+        updateDots(closestIndex);
+      }, 100);
+    }, { passive: true });
+
+    // Autoplay
+    function startAutoplay() {
+      autoplayInterval = setInterval(function () {
+        scrollToCard(currentIndex + 1);
+      }, autoplayDelay);
+    }
+
+    function resetAutoplay() {
+      clearInterval(autoplayInterval);
+      startAutoplay();
+    }
+
+    startAutoplay();
+
+    // Pause on hover/touch
+    carousel.addEventListener('mouseenter', function () { clearInterval(autoplayInterval); });
+    carousel.addEventListener('mouseleave', function () { startAutoplay(); });
+    carousel.addEventListener('touchstart', function () { clearInterval(autoplayInterval); }, { passive: true });
+    carousel.addEventListener('touchend', function () { resetAutoplay(); }, { passive: true });
+  }
+
+  /* -----------------------------------------------------------------
+     4. Sticky mobile CTA
      Show when hero CTA button scrolls out of viewport.
      Hidden on tablet+ via CSS (display: none !important above 768px).
      ----------------------------------------------------------------- */

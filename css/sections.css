@@ -855,6 +855,37 @@
 
 .cert-item__badge {
   flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cert-item__badge img {
+  border-radius: var(--radius-sm);
+  object-fit: contain;
+  background-color: #fff;
+  padding: 4px;
+}
+
+.cert-item__badge--dual {
+  gap: 2px;
+  flex-direction: row;
+}
+
+.cert-item__badge--text {
+  background-color: #fff;
+  border-radius: var(--radius-sm);
+  padding: 4px;
+}
+
+.cert-item__badge--text span {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+  letter-spacing: 0.04em;
 }
 
 .cert-item__text strong {
@@ -1478,6 +1509,164 @@ details[open] .faq__chevron {
   .sticky-cta {
     display: none !important;
   }
+}
+
+/* ---------------------------------------------------------------
+   POLICY PAGES
+   --------------------------------------------------------------- */
+.policy-page__inner {
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+.policy-page__inner h1 {
+  margin-bottom: var(--space-2);
+}
+
+.policy-page__updated {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-8);
+}
+
+.policy-page__content h2 {
+  font-size: var(--text-h3);
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-3);
+}
+
+.policy-page__content p {
+  color: var(--color-text-secondary);
+  line-height: var(--leading-body);
+  margin-bottom: var(--space-3);
+}
+
+.policy-page__content ul,
+.policy-page__content ol {
+  color: var(--color-text-secondary);
+  line-height: var(--leading-body);
+  margin-bottom: var(--space-4);
+  padding-left: var(--space-5);
+}
+
+.policy-page__content li {
+  margin-bottom: var(--space-2);
+}
+
+.policy-page__content a {
+  color: var(--color-primary);
+}
+
+/* ---------------------------------------------------------------
+   TESTIMONIALS CAROUSEL
+   --------------------------------------------------------------- */
+.testimonials__carousel-wrapper {
+  position: relative;
+  margin-bottom: var(--space-8);
+}
+
+.testimonials__carousel {
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: var(--space-2);
+}
+
+.testimonials__carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.testimonials__carousel .testimonial-card {
+  flex: 0 0 85%;
+  scroll-snap-align: start;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .testimonials__carousel .testimonial-card {
+    flex: 0 0 calc(50% - var(--space-2));
+  }
+}
+
+@media (min-width: 1024px) {
+  .testimonials__carousel .testimonial-card {
+    flex: 0 0 calc(50% - var(--space-2));
+  }
+}
+
+/* Navigation arrows */
+.testimonials__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+
+.testimonials__nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--color-secondary-muted);
+  background-color: var(--color-bg-card);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.testimonials__nav-btn:hover {
+  background-color: var(--color-bg-secondary);
+  border-color: var(--color-primary);
+}
+
+.testimonials__nav-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.testimonials__nav-btn:disabled:hover {
+  background-color: var(--color-bg-card);
+  border-color: var(--color-secondary-muted);
+}
+
+/* Dots */
+.testimonials__dots {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.testimonials__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-secondary-muted);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.testimonials__dot.is-active {
+  background-color: var(--color-primary);
+  transform: scale(1.3);
+}
+
+/* Vertical video (reel-format) */
+.nutritionist__video-col .nutritionist__video {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  aspect-ratio: auto;
+  border-radius: var(--radius-lg);
+  background-color: #000;
 }
 
 /* ---------------------------------------------------------------
