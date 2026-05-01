@@ -1315,9 +1315,9 @@ details[open] .faq__chevron {
 }
 
 .site-footer__partner-badge img {
-  height: 40px;
-  max-height: 40px;
-  max-width: 120px;
+  height: 56px;
+  max-height: 56px;
+  max-width: 160px;
   width: auto;
   object-fit: contain;
 }
