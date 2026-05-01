@@ -1779,6 +1779,7 @@ details[open] .faq__chevron {
   height: 96px;
   border-radius: 50%;
   object-fit: cover;
+  object-position: top center;
   border: 3px solid var(--color-secondary-light);
 }
 
