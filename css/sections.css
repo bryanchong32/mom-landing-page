@@ -1674,3 +1674,259 @@ details[open] .faq__chevron {
    The <details> elements implement single-open behavior via JS.
    This script is in the FAQ section but backed up by CSS here.
    --------------------------------------------------------------- */
+
+/* ---------------------------------------------------------------
+   HERO SOCIAL PROOF (added to hero)
+   --------------------------------------------------------------- */
+.hero__social-proof {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.hero__ifos-badge {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+}
+
+.hero__sold-count {
+  font-size: var(--text-body-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-primary);
+}
+
+/* ---------------------------------------------------------------
+   PRESS BAR
+   --------------------------------------------------------------- */
+.press-bar {
+  padding-block: var(--space-5);
+  border-bottom: 1px solid var(--color-secondary-muted);
+}
+
+.press-bar .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+}
+
+.press-bar__label {
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.press-bar__logos {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.press-bar__logo {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.6;
+  filter: grayscale(100%);
+  transition: opacity var(--transition-base), filter var(--transition-base);
+}
+
+.press-bar__logo:hover {
+  opacity: 1;
+  filter: grayscale(0%);
+}
+
+/* ---------------------------------------------------------------
+   MRBA SCIENTIFIC ADVISORY BOARD
+   --------------------------------------------------------------- */
+.mrba__overline {
+  margin-bottom: var(--space-3);
+}
+
+.mrba h2 {
+  margin-bottom: var(--space-3);
+}
+
+.mrba__subtitle {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-8);
+  max-width: 720px;
+}
+
+.mrba__grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr 1fr;
+}
+
+.mrba-card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-secondary-muted);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.mrba-card__photo {
+  margin-bottom: var(--space-3);
+}
+
+.mrba-card__photo img {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--color-secondary-light);
+}
+
+.mrba-card__name {
+  font-family: var(--font-heading);
+  font-size: var(--text-body-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-1);
+}
+
+.mrba-card__role {
+  color: var(--color-primary);
+  font-size: var(--text-small);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-2);
+}
+
+.mrba-card__credentials {
+  color: var(--color-text-muted);
+  line-height: var(--leading-body);
+}
+
+@media (max-width: 767px) {
+  .mrba__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mrba__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ---------------------------------------------------------------
+   INGREDIENTS (simplified 3-benefit layout)
+   --------------------------------------------------------------- */
+.ingredients__overline {
+  margin-bottom: var(--space-3);
+}
+
+.ingredients h2 {
+  margin-bottom: var(--space-3);
+}
+
+.ingredients__subtitle {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-8);
+  max-width: 720px;
+}
+
+.ingredients__layout {
+  display: grid;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+.ingredients__capsule-placeholder {
+  display: flex;
+  justify-content: center;
+}
+
+.ingredients__capsule-placeholder img {
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+}
+
+.ingredients__cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.ingredient-card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-secondary-muted);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--color-primary);
+}
+
+.ingredient-card__icon {
+  margin-bottom: var(--space-3);
+}
+
+.ingredient-card__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.ingredient-card__dose {
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.ingredient-card__benefit {
+  font-family: var(--font-heading);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.ingredient-card__source {
+  color: var(--color-text-muted);
+}
+
+.ingredients__sourcing {
+  border: 1px solid var(--color-secondary-muted);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  color: var(--color-text-secondary);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  margin-top: var(--space-8);
+}
+
+@media (min-width: 1024px) {
+  .ingredients__layout {
+    grid-template-columns: 0.5fr 1fr;
+  }
+}
+
+/* ---------------------------------------------------------------
+   PRICING — Strikethrough & Value Badge
+   --------------------------------------------------------------- */
+.pricing-card__original-price {
+  font-size: var(--text-body);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-1);
+}
+
+.pricing-card__original-price s {
+  text-decoration: line-through;
+}
+
+.pricing-card--value {
+  border-top: 4px solid var(--color-success);
+}
+
+.pricing-card__badge--value {
+  background-color: var(--color-success);
+}
