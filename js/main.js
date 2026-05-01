@@ -33,10 +33,23 @@
 
   // Mobile menu toggle
   if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener('click', function () {
+    function toggleMenu() {
       var isOpen = mobileMenu.classList.toggle('is-open');
       menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       mobileMenu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+    }
+
+    menuToggle.addEventListener('click', toggleMenu);
+
+    // iOS Safari: sticky headers can swallow click events — touchend as fallback
+    var touchMoved = false;
+    menuToggle.addEventListener('touchstart', function () { touchMoved = false; }, { passive: true });
+    menuToggle.addEventListener('touchmove', function () { touchMoved = true; }, { passive: true });
+    menuToggle.addEventListener('touchend', function (e) {
+      if (!touchMoved) {
+        e.preventDefault(); // prevent duplicate click
+        toggleMenu();
+      }
     });
 
     // Close menu when a link is clicked

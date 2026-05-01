@@ -15,6 +15,9 @@
   background-color: var(--color-bg-primary);
   border-bottom: 1px solid var(--color-secondary-muted);
   transition: box-shadow var(--transition-base);
+  /* Force GPU compositing — fixes iOS Safari sticky header blocking touch events */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .site-header--scrolled {
@@ -129,7 +132,10 @@
   color: var(--color-text-primary);
   cursor: pointer;
   padding: var(--space-2);
+  min-width: 44px;
+  min-height: 44px;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* Mobile menu */
@@ -1268,6 +1274,112 @@ details[open] .faq__chevron {
 .site-footer__lang-link:hover {
   opacity: 1;
   color: var(--color-text-on-dark);
+}
+
+/* Footer partners (delivery + payment) */
+.site-footer__partners {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: var(--space-5);
+  padding-bottom: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.site-footer__partner-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.site-footer__partner-label {
+  font-size: var(--text-overline);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  color: var(--color-text-on-dark);
+  opacity: 0.5;
+}
+
+.site-footer__partner-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.site-footer__partner-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.site-footer__partner-badge img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+.site-footer__partner-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-left: var(--space-2);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-full);
+  background-color: var(--color-success);
+  color: #fff;
+  font-size: 10px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.site-footer__partner-tag svg {
+  flex-shrink: 0;
+}
+
+.site-footer__payment-methods {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.site-footer__payment-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  background-color: #fff;
+  min-height: 28px;
+  min-width: 44px;
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  letter-spacing: 0.02em;
+  font-family: var(--font-body);
+  white-space: nowrap;
+}
+
+.site-footer__payment-icon img {
+  height: 16px;
+  width: auto;
+  object-fit: contain;
+}
+
+@media (min-width: 768px) {
+  .site-footer__partners {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+    align-items: flex-start;
+  }
+
+  .site-footer__partner-group:last-child {
+    margin-left: auto;
+  }
 }
 
 .site-footer__disclaimer {
