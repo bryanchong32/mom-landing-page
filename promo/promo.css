@@ -1,0 +1,426 @@
+/* =================================================================
+   Promo pages — additional styles on top of design-tokens/base/sections.
+   Same CI as the brand site; this file only adds the narrative sections.
+   Mobile-first; breakpoints 768 / 1024 match sections.css.
+   ================================================================= */
+
+/* ---------------------------------------------------------------
+   Campaign bar (hidden unless promo/campaign.json is active + in-window)
+   --------------------------------------------------------------- */
+.campaign-bar {
+  background: var(--color-cta);
+  color: var(--color-cta-text);
+}
+.campaign-bar__inner {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding: var(--space-3) var(--container-padding);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2) var(--space-4);
+  text-align: center;
+  font-size: var(--text-small);
+}
+.campaign-bar__headline { font-weight: var(--weight-bold); }
+.campaign-bar__timer {
+  font-family: Inter, var(--font-body);
+  font-variant-numeric: tabular-nums;
+  background: rgba(0,0,0,0.18);
+  border-radius: var(--radius-sm);
+  padding: 2px var(--space-2);
+  font-weight: var(--weight-semibold);
+}
+.campaign-bar__cta {
+  color: var(--color-cta-text);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+}
+.campaign-bar__cta:hover { color: var(--color-cta-text); }
+
+/* ---------------------------------------------------------------
+   Header — promo variant: logo (→ official site) + one CTA, no nav
+   --------------------------------------------------------------- */
+.site-header--promo .site-header__actions { display: flex; }
+.site-header--promo .site-header__official {
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  display: none;
+}
+@media (min-width: 768px) {
+  .site-header--promo .site-header__official { display: inline; margin-right: var(--space-4); }
+}
+
+/* ---------------------------------------------------------------
+   Hero additions
+   --------------------------------------------------------------- */
+.hero--promo .hero__headline { margin-bottom: var(--space-4); }
+.hero__capsules {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-5);
+}
+.hero__capsule {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-secondary-light);
+  border-radius: var(--radius-full);
+  background: var(--color-bg-card);
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+}
+.hero__capsule strong { color: var(--color-primary); font-weight: var(--weight-semibold); }
+.hero__cta-note {
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-5);
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+}
+
+/* ---------------------------------------------------------------
+   Shared section header
+   --------------------------------------------------------------- */
+.p-section__overline { margin-bottom: var(--space-2); }
+.p-section__title { margin-bottom: var(--space-3); max-width: 34ch; }
+.p-section__lead {
+  color: var(--color-text-secondary);
+  font-size: var(--text-body-lg);
+  max-width: 60ch;
+  margin-bottom: var(--space-6);
+}
+.bg-dark .p-section__overline { color: var(--color-secondary-light); }
+.bg-dark .p-section__lead { color: var(--color-secondary-muted); }
+.p-section--center .p-section__title,
+.p-section--center .p-section__lead { margin-inline: auto; text-align: center; }
+.p-section--center .p-section__overline { text-align: center; }
+
+/* ---------------------------------------------------------------
+   Empathy — "sound familiar?"
+   --------------------------------------------------------------- */
+.empathy__list {
+  list-style: none;
+  display: grid;
+  gap: var(--space-3);
+}
+.empathy__item {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  background: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+  box-shadow: var(--shadow-sm);
+  font-size: var(--text-body-lg);
+  line-height: var(--leading-body-lg);
+}
+.empathy__icon {
+  flex: 0 0 28px;
+  width: 28px; height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-secondary);
+  color: var(--color-primary);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: var(--weight-bold);
+  font-size: 0.9rem;
+  margin-top: 2px;
+}
+.empathy__closing {
+  margin-top: var(--space-6);
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-semibold);
+  color: var(--color-primary-dark);
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .empathy__list { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---------------------------------------------------------------
+   Villain — "why it didn't work"
+   --------------------------------------------------------------- */
+.villain__grid { display: grid; gap: var(--space-4); }
+.villain__card {
+  border-left: 4px solid var(--color-secondary);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-bg-secondary);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+}
+.villain__num {
+  display: block;
+  font-family: Inter, var(--font-body);
+  font-size: var(--text-overline);
+  letter-spacing: var(--tracking-overline);
+  color: var(--color-secondary);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-2);
+}
+.villain__card h3 { margin-bottom: var(--space-2); }
+.villain__card p { color: var(--color-text-secondary); }
+.villain__turn {
+  margin-top: var(--space-6);
+  padding: var(--space-5);
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-semibold);
+  text-align: center;
+  line-height: var(--leading-relaxed);
+}
+@media (min-width: 1024px) {
+  .villain__grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ---------------------------------------------------------------
+   Mechanism reveal — dark section
+   --------------------------------------------------------------- */
+.mechanism__big {
+  font-family: var(--font-heading);
+  font-size: var(--text-display);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-secondary-light);
+  text-align: center;
+  margin-bottom: var(--space-3);
+}
+.mechanism__grid { display: grid; gap: var(--space-4); margin-top: var(--space-6); }
+.mech-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+.mech-card__role {
+  display: inline-block;
+  font-size: var(--text-overline);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  color: var(--color-bg-dark);
+  background: var(--color-secondary-light);
+  border-radius: var(--radius-full);
+  padding: 2px var(--space-3);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-3);
+}
+.mech-card h3 { color: var(--color-text-on-dark); margin-bottom: var(--space-1); }
+.mech-card__dose {
+  font-family: Inter, var(--font-body);
+  color: var(--color-secondary-light);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-3);
+}
+.mech-card p { color: var(--color-secondary-muted); }
+.mechanism__sum {
+  margin-top: var(--space-6);
+  text-align: center;
+  color: var(--color-text-on-dark);
+  font-size: var(--text-body-lg);
+  max-width: 60ch;
+  margin-inline: auto;
+}
+.mechanism__cta { display: flex; justify-content: center; margin-top: var(--space-5); }
+@media (min-width: 768px) {
+  .mechanism__grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ---------------------------------------------------------------
+   Authority — nutritionist video + MRBA + certs
+   --------------------------------------------------------------- */
+.authority__grid { display: grid; gap: var(--space-6); }
+.authority__video-wrapper {
+  max-width: 420px;
+  margin-inline: auto;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  background: var(--color-bg-dark);
+}
+.authority__video { width: 100%; height: auto; display: block; }
+.authority__attribution { margin-top: var(--space-2); color: var(--color-text-muted); text-align: center; }
+.authority__quote {
+  margin: var(--space-4) auto 0;
+  max-width: 480px;
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--color-secondary);
+  font-family: var(--font-heading);
+  font-size: var(--text-body-lg);
+  color: var(--color-text-primary);
+}
+.authority__quote cite { display: block; margin-top: var(--space-2); font-style: normal; font-size: var(--text-small); color: var(--color-text-muted); }
+.authority__mrba h3 { margin-bottom: var(--space-1); }
+.authority__mrba-sub { color: var(--color-text-secondary); margin-bottom: var(--space-4); font-size: var(--text-small); }
+.authority__mrba .mrba__grid { grid-template-columns: 1fr 1fr; }
+.authority__mrba .mrba-card { padding: var(--space-3); }
+.authority__mrba .mrba-card__photo img { width: 72px; height: 72px; }
+.cert-strip {
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-secondary-muted);
+}
+.cert-strip__label { text-align: center; margin-bottom: var(--space-4); }
+.cert-strip__logos {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+  gap: var(--space-4) var(--space-6);
+}
+.cert-strip__logos img { height: 44px; width: auto; }
+.cert-strip__reports {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+.cert-strip__reports a {
+  font-size: var(--text-small);
+  color: var(--color-primary);
+  border: 1px solid var(--color-secondary-light);
+  border-radius: var(--radius-full);
+  padding: 2px var(--space-3);
+  text-decoration: none;
+  background: var(--color-bg-card);
+}
+@media (min-width: 1024px) {
+  .authority__grid { grid-template-columns: 5fr 7fr; align-items: start; }
+}
+
+/* ---------------------------------------------------------------
+   Timeline — 90-day expectation
+   --------------------------------------------------------------- */
+.timeline { list-style: none; position: relative; display: grid; gap: var(--space-5); margin-top: var(--space-6); }
+.timeline__item { position: relative; padding-left: var(--space-8); }
+.timeline__item::before {
+  content: '';
+  position: absolute; left: 11px; top: 28px; bottom: calc(-1 * var(--space-5));
+  width: 2px; background: var(--color-secondary-light);
+}
+.timeline__item:last-child::before { display: none; }
+.timeline__dot {
+  position: absolute; left: 0; top: 4px;
+  width: 24px; height: 24px; border-radius: var(--radius-full);
+  background: var(--color-primary); color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: Inter, var(--font-body); font-size: 0.75rem; font-weight: var(--weight-bold);
+}
+.timeline__when {
+  font-family: Inter, var(--font-body);
+  font-size: var(--text-overline);
+  letter-spacing: var(--tracking-overline);
+  color: var(--color-secondary);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+}
+.timeline__item h3 { margin: var(--space-1) 0 var(--space-2); }
+.timeline__item p { color: var(--color-text-secondary); }
+.timeline__callout {
+  margin-top: var(--space-6);
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+  font-weight: var(--weight-medium);
+}
+@media (min-width: 1024px) {
+  .timeline { grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
+  .timeline__item { padding-left: 0; padding-top: var(--space-8); }
+  .timeline__item::before { left: 24px; right: calc(-1 * var(--space-5)); top: 11px; bottom: auto; height: 2px; width: auto; }
+  .timeline__dot { top: 0; }
+}
+
+/* ---------------------------------------------------------------
+   Why not in pharmacies — dark
+   --------------------------------------------------------------- */
+.why__body { color: var(--color-secondary-muted); font-size: var(--text-body-lg); max-width: 64ch; }
+.why__points { list-style: none; display: grid; gap: var(--space-3); margin-top: var(--space-5); }
+.why__points li { display: flex; gap: var(--space-3); align-items: flex-start; color: var(--color-text-on-dark); }
+.why__points svg { flex: 0 0 20px; margin-top: 3px; }
+
+/* ---------------------------------------------------------------
+   Pricing — programme framing additions
+   --------------------------------------------------------------- */
+.pricing--promo .pricing-card__anchor {
+  font-size: var(--text-small);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-1);
+}
+.pricing--promo .pricing-card__per-day strong { color: var(--color-primary); font-weight: var(--weight-semibold); }
+.pricing--promo .pricing-card__hk-note { font-size: var(--text-small); color: var(--color-text-muted); margin-top: calc(-1 * var(--space-1)); margin-bottom: var(--space-2); }
+.campaign-note[hidden],
+.campaign-bar[hidden],
+.campaign-bar__cta[hidden] { display: none !important; }
+.campaign-note {
+  margin: 0 auto var(--space-5);
+  max-width: 640px;
+  background: var(--color-cta);
+  color: var(--color-cta-text);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  text-align: center;
+  font-size: var(--text-small);
+  display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2) var(--space-4);
+}
+.campaign-note__timer { font-family: Inter, var(--font-body); font-variant-numeric: tabular-nums; font-weight: var(--weight-bold); }
+
+/* ---------------------------------------------------------------
+   Buy with confidence
+   --------------------------------------------------------------- */
+.confidence__grid { display: grid; gap: var(--space-4); }
+.confidence__item {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+}
+.confidence__icon {
+  width: 40px; height: 40px; border-radius: var(--radius-md);
+  background: var(--color-bg-secondary); color: var(--color-primary);
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-bottom: var(--space-3);
+}
+.confidence__item h3 { margin-bottom: var(--space-1); }
+.confidence__item p { color: var(--color-text-secondary); font-size: var(--text-small); }
+.confidence__pay { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); align-items: center; }
+.confidence__pay img { height: 16px; width: auto; }
+.confidence__pay span { font-size: var(--text-small); color: var(--color-text-muted); }
+@media (min-width: 768px) { .confidence__grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .confidence__grid { grid-template-columns: repeat(4, 1fr); } }
+
+/* ---------------------------------------------------------------
+   Final CTA band
+   --------------------------------------------------------------- */
+.final-cta { text-align: center; }
+.final-cta .p-section__title { margin-inline: auto; max-width: none; }
+.final-cta__proof {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2) var(--space-5);
+  margin-bottom: var(--space-5); color: var(--color-text-secondary); font-size: var(--text-small);
+}
+
+/* ---------------------------------------------------------------
+   Footer — compact promo variant
+   --------------------------------------------------------------- */
+.site-footer--promo .site-footer__top { align-items: center; }
+.site-footer--promo .site-footer__official {
+  color: var(--color-secondary-light);
+  font-size: var(--text-small);
+}
+
+/* ---------------------------------------------------------------
+   Sticky CTA — keep body padding when bar present
+   --------------------------------------------------------------- */
+.sticky-cta__price--promo { color: var(--color-primary-light); }
+
+/* ---------------------------------------------------------------
+   Pricing — stack cards on phones (the anchor/per-day lines make the
+   brand site's 2-per-row layout too cramped). Order: 3盒 → 6盒 → 1盒.
+   --------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .pricing--promo .pricing__grid { grid-template-columns: 1fr; }
+  .pricing--promo .pricing-card--recommended { order: -2; grid-column: auto; }
+  .pricing--promo .pricing-card--value { order: -1; }
+  .pricing--promo .pricing-card__product-img img { width: 60px; }
+}
