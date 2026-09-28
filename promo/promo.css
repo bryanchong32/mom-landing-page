@@ -82,6 +82,19 @@
   color: var(--color-text-muted);
   font-size: var(--text-small);
 }
+@media (min-width: 768px) { .br-mobile { display: none; } }
+/* Ad traffic lands on phones: headline, proof and the CTA must share the
+   first screen, so the product shot shrinks rather than pushing them below it. */
+@media (max-width: 767px) {
+  .hero--promo { padding-top: var(--space-5); }
+  .hero--promo .hero__grid { gap: var(--space-3); }
+  .hero--promo .hero__image img { max-height: 170px; width: auto; margin-inline: auto; }
+  .hero--promo .hero__overline { margin-bottom: var(--space-2); }
+  .hero--promo .hero__headline { font-size: 28px; line-height: 1.3; margin-bottom: var(--space-3); }
+  .hero--promo .hero__subtitle { margin-bottom: var(--space-3); }
+  .hero--promo .hero__social-proof { margin-bottom: var(--space-3); }
+  .hero--promo .hero__capsules { margin-bottom: var(--space-4); }
+}
 
 /* ---------------------------------------------------------------
    Shared section header
