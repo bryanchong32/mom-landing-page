@@ -116,6 +116,8 @@
     originalCards.forEach(function (card) {
       var clone = card.cloneNode(true);
       clone.classList.add('is-clone');
+      clone.setAttribute('aria-hidden', 'true');
+      Array.prototype.forEach.call(clone.querySelectorAll('video'), function (v) { v.preload = 'none'; });
       carousel.appendChild(clone);
     });
 
@@ -203,8 +205,15 @@
       }, 100);
     }, { passive: true });
 
-    // Autoplay
+    // Autoplay — never while a video slide is playing, or it scrolls away mid-sentence
+    var videoPlaying = false;
+    carousel.addEventListener('play', function () { videoPlaying = true; clearInterval(autoplayInterval); }, true);
+    carousel.addEventListener('pause', function () { videoPlaying = false; resetAutoplay(); }, true);
+    carousel.addEventListener('ended', function () { videoPlaying = false; resetAutoplay(); }, true);
+
     function startAutoplay() {
+      clearInterval(autoplayInterval);
+      if (videoPlaying) return;
       autoplayInterval = setInterval(function () {
         scrollToCard(currentIndex + 1);
       }, autoplayDelay);

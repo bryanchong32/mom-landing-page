@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Homega 魚油王 — 關注三高人士的三合一心血管配方 | 90日方案</title>
-  <meta name="description" content="一般魚油只夠日常保健。Homega 將法國IFOS 5星深海魚油、維他命K2及D3整合於一粒，專為關注膽固醇、血壓及血管健康的人士而設。90日方案，全單免運費，香港倉順豐直送。">
+  <title>Homega 魚油王 — 三合一魚油，一粒做足 | Omega-3 + K2 + D3</title>
+  <meta name="description" content="Homega 魚油王：Omega-3 + 維他命K2 + D3 三合一，每粒 EPA+DHA 468mg，IFOS 5星認證。為關注三高人士而設。全單免運費，香港倉順豐直送。">
 
   <!-- Ad landing page: never indexed. The brand site at tigroxglobal.com is the SEO surface. -->
   <meta name="robots" content="noindex, nofollow">
@@ -57,7 +57,7 @@
   <link rel="stylesheet" href="/css/design-tokens.css">
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/sections.css">
-  <link rel="stylesheet" href="/promo/promo.css?v=1">
+  <link rel="stylesheet" href="/promo/promo.css?v=3">
 </head>
 <body>
 
@@ -94,314 +94,250 @@
   <main id="main-content" role="main">
 
     <!-- ============================================================
-         1. Hero — outcome + audience framing + consensus number
+         1. Hero — one line of USP, then the plan picker (6 boxes preselected)
          ============================================================ -->
-    <section class="hero hero--promo bg-primary" aria-label="主頁橫幅">
-      <div class="container hero__grid">
-        <div class="hero__image">
-          <img
-            src="/images/homega-hero.webp"
-            srcset="
-              /images/homega-hero-400w.webp 400w,
-              /images/homega-hero-600w.webp 600w,
-              /images/homega-hero-800w.webp 800w,
-              /images/homega-hero-1000w.webp 1000w,
-              /images/homega-hero-1200w.webp 1200w
-            "
-            sizes="(max-width: 767px) 100vw, 40vw"
-            width="800" height="800"
-            alt="Homega 魚油王包裝盒連瓶裝 — IFOS 5星認證法國深海魚油"
-            loading="eager" fetchpriority="high">
+    <section class="v2-hero" aria-labelledby="hero-heading">
+      <div class="container v2-hero__grid">
+        <div class="v2-hero__copy">
+          <p class="v2-hero__proof">
+            <img src="/images/ifos-5star-badge.png" alt="IFOS 5星認證" width="36" height="36">
+            <span>IFOS 5星認證 · 50,000+ 瓶已售出</span>
+          </p>
+          <h1 id="hero-heading" class="v2-hero__title">三合一魚油，<br>一粒做足。</h1>
+          <p class="v2-hero__sub">Omega-3 + 維他命K2 + D3 · 為關注三高人士而設</p>
+          <div class="v2-hero__image">
+            <img src="/images/homega-hero.webp"
+                 srcset="/images/homega-hero-400w.webp 400w, /images/homega-hero-600w.webp 600w, /images/homega-hero-800w.webp 800w, /images/homega-hero-1000w.webp 1000w"
+                 sizes="(max-width: 767px) 60vw, 34vw" width="800" height="800"
+                 alt="Homega 魚油王包裝盒連瓶裝" loading="eager" fetchpriority="high">
+          </div>
         </div>
 
-        <div class="hero__content">
-          <p class="hero__overline text-overline">IFOS 5星認證 · 法國深海魚油 · 香港倉直送</p>
-
-          <h1 class="sr-only">Homega 魚油王 — 關注三高人士的三合一心血管配方</h1>
-          <p class="hero__headline text-display" aria-hidden="true">
-            一般魚油，只夠日常保健。<br>關注三高，<br class="br-mobile">你需要更完整的配方。
-          </p>
-
-          <p class="hero__subtitle text-body-lg">
-            Homega 魚油王將法國IFOS 5星深海魚油、維他命K2及D3整合於一粒 — 專為關注膽固醇、血壓及血管健康的人士而設的三合一心血管配方。
-          </p>
-
-          <div class="hero__social-proof">
-            <img src="/images/ifos-5star-badge.png" alt="IFOS 5-Star Certified" width="48" height="48" class="hero__ifos-badge">
-            <span class="hero__sold-count">50,000+ 瓶已售出</span>
+        <div class="plan" data-plan aria-label="選擇方案">
+          <p class="plan__heading">選擇你的方案</p>
+          <div class="plan__options" role="radiogroup" aria-label="方案">
+            <label class="plan__opt">
+              <input type="radio" name="plan-hero" value="6" checked>
+              <span class="plan__tag">最抵 · 半年完整周期</span>
+              <span class="plan__row"><span class="plan__name">6盒 · 180日</span><span class="plan__price">HK$3,000</span></span>
+              <span class="plan__meta">每日 HK$16.7 · 慳 HK$1,200</span>
+            </label>
+            <label class="plan__opt">
+              <input type="radio" name="plan-hero" value="3">
+              <span class="plan__row"><span class="plan__name">3盒 · 90日</span><span class="plan__price">HK$1,650</span></span>
+              <span class="plan__meta">每日 HK$18.3 · 慳 HK$450</span>
+            </label>
+            <label class="plan__opt">
+              <input type="radio" name="plan-hero" value="1">
+              <span class="plan__row"><span class="plan__name">1盒 · 30日</span><span class="plan__price">HK$700</span></span>
+              <span class="plan__meta">每日 HK$23.3</span>
+            </label>
           </div>
-
-          <ul class="hero__capsules" aria-label="關鍵數據">
-            <li class="hero__capsule"><strong>IFOS 5星</strong> 最高評級</li>
-            <li class="hero__capsule"><strong>468mg</strong> EPA+DHA／粒</li>
-            <li class="hero__capsule"><strong>3合1</strong> 魚油+K2+D3</li>
-          </ul>
-
-          <a href="#pricing" class="btn-cta btn-cta--full-mobile hero__cta">開始我的90日心血管保養</a>
-          <p class="hero__cta-note">每日約HK$17起 · 全單免運費 · 順豐1-2日送達</p>
-
-          <ul class="hero__trust-row" aria-label="信譽指標">
-            <li>
-              <svg class="hero__check-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 4.5L6.5 11.5L3 8" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Wellous 官方授權經銷商
-            </li>
-            <li>
-              <svg class="hero__check-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 4.5L6.5 11.5L3 8" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              SGS 第三方檢測報告公開
-            </li>
-            <li>
-              <svg class="hero__check-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 4.5L6.5 11.5L3 8" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              香港倉直送 · 正品保證
-            </li>
-          </ul>
+          <p class="plan__nudge" data-plan-nudge hidden></p>
+          <a href="https://store.tigroxglobal.com/hk/zh-TW/express/6hmg" class="btn-cta plan__cta hero__cta" target="_blank" rel="noopener"
+             data-plan-cta data-checkout="6box" data-value="3000" data-product="Homega">選購 6盒 · HK$3,000</a>
+          <p class="plan__fine">全單免運費 · 順豐1-2日 · 香港倉直送</p>
         </div>
       </div>
     </section>
 
     <!-- ============================================================
-         2. Empathy — "sound familiar?"
+         2. Pain — one scene: the check-up report
          ============================================================ -->
-    <section class="empathy bg-secondary section-padding p-section p-section--center" aria-labelledby="empathy-heading">
-      <div class="container">
-        <p class="text-overline p-section__overline">似曾相識？</p>
-        <h2 id="empathy-heading" class="p-section__title">這些情況，你是否也遇過？</h2>
-        <ul class="empathy__list">
-          <li class="empathy__item"><span class="empathy__icon" aria-hidden="true">1</span><span>驗身報告上的膽固醇或血壓數字偏高，醫生只說「注意飲食、多做運動」，然後就沒有下文。</span></li>
-          <li class="empathy__item"><span class="empathy__icon" aria-hidden="true">2</span><span>服用過魚油一段時間，但根本不知道有沒有作用，最後不了了之。</span></li>
-          <li class="empathy__item"><span class="empathy__icon" aria-hidden="true">3</span><span>看過2022年消委會的魚油測試報告後，擔心魚油內含重金屬及污染物，不知道哪一款才可信。</span></li>
-          <li class="empathy__item"><span class="empathy__icon" aria-hidden="true">4</span><span>每日要分開服用幾種補充品，麻煩又難以持續，最後一瓶也沒有食完。</span></li>
+    <section class="v2-pain section-padding" aria-labelledby="pain-heading">
+      <div class="container v2-narrow">
+        <p class="v2-eyebrow">似曾相識？</p>
+        <h2 id="pain-heading" class="v2-title">驗身報告，又見紅字？</h2>
+
+        <figure class="report" aria-label="身體檢查報告示意圖">
+          <div class="report__head"><span>身體檢查報告</span><span class="report__stamp">需跟進</span></div>
+          <div class="report__row report__row--label"><span>項目</span><span>結果</span><span>參考值</span></div>
+          <div class="report__row"><span>總膽固醇</span><span class="report__high">6.4 ↑</span><span>&lt; 5.2</span></div>
+          <div class="report__row"><span>低密度膽固醇 LDL</span><span class="report__high">4.3 ↑</span><span>&lt; 3.4</span></div>
+          <div class="report__row"><span>三酸甘油酯</span><span class="report__high">2.1 ↑</span><span>&lt; 1.7</span></div>
+          <div class="report__row"><span>血壓</span><span class="report__high">144/90 ↑</span><span>&lt; 120/80</span></div>
+          <figcaption>示意圖 · 單位 mmol/L，血壓 mmHg</figcaption>
+        </figure>
+
+        <p class="v2-pain__quote">醫生說：「注意飲食，多做運動。」<br><strong>然後呢？</strong></p>
+
+        <div class="v2-pain__second">
+          <div class="img-slot" role="img" aria-label="圖片製作中：手部麻痺">
+            <span class="img-slot__tag">圖片待製作</span>
+            <span>中年人輕按麻痺的手掌</span>
+          </div>
+          <p><strong>手腳經常麻痺？</strong><br>血液循環，值得你多關注。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         3. How to read a fish oil label — teach, using our own numbers
+         ============================================================ -->
+    <section class="v2-label section-padding" aria-labelledby="label-heading">
+      <div class="container v2-narrow">
+        <p class="v2-eyebrow">買魚油前，先學識看標籤</p>
+        <h2 id="label-heading" class="v2-title">魚油不要只看 mg，<br>要看 EPA+DHA。</h2>
+
+        <div class="bars" aria-label="有效成分比較">
+          <div class="bars__item">
+            <p class="bars__label">一般 1000mg 魚油 <small>（常見 18/12 規格）</small></p>
+            <div class="bars__track"><span class="bars__fill bars__fill--plain" style="--w:30%">300mg</span></div>
+            <p class="bars__note">EPA+DHA 只佔 30%，其餘是其他脂肪</p>
+          </div>
+          <div class="bars__item bars__item--us">
+            <p class="bars__label">Homega 每粒 780mg 魚油</p>
+            <div class="bars__track"><span class="bars__fill" style="--w:60%">468mg</span></div>
+            <p class="bars__note"><strong>EPA+DHA 佔 60%</strong> · EPA 312mg + DHA 156mg</p>
+          </div>
+        </div>
+
+        <h3 class="v2-subtitle">好魚油，看三樣</h3>
+        <ol class="checks">
+          <li><span class="checks__n">1</span><span class="checks__k">濃度</span><span class="checks__v">每粒 EPA+DHA <strong>468mg</strong></span></li>
+          <li><span class="checks__n">2</span><span class="checks__k">純度</span><span class="checks__v"><strong>IFOS 5星</strong> 獨立檢測重金屬及污染物</span></li>
+          <li><span class="checks__n">3</span><span class="checks__k">新鮮度</span><span class="checks__v"><strong>TOTOX 8</strong>（業界上限 26，越低越新鮮）</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         4. Three roles — animated diagram
+         ============================================================ -->
+    <section class="v2-roles section-padding" aria-labelledby="roles-heading">
+      <div class="container v2-narrow">
+        <p class="v2-eyebrow v2-eyebrow--dark">Homega 的答案</p>
+        <h2 id="roles-heading" class="v2-title v2-title--dark">一粒，三個角色。</h2>
+
+        <figure class="flow">
+          <svg class="flow__svg" viewBox="0 0 360 250" role="img" aria-labelledby="flow-title">
+            <title id="flow-title">D3 把鈣質帶入血液，K2 把鈣質導向骨骼，Omega-3 支持血液流動</title>
+            <defs>
+              <linearGradient id="vessel" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#7A2E2A"/><stop offset=".5" stop-color="#9C3B34"/><stop offset="1" stop-color="#7A2E2A"/>
+              </linearGradient>
+              <path id="ca-path" d="M40 30 C 70 60, 90 88, 130 95 L 230 95 C 250 95, 262 120, 262 150 L 262 205"/>
+              <path id="rbc-path" d="M-20 95 L 380 95"/>
+            </defs>
+
+            <!-- vessel -->
+            <rect x="0" y="70" width="360" height="50" rx="4" fill="url(#vessel)"/>
+            <line x1="0" y1="70" x2="360" y2="70" stroke="#E7C9B8" stroke-width="3"/>
+            <line x1="0" y1="120" x2="360" y2="120" stroke="#E7C9B8" stroke-width="3"/>
+
+            <!-- blood cells: Omega-3 keeps it flowing -->
+            <g class="flow__rbc">
+              <ellipse rx="9" ry="5" fill="#E26D5C"><animateMotion dur="3.2s" repeatCount="indefinite"><mpath href="#rbc-path"/></animateMotion></ellipse>
+              <ellipse rx="9" ry="5" fill="#E26D5C"><animateMotion dur="3.2s" begin="-0.8s" repeatCount="indefinite"><mpath href="#rbc-path"/></animateMotion></ellipse>
+              <ellipse rx="9" ry="5" fill="#E26D5C"><animateMotion dur="3.2s" begin="-1.6s" repeatCount="indefinite"><mpath href="#rbc-path"/></animateMotion></ellipse>
+              <ellipse rx="9" ry="5" fill="#E26D5C"><animateMotion dur="3.2s" begin="-2.4s" repeatCount="indefinite"><mpath href="#rbc-path"/></animateMotion></ellipse>
+            </g>
+
+            <!-- K2 gate in the vessel wall -->
+            <rect x="248" y="116" width="28" height="8" rx="2" fill="#3DA89E"/>
+
+            <!-- calcium: D3 brings it in, K2 routes it to bone -->
+            <g class="flow__ca">
+              <circle r="5" fill="#E9C46A"><animateMotion dur="4s" repeatCount="indefinite"><mpath href="#ca-path"/></animateMotion></circle>
+              <circle r="5" fill="#E9C46A"><animateMotion dur="4s" begin="-1.33s" repeatCount="indefinite"><mpath href="#ca-path"/></animateMotion></circle>
+              <circle r="5" fill="#E9C46A"><animateMotion dur="4s" begin="-2.66s" repeatCount="indefinite"><mpath href="#ca-path"/></animateMotion></circle>
+            </g>
+
+            <!-- bone -->
+            <g transform="translate(232 206)" fill="#F3EDE4">
+              <circle cx="6" cy="8" r="8"/><circle cx="6" cy="24" r="8"/>
+              <circle cx="54" cy="8" r="8"/><circle cx="54" cy="24" r="8"/>
+              <rect x="6" y="9" width="48" height="14" rx="4"/>
+            </g>
+
+            <!-- labels -->
+            <g font-family="Noto Sans TC, PingFang TC, sans-serif" font-size="13" font-weight="600">
+              <rect x="6" y="6" width="76" height="24" rx="12" fill="#E9C46A"/>
+              <text x="44" y="23" text-anchor="middle" fill="#2C1810">D3 帶入鈣</text>
+              <rect x="120" y="136" width="92" height="24" rx="12" fill="#E26D5C"/>
+              <text x="166" y="153" text-anchor="middle" fill="#FFFFFF">Omega-3 流動</text>
+              <rect x="284" y="136" width="70" height="24" rx="12" fill="#3DA89E"/>
+              <text x="319" y="153" text-anchor="middle" fill="#FFFFFF">K2 導航</text>
+              <text x="262" y="246" text-anchor="middle" fill="#D2BF9A" font-size="12">鈣質去骨骼</text>
+            </g>
+          </svg>
+        </figure>
+
+        <ul class="roles">
+          <li><span class="roles__dot" style="--c:#E9C46A"></span><strong>D3 · 供應</strong><span>幫助身體吸收鈣質</span></li>
+          <li><span class="roles__dot" style="--c:#3DA89E"></span><strong>K2 · 導航</strong><span>把鈣質帶去骨骼，而非留在血管</span></li>
+          <li><span class="roles__dot" style="--c:#E26D5C"></span><strong>Omega-3 · 流動</strong><span>EPA+DHA 468mg，支持心血管健康</span></li>
         </ul>
-        <p class="empathy__closing">如果以上有一項符合，這一頁值得你花三分鐘讀完。</p>
+
+        <p class="roles__why">只補 D3 不補 K2，<br>鈣質多了，卻不知去哪。</p>
+        <p class="roles__sum">三樣，一粒做足。</p>
+        <a href="#pricing" class="btn-cta btn-cta--full-mobile">選擇方案</a>
       </div>
     </section>
 
     <!-- ============================================================
-         3. Villain — why it didn't work
+         5. Experts — the full advisory board, plus certificates
          ============================================================ -->
-    <section class="villain bg-primary section-padding p-section" aria-labelledby="villain-heading">
+    <section class="v2-team section-padding" aria-labelledby="team-heading">
       <div class="container">
-        <p class="text-overline p-section__overline">問題出在哪裏</p>
-        <h2 id="villain-heading" class="p-section__title">為何服用了魚油，卻感覺不到分別？</h2>
-        <p class="p-section__lead">大部分人的問題不在於「有沒有服用魚油」，而在於服用的魚油本身。</p>
-
-        <div class="villain__grid">
-          <article class="villain__card">
-            <span class="villain__num">原因一</span>
-            <h3>濃度不足</h3>
-            <p>一般藥房魚油每粒EPA約180mg、DHA約120mg。想達到研究中常用的攝取量，往往要每日服用4至6粒 — 多數人根本無法持續。</p>
-          </article>
-          <article class="villain__card">
-            <span class="villain__num">原因二</span>
-            <h3>品質存疑</h3>
-            <p>2022年香港消委會測試25款魚油，全部樣本驗出污染物，超過半數含有致癌物質。魚油若已氧化或受污染，服用再多亦沒有意義。</p>
-          </article>
-          <article class="villain__card">
-            <span class="villain__num">原因三</span>
-            <h3>單打獨鬥</h3>
-            <p>魚油只是心血管營養的其中一環。維他命K2負責引導鈣質前往骨骼而非沉積於血管，維他命D3則促進鈣質吸收。缺少任何一環，配方都不完整。</p>
-          </article>
+        <div class="v2-narrow">
+          <p class="v2-eyebrow">專業團隊</p>
+          <h2 id="team-heading" class="v2-title">醫生、藥劑師及科學家，<br>為每一粒把關。</h2>
+          <p class="v2-lead">Wellous 醫學及研究顧問委員會（MRBA）· 成立於2018年</p>
         </div>
 
-        <p class="villain__turn">所以重點不是「食不食魚油」，<br>而是「食的是甚麼魚油」。</p>
-      </div>
-    </section>
+        <ul class="team">
+          <li><img src="/images/mrba-team-dr-paul.webp" alt="" width="300" height="400" loading="lazy"><strong>Dr. Paul Strodtbeck</strong><span>美國內科專科醫生</span></li>
+          <li><img src="/images/mrba-team-dr-amir.webp" alt="" width="300" height="400" loading="lazy"><strong>Dr. Amir Farid Isahak</strong><span>婦產科醫生 · 健康專欄作家</span></li>
+          <li><img src="/images/mrba-team-prof-kim-kah-hwi.webp" alt="" width="300" height="400" loading="lazy"><strong>Prof. Kim Kah Hwi</strong><span>生理學教授 · 17項專利</span></li>
+          <li><img src="/images/mrba-team-prof-chai.webp" alt="" width="300" height="400" loading="lazy"><strong>Prof. Chai Lay Ching</strong><span>食品科學博士 · 雙威大學副校長</span></li>
+          <li><img src="/images/mrba-team-dr-lin.webp" alt="" width="300" height="400" loading="lazy"><strong>Dr. Lin Chih-Feng</strong><span>台灣內科主治醫師</span></li>
+          <li><img src="/images/mrba-team-dr-alan.webp" alt="" width="300" height="400" loading="lazy"><strong>Dr. Alan Piong</strong><span>醫藥藥理 30年+</span></li>
+          <li><img src="/images/mrba-team-mr-ray.webp" alt="" width="300" height="400" loading="lazy"><strong>Mr. Ray Yap</strong><span>首席科學官 · 藥劑師</span></li>
+          <li><img src="/images/mrba-team-dr-sandy.webp" alt="" width="300" height="400" loading="lazy"><strong>Dr. Sandy</strong><span>藥劑科技博士</span></li>
+          <li><img src="/images/mrba-team-dr-phan.webp" alt="" width="300" height="400" loading="lazy"><strong>Dr. Phan Chia Wei</strong><span>藥用菇菌專家 · 馬來亞大學</span></li>
+          <li><img src="/images/mrba-team-dr-rizki.webp" alt="" width="300" height="400" loading="lazy"><strong>Dr. Rizki Nasution</strong><span>印尼家庭醫生</span></li>
+          <li><img src="/images/mrba-team-dr-ester.webp" alt="" width="300" height="400" loading="lazy"><strong>Dr. Ester Bolt</strong><span>健康研究學者 · 歐洲</span></li>
+        </ul>
 
-    <!-- ============================================================
-         4. Mechanism reveal — the named system
-         ============================================================ -->
-    <section class="mechanism bg-dark section-padding p-section p-section--center" aria-labelledby="mechanism-heading">
-      <div class="container">
-        <p class="text-overline p-section__overline">Homega 的答案</p>
-        <p class="mechanism__big" aria-hidden="true">一粒，三個角色。</p>
-        <h2 id="mechanism-heading" class="p-section__title">Homega 三合一護心配方</h2>
-        <p class="p-section__lead">三種與心血管健康密切相關的營養素，各司其職，互相配合。</p>
-
-        <div class="mechanism__grid">
-          <article class="mech-card">
-            <span class="mech-card__role">角色一 · 血脂管理</span>
-            <h3>奧米加3 深海魚油</h3>
-            <p class="mech-card__dose">EPA 312mg + DHA 156mg</p>
-            <p>有助維持健康的血脂水平。法國POLARIS原料，IFOS 5星認證，每批次經SGS第三方檢測。</p>
-          </article>
-          <article class="mech-card">
-            <span class="mech-card__role">角色二 · 血管清道夫</span>
-            <h3>維他命K2</h3>
-            <p class="mech-card__dose">MenaquinGold 100mcg</p>
-            <p>引導鈣質前往骨骼，減少鈣質沉積於血管壁，有助維持血管彈性。一般魚油不含此成分。</p>
-          </article>
-          <article class="mech-card">
-            <span class="mech-card__role">角色三 · 吸收助手</span>
-            <h3>維他命D3</h3>
-            <p class="mech-card__dose">500IU</p>
-            <p>促進鈣質吸收，與K2協同運作，同時支持免疫系統。</p>
-          </article>
-        </div>
-
-        <p class="mechanism__sum">每日隨餐2粒，一次過補足三種營養素。無需分開購買，無需記住三個服用時間。</p>
-        <div class="mechanism__cta"><a href="#pricing" class="btn-cta">開始我的90日心血管保養</a></div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         5. Authority — nutritionist + MRBA + certs
-         ============================================================ -->
-    <section class="authority bg-primary section-padding p-section" aria-labelledby="authority-heading">
-      <div class="container">
-        <p class="text-overline p-section__overline">專業背書</p>
-        <h2 id="authority-heading" class="p-section__title">營養學家及醫學顧問團隊怎樣說</h2>
-        <p class="p-section__lead">Homega 由 Wellous 醫學及研究顧問委員會參與研發，並獲香港營養學家親自分析。</p>
-
-        <div class="authority__grid">
-          <div class="authority__nutritionist">
-            <div class="authority__video-wrapper">
-              <video class="authority__video" controls preload="metadata" playsinline width="540" height="682">
-                <source src="/images/arlene-homega-qna.mp4" type="video/mp4">
-                你的瀏覽器不支援影片播放。
-              </video>
-            </div>
-            <p class="authority__attribution text-small">伍雅芬（Arlene Wu）· 營養學家 · 英國認證素食營養治療師 · 《素身主義》作者</p>
-            <blockquote class="authority__quote">
-              <p>「品質認證對魚油產品的安全性十分重要。HOMEGA魚油有齊QualitySilver、IFOS和FDA的認證，都是國際頂尖的品質認證，證明了HOMEGA魚油已經通過所有嚴格的質量控制。」</p>
-              <cite>— 伍雅芬，營養學家</cite>
-            </blockquote>
-          </div>
-
-          <div class="authority__mrba">
-            <h3>Wellous 醫學及研究顧問委員會 (MRBA)</h3>
-            <p class="authority__mrba-sub">成立於2018年，由醫生、藥劑師、學者及科研人員組成，為每個產品的配方研發提供專業支持。</p>
-            <div class="mrba__grid">
-              <article class="mrba-card">
-                <div class="mrba-card__photo"><img src="/images/mrba-dr-amir.webp" alt="Dr. Amir Farid Isahak" width="120" height="120" loading="lazy"></div>
-                <h4 class="mrba-card__name">Dr. Amir Farid Isahak</h4>
-                <p class="mrba-card__role">醫學顧問</p>
-                <p class="mrba-card__credentials text-small">澳洲昆士蘭大學醫學學位 · 英國皇家婦產科醫學院 (RCOG)</p>
-              </article>
-              <article class="mrba-card">
-                <div class="mrba-card__photo"><img src="/images/mrba-prof-chai.webp" alt="Prof. Chai Lay Ching" width="120" height="120" loading="lazy"></div>
-                <h4 class="mrba-card__name">Prof. Chai Lay Ching</h4>
-                <p class="mrba-card__role">食品及微生物學顧問</p>
-                <p class="mrba-card__credentials text-small">博大食品科學博士 · 雙威大學教育副校長</p>
-              </article>
-              <article class="mrba-card">
-                <div class="mrba-card__photo"><img src="/images/mrba-prof-kim.webp" alt="Prof. Kim Kah Hwi" width="120" height="120" loading="lazy"></div>
-                <h4 class="mrba-card__name">Prof. Kim Kah Hwi</h4>
-                <p class="mrba-card__role">生物醫學顧問</p>
-                <p class="mrba-card__credentials text-small">日本岐阜大學神經生理學博士 · 馬來亞大學生理學教授（30年+）</p>
-              </article>
-              <article class="mrba-card">
-                <div class="mrba-card__photo"><img src="/images/mrba-dr-paul.webp" alt="Dr. Paul Strodbeck" width="120" height="120" loading="lazy"></div>
-                <h4 class="mrba-card__name">Dr. Paul Strodbeck</h4>
-                <p class="mrba-card__role">醫學顧問</p>
-                <p class="mrba-card__credentials text-small">循證醫學 · 以患者為本的臨床實踐</p>
-              </article>
-            </div>
-          </div>
-        </div>
-
-        <div class="cert-strip">
-          <p class="text-overline cert-strip__label">國際認證 · 品質保證</p>
-          <div class="cert-strip__logos">
-            <img src="/images/cert-ifos.svg" alt="IFOS 5-Star Certification" loading="lazy">
+        <div class="v2-certs">
+          <div class="v2-certs__logos">
+            <img src="/images/cert-ifos.svg" alt="IFOS 5-Star" loading="lazy">
             <img src="/images/cert-polaris.svg" alt="Polaris QualitySilver" loading="lazy">
             <img src="/images/cert-fda.png" alt="US FDA" loading="lazy">
-            <img src="/images/cert-goed.png" alt="GOED Proud Member" loading="lazy">
-            <img src="/images/cert-gmp.png" alt="GMP Certified" loading="lazy">
-            <img src="/images/cert-haccp.png" alt="HACCP Certified" loading="lazy">
+            <img src="/images/cert-goed.png" alt="GOED" loading="lazy">
+            <img src="/images/cert-gmp.png" alt="GMP" loading="lazy">
+            <img src="/images/cert-haccp.png" alt="HACCP" loading="lazy">
           </div>
-          <div class="cert-strip__reports" aria-label="SGS 第三方檢測報告">
-            <a href="/images/cert-HOMEGA檢驗報告(重金屬).webp" target="_blank" rel="noopener">SGS 重金屬檢測</a>
-            <a href="/images/cert-HOMEGA檢驗報告(西藥).webp" target="_blank" rel="noopener">SGS 西藥檢測</a>
-            <a href="/images/cert-HOMEGA檢驗報告(農藥).webp" target="_blank" rel="noopener">SGS 農藥檢測</a>
-            <a href="/images/cert-HOMEGA檢驗報告(防腐劑).webp" target="_blank" rel="noopener">SGS 防腐劑檢測</a>
-          </div>
+          <p class="v2-certs__reports">SGS 檢測報告：
+            <a href="/images/cert-HOMEGA檢驗報告(重金屬).webp" target="_blank" rel="noopener">重金屬</a> ·
+            <a href="/images/cert-HOMEGA檢驗報告(西藥).webp" target="_blank" rel="noopener">西藥</a> ·
+            <a href="/images/cert-HOMEGA檢驗報告(農藥).webp" target="_blank" rel="noopener">農藥</a> ·
+            <a href="/images/cert-HOMEGA檢驗報告(防腐劑).webp" target="_blank" rel="noopener">防腐劑</a>
+          </p>
         </div>
       </div>
     </section>
 
     <!-- ============================================================
-         6. Comparison table — identical to the brand site
-         ============================================================ -->
-    <section class="comparison bg-secondary section-padding" aria-labelledby="comparison-heading">
-      <div class="container">
-        <p class="text-overline comparison__overline">比較一下</p>
-        <h2 id="comparison-heading">同普通魚油有甚麼分別</h2>
-        <div class="comparison__table-wrapper">
-          <table class="comparison__table" role="table">
-            <thead>
-              <tr>
-                <th class="comparison__feature-header" scope="col">比較項目</th>
-                <th class="comparison__homega-header" scope="col">Homega 魚油王</th>
-                <th class="comparison__generic-header" scope="col">普通藥房魚油</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td class="comparison__feature">EPA含量（每粒）</td><td class="comparison__homega-cell"><strong>312mg</strong></td><td class="comparison__generic-cell">約180mg</td></tr>
-              <tr><td class="comparison__feature">DHA含量（每粒）</td><td class="comparison__homega-cell"><strong>156mg</strong></td><td class="comparison__generic-cell">約120mg</td></tr>
-              <tr><td class="comparison__feature">EPA+DHA 總含量</td><td class="comparison__homega-cell"><strong>468mg</strong> <span class="comparison__badge">+60%+</span></td><td class="comparison__generic-cell">約300mg</td></tr>
-              <tr><td class="comparison__feature">魚油來源</td><td class="comparison__homega-cell"><strong>法國POLARIS，秘魯/智利/摩洛哥深海小魚</strong></td><td class="comparison__generic-cell">來源不明或混合魚種</td></tr>
-              <tr><td class="comparison__feature">維他命K2</td><td class="comparison__homega-cell"><span class="comparison__check" aria-hidden="true">&#10003;</span> <strong>含100mcg MenaquinGold</strong></td><td class="comparison__generic-cell"><span class="comparison__cross" aria-hidden="true">&#10007;</span> 不含</td></tr>
-              <tr><td class="comparison__feature">維他命D3</td><td class="comparison__homega-cell"><span class="comparison__check" aria-hidden="true">&#10003;</span> <strong>含500IU</strong></td><td class="comparison__generic-cell"><span class="comparison__cross" aria-hidden="true">&#10007;</span> 不含或極少量</td></tr>
-              <tr><td class="comparison__feature">IFOS認證</td><td class="comparison__homega-cell"><span class="comparison__check" aria-hidden="true">&#10003;</span> <strong>5星（最高評級）</strong></td><td class="comparison__generic-cell"><span class="comparison__cross" aria-hidden="true">&#10007;</span> 未經認證或無公開評級</td></tr>
-              <tr><td class="comparison__feature">第三方純度檢測</td><td class="comparison__homega-cell"><span class="comparison__check" aria-hidden="true">&#10003;</span> <strong>通過 — 去除重金屬、汞、二噁英</strong></td><td class="comparison__generic-cell"><span class="comparison__cross" aria-hidden="true">&#10007;</span> 多數未提供檢測報告</td></tr>
-              <tr><td class="comparison__feature">穩定技術</td><td class="comparison__homega-cell"><strong>QualitySilver — 穩定性達3倍</strong></td><td class="comparison__generic-cell">標準處理</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         7. 90-day expectation timeline
-         ============================================================ -->
-    <section class="timeline-section bg-primary section-padding p-section" aria-labelledby="timeline-heading">
-      <div class="container">
-        <p class="text-overline p-section__overline">管理期望</p>
-        <h2 id="timeline-heading" class="p-section__title">為何我們建議至少90日？</h2>
-        <p class="p-section__lead">奧米加3不是止痛藥，不會即時見效。研究顯示，奧米加3需要約8至12週才能在紅血球細胞膜中達到穩定水平 — 所以我們以90日為一個完整周期。</p>
-
-        <ol class="timeline">
-          <li class="timeline__item">
-            <span class="timeline__dot" aria-hidden="true">1</span>
-            <span class="timeline__when">第1–2週</span>
-            <h3>開始吸收</h3>
-            <p>每日隨餐服用2粒，身體開始累積奧米加3、K2及D3。此階段一般沒有明顯感覺，屬正常現象。</p>
-          </li>
-          <li class="timeline__item">
-            <span class="timeline__dot" aria-hidden="true">2</span>
-            <span class="timeline__when">第3–6週</span>
-            <h3>逐步累積</h3>
-            <p>細胞膜中的奧米加3水平持續上升。部分用家反映整體狀態有所改善，但個人差異很大。</p>
-          </li>
-          <li class="timeline__item">
-            <span class="timeline__dot" aria-hidden="true">3</span>
-            <span class="timeline__when">第8–12週</span>
-            <h3>達到穩定</h3>
-            <p>研究顯示奧米加3水平於此階段趨於穩定。建議在此時安排身體檢查，與服用前的報告作客觀比較。</p>
-          </li>
-          <li class="timeline__item">
-            <span class="timeline__dot" aria-hidden="true">4</span>
-            <span class="timeline__when">第4個月起</span>
-            <h3>長期保養</h3>
-            <p>心血管健康是長期課題。持續服用有助維持已建立的營養水平 — 6盒方案正是為此而設。</p>
-          </li>
-        </ol>
-
-        <p class="timeline__callout">這亦是為何一盒（30日）通常不足以讓你作出客觀判斷。我們建議首次以3盒（90日）開始。</p>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         8. Testimonials — identical cards to the brand site
+         6. Stories — Arlene's video first, then customer cards (unchanged)
          ============================================================ -->
     <section class="testimonials bg-secondary section-padding" aria-labelledby="testimonials-heading">
       <div class="container">
-        <p class="text-overline testimonials__overline">真實用家分享</p>
-        <h2 id="testimonials-heading">真實用家分享</h2>
-        <p class="testimonials__intro">以下為真實用家的個人健康旅程記錄。每位用家的飲食習慣、運動量及生活方式均不相同，以下體驗僅供參考。Homega為營養補充品，並非藥品。</p>
+        <div class="v2-narrow">
+          <p class="v2-eyebrow">真實分享</p>
+          <h2 id="testimonials-heading" class="v2-title">營養師與用家怎樣說</h2>
+        </div>
 
         <div class="testimonials__carousel-wrapper">
           <div class="testimonials__carousel" id="testimonials-carousel">
-            <article class="testimonial-card animate-on-scroll">
+            <article class="testimonial-card testimonial-card--video">
+              <video controls preload="metadata" playsinline width="540" height="682">
+                <source src="/images/arlene-homega-qna.mp4" type="video/mp4">
+              </video>
+              <p class="testimonial-card__attribution text-small"><strong>伍雅芬（Arlene Wu）</strong> · 香港營養學家</p>
+            </article>
+            <article class="testimonial-card">
               <div class="testimonial-card__metrics">
                 <div class="testimonial-card__metric-pair">
                   <div class="testimonial-card__before"><span class="testimonial-card__metric-label text-small">服用前</span><span class="testimonial-card__metric-value">總膽固醇 6.4</span></div>
@@ -412,10 +348,9 @@
               </div>
               <span class="testimonial-card__duration-badge">3個月</span>
               <p class="testimonial-card__description">黃小姐，46歲女性。服用Homega魚油王每日2粒，3個月。LDL由4.3降至2.27 mmol/L。</p>
-              <p class="testimonial-card__attribution text-small">46歲女性</p>
               <p class="testimonial-card__disclaimer text-small"><em>個人健康旅程記錄，涉及飲食、運動及生活方式等多重因素。效果因人而異，本產品為營養補充品。</em></p>
             </article>
-            <article class="testimonial-card animate-on-scroll">
+            <article class="testimonial-card">
               <div class="testimonial-card__metrics">
                 <div class="testimonial-card__metric-pair">
                   <div class="testimonial-card__before"><span class="testimonial-card__metric-label text-small">服用前</span><span class="testimonial-card__metric-value">144/90</span></div>
@@ -426,10 +361,9 @@
               </div>
               <span class="testimonial-card__duration-badge">4個月</span>
               <p class="testimonial-card__description">Louis，50歲男性。配合西藥服用Homega魚油王每日2粒，4個月。醫生確認血壓已穩定。</p>
-              <p class="testimonial-card__attribution text-small">50歲男性</p>
               <p class="testimonial-card__disclaimer text-small"><em>個人健康旅程記錄，涉及飲食、運動及生活方式等多重因素。效果因人而異，本產品為營養補充品。</em></p>
             </article>
-            <article class="testimonial-card animate-on-scroll">
+            <article class="testimonial-card">
               <div class="testimonial-card__metrics">
                 <div class="testimonial-card__metric-pair">
                   <div class="testimonial-card__before"><span class="testimonial-card__metric-label text-small">服用前</span><span class="testimonial-card__metric-value">持續麻痺</span></div>
@@ -440,10 +374,9 @@
               </div>
               <span class="testimonial-card__duration-badge">3個月</span>
               <p class="testimonial-card__description">Florence Chan，43歲女性。服用Homega魚油王每日2粒，3個月。手掌持續麻痺情況改善消失。</p>
-              <p class="testimonial-card__attribution text-small">43歲女性</p>
               <p class="testimonial-card__disclaimer text-small"><em>個人健康旅程記錄，涉及飲食、運動及生活方式等多重因素。效果因人而異，本產品為營養補充品。</em></p>
             </article>
-            <article class="testimonial-card animate-on-scroll">
+            <article class="testimonial-card">
               <div class="testimonial-card__metrics">
                 <div class="testimonial-card__metric-pair">
                   <div class="testimonial-card__before"><span class="testimonial-card__metric-label text-small">服用前</span><span class="testimonial-card__metric-value">44%</span></div>
@@ -454,177 +387,116 @@
               </div>
               <span class="testimonial-card__duration-badge">6個月</span>
               <p class="testimonial-card__description">蘇先生，56歲男性。服用Homega魚油王每日2粒，6個月。CT掃描顯示血管阻塞由44%降至28%。</p>
-              <p class="testimonial-card__attribution text-small">56歲男性</p>
               <p class="testimonial-card__disclaimer text-small"><em>個人健康旅程記錄，涉及飲食、運動及生活方式等多重因素。效果因人而異，本產品為營養補充品。</em></p>
             </article>
           </div>
-          <div class="testimonials__nav" aria-label="用家分享導覽">
+          <div class="testimonials__nav" aria-label="分享導覽">
             <button class="testimonials__nav-btn" id="testimonials-prev" aria-label="上一個"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             <div class="testimonials__dots" id="testimonials-dots"></div>
             <button class="testimonials__nav-btn" id="testimonials-next" aria-label="下一個"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           </div>
         </div>
-
-        <div class="testimonials__context animate-on-scroll">
-          <p>2022年，香港消委會測試25款魚油產品，發現全部樣本含有污染物，超過半數驗出致癌物。Homega並非該次測試之樣本，但我們選擇以國際最高標準自我要求 — IFOS 5星認證代表獨立第三方對純度、效力及新鮮度的全面驗證。</p>
-        </div>
       </div>
     </section>
 
     <!-- ============================================================
-         9. Why not in pharmacies — the DTC narrative
+         7. The 180-day plan — two check-ups, one honest comparison
          ============================================================ -->
-    <section class="why bg-dark section-padding p-section" aria-labelledby="why-heading">
-      <div class="container">
-        <p class="text-overline p-section__overline">常被問到</p>
-        <h2 id="why-heading" class="p-section__title">為何藥房及連鎖店買不到 Homega？</h2>
-        <p class="why__body">Homega 由 Wellous 研發，只透過官方授權經銷商直接銷售，不經零售中間環節。省下的上架成本及中間差價，全部用於原料與配方 — 法國POLARIS的IFOS 5星魚油、專利MenaquinGold K2、以及每批次公開的SGS第三方檢測。直接銷售亦讓我們能確保每一盒都是正品，並由香港倉直接發貨。</p>
-        <ul class="why__points">
-          <li><svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 4.5L6.5 11.5L3 8" stroke="var(--color-secondary-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Minionions Marketing — Wellous 官方授權經銷商</span></li>
-          <li><svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 4.5L6.5 11.5L3 8" stroke="var(--color-secondary-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>香港倉直送，順豐1-2日送達，全單免運費</span></li>
-          <li><svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 4.5L6.5 11.5L3 8" stroke="var(--color-secondary-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>每批次SGS檢測報告公開，可隨時查閱</span></li>
-        </ul>
+    <section class="v2-plan180 section-padding" aria-labelledby="plan180-heading">
+      <div class="container v2-narrow">
+        <p class="v2-eyebrow">為何建議 6盒</p>
+        <h2 id="plan180-heading" class="v2-title">Omega-3 要 8–12 週<br>才在體內穩定。</h2>
+
+        <ol class="steps">
+          <li><span class="steps__when">今天</span><span class="steps__what">先驗一次身，留低數字</span></li>
+          <li><span class="steps__when">第 1–3 個月</span><span class="steps__what">每日 2 粒，慢慢累積</span></li>
+          <li><span class="steps__when">第 4–6 個月</span><span class="steps__what">水平穩定，持續保養</span></li>
+          <li class="steps__end"><span class="steps__when">第 180 日</span><span class="steps__what">再驗一次，自己比較</span></li>
+        </ol>
+        <p class="v2-plan180__line">6盒 = 180日 = 兩次驗身之間的完整周期。</p>
       </div>
     </section>
 
     <!-- ============================================================
-         10. Pricing — programme framing, fixed prices, anchor maths
+         8. Choose your plan — same picker as the hero, plus what's covered
          ============================================================ -->
-    <section id="pricing" class="pricing pricing--promo bg-primary section-padding" aria-labelledby="pricing-heading">
-      <div class="container">
-        <p class="text-overline pricing__overline">選擇你的方案</p>
-        <h2 id="pricing-heading">開始你的90日心血管保養</h2>
-        <p class="pricing__subtitle">每盒60粒軟膠囊，每日2粒 = 30日。以下為固定方案價，全單免運費。</p>
+    <section id="pricing" class="v2-pricing section-padding" aria-labelledby="pricing-heading">
+      <div class="container v2-narrow">
+        <p class="v2-eyebrow">選擇你的方案</p>
+        <h2 id="pricing-heading" class="v2-title">由今天開始。</h2>
 
         <div id="campaign-pricing-note" class="campaign-note" role="note" hidden>
           <span data-campaign="note-text"></span>
           <span class="campaign-note__timer" data-campaign="note-timer"></span>
         </div>
 
-        <div class="pricing__grid">
-          <!-- 1 box — trial -->
-          <article class="pricing-card animate-on-scroll">
-            <div class="pricing-card__product-img"><img src="/images/homega-bottle-thumb.webp" alt="Homega 魚油王" width="80" height="160" loading="lazy"></div>
-            <div class="pricing-card__header">
-              <h3 class="pricing-card__title">1盒 · 30日</h3>
-              <p class="pricing-card__capsules text-small">60 粒 · 試用裝</p>
-            </div>
-            <div class="pricing-card__price"><span class="pricing-card__currency">HK$</span><span class="pricing-card__amount">700</span></div>
-            <p class="pricing-card__per-day text-small">每日約 <strong>HK$23.3</strong></p>
-            <a href="https://store.tigroxglobal.com/hk/zh-TW/express/1hmg" class="btn-cta pricing-card__cta" target="_blank" rel="noopener" data-checkout="1box" data-value="700">選購1盒</a>
-          </article>
-
-          <!-- 3 boxes — the 90-day programme -->
-          <article class="pricing-card pricing-card--recommended animate-on-scroll">
-            <span class="pricing-card__badge">最受歡迎</span>
-            <div class="pricing-card__product-img"><img src="/images/homega-bottle-thumb.webp" alt="Homega 魚油王" width="80" height="160" loading="lazy"></div>
-            <div class="pricing-card__header">
-              <h3 class="pricing-card__title">3盒 · 90日方案</h3>
-              <p class="pricing-card__capsules text-small">180 粒 · 一個完整周期</p>
-            </div>
-            <p class="pricing-card__anchor">分開買 3 × HK$700 = <s>HK$2,100</s></p>
-            <div class="pricing-card__price"><span class="pricing-card__currency">HK$</span><span class="pricing-card__amount">1,650</span></div>
-            <div class="pricing-card__details"><p class="pricing-card__savings">慳 HK$450</p></div>
-            <p class="pricing-card__per-day text-small">每日約 <strong>HK$18.3</strong></p>
-            <div class="pricing-card__shipping"><span class="pricing-card__shipping-free">免運費 · 順豐1-2日</span></div>
-            <a href="https://store.tigroxglobal.com/hk/zh-TW/express/3hmg" class="btn-cta pricing-card__cta" target="_blank" rel="noopener" data-checkout="3box" data-value="1650">開始我的90日方案</a>
-          </article>
-
-          <!-- 6 boxes — the 180-day programme -->
-          <article class="pricing-card pricing-card--value animate-on-scroll">
-            <span class="pricing-card__badge pricing-card__badge--value">每日成本最低</span>
-            <div class="pricing-card__product-img"><img src="/images/homega-bottle-thumb.webp" alt="Homega 魚油王" width="80" height="160" loading="lazy"></div>
-            <div class="pricing-card__header">
-              <h3 class="pricing-card__title">6盒 · 180日方案</h3>
-              <p class="pricing-card__capsules text-small">360 粒 · 長期保養</p>
-            </div>
-            <p class="pricing-card__anchor">分開買 6 × HK$700 = <s>HK$4,200</s></p>
-            <div class="pricing-card__price"><span class="pricing-card__currency">HK$</span><span class="pricing-card__amount">3,000</span></div>
-            <div class="pricing-card__details"><p class="pricing-card__savings">慳 HK$1,200</p></div>
-            <p class="pricing-card__per-day text-small">每日約 <strong>HK$16.7</strong></p>
-            <p class="pricing-card__hk-note">平過一杯凍檸茶</p>
-            <div class="pricing-card__shipping"><span class="pricing-card__shipping-free">免運費 · 順豐1-2日</span></div>
-            <a href="https://store.tigroxglobal.com/hk/zh-TW/express/6hmg" class="btn-cta pricing-card__cta" target="_blank" rel="noopener" data-checkout="6box" data-value="3000">開始我的180日方案</a>
-          </article>
+        <div class="plan plan--wide" data-plan aria-label="選擇方案">
+          <div class="plan__options" role="radiogroup" aria-label="方案">
+            <label class="plan__opt">
+              <input type="radio" name="plan-bottom" value="6" checked>
+              <span class="plan__tag">最抵 · 半年完整周期</span>
+              <span class="plan__row"><span class="plan__name">6盒 · 180日</span><span class="plan__price">HK$3,000</span></span>
+              <span class="plan__meta"><s>HK$4,200</s> · 每日 HK$16.7 · 慳 HK$1,200</span>
+            </label>
+            <label class="plan__opt">
+              <input type="radio" name="plan-bottom" value="3">
+              <span class="plan__row"><span class="plan__name">3盒 · 90日</span><span class="plan__price">HK$1,650</span></span>
+              <span class="plan__meta"><s>HK$2,100</s> · 每日 HK$18.3 · 慳 HK$450</span>
+            </label>
+            <label class="plan__opt">
+              <input type="radio" name="plan-bottom" value="1">
+              <span class="plan__row"><span class="plan__name">1盒 · 30日</span><span class="plan__price">HK$700</span></span>
+              <span class="plan__meta">每日 HK$23.3</span>
+            </label>
+          </div>
+          <p class="plan__nudge" data-plan-nudge hidden></p>
+          <a href="https://store.tigroxglobal.com/hk/zh-TW/express/6hmg" class="btn-cta plan__cta" target="_blank" rel="noopener"
+             data-plan-cta data-checkout="6box" data-value="3000" data-product="Homega">選購 6盒 · HK$3,000</a>
         </div>
 
-        <div class="pricing__notes">
-          <ul>
-            <li>建議首次選購3盒，完整經歷90日周期後再作判斷</li>
-            <li>6盒方案每日成本最低，適合長期保養</li>
-            <li>所有方案均為固定方案價，並非限時優惠；如有真正的限時活動，會於本頁清楚標示</li>
-          </ul>
+        <ul class="covered">
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>官方授權正品</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>順豐1-2日 · 免運費</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>損壞包換</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>2C2P 安全付款 · 可貨到付款</li>
+        </ul>
+        <div class="v2-pay" aria-label="付款方式">
+          <img src="/images/pay-visa.png" alt="Visa"><img src="/images/pay-mastercard.png" alt="Mastercard"><img src="/images/pay-alipay-hk.png" alt="AlipayHK"><img src="/images/pay-wechat-pay.png" alt="微信支付"><img src="/images/pay-fps.png" alt="FPS 轉數快"><img src="/images/pay-payme.png" alt="PayMe">
         </div>
       </div>
     </section>
 
     <!-- ============================================================
-         11. Buy with confidence — only what is actually true
+         9. FAQ
          ============================================================ -->
-    <section class="confidence bg-secondary section-padding p-section p-section--center" aria-labelledby="confidence-heading">
-      <div class="container">
-        <p class="text-overline p-section__overline">安心選購</p>
-        <h2 id="confidence-heading" class="p-section__title">每一盒，都有保障</h2>
-        <div class="confidence__grid">
-          <article class="confidence__item">
-            <span class="confidence__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></span>
-            <h3>正品保證</h3>
-            <p>Minionions Marketing 為 Wellous 官方授權經銷商，所有產品由香港倉直接發貨。</p>
-          </article>
-          <article class="confidence__item">
-            <span class="confidence__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg></span>
-            <h3>損壞包換</h3>
-            <p>收貨時如發現產品損壞或有品質問題，請盡快聯絡我們安排更換。</p>
-          </article>
-          <article class="confidence__item">
-            <span class="confidence__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
-            <h3>順豐追蹤</h3>
-            <p>香港倉發貨，順豐速遞1-2日送達，全程可追蹤，全單免運費。</p>
-          </article>
-          <article class="confidence__item">
-            <span class="confidence__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span>
-            <h3>安全付款</h3>
-            <p>由官方支付夥伴 2C2P 處理，支援多種本地付款方式。</p>
-            <div class="confidence__pay" aria-label="付款方式">
-              <img src="/images/pay-visa.png" alt="Visa"><img src="/images/pay-mastercard.png" alt="Mastercard"><img src="/images/pay-alipay-hk.png" alt="AlipayHK"><img src="/images/pay-wechat-pay.png" alt="微信支付"><img src="/images/pay-fps.png" alt="FPS 轉數快"><img src="/images/pay-payme.png" alt="PayMe"><span>COD 貨到付款</span>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         12. FAQ
-         ============================================================ -->
-    <section class="faq bg-primary section-padding" aria-labelledby="faq-heading">
+    <section class="faq bg-secondary section-padding" aria-labelledby="faq-heading">
       <div class="container">
         <div class="faq__inner">
-          <p class="text-overline faq__overline">常見問題</p>
-          <h2 id="faq-heading">常見問題</h2>
+          <h2 id="faq-heading" class="v2-title">常見問題</h2>
           <div class="faq__list" role="list">
             <details class="faq__item" role="listitem">
-              <summary class="faq__question"><span>為何建議至少服用90日？</span><svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
-              <div class="faq__answer"><p>奧米加3需要時間在身體累積。研究顯示，紅血球細胞膜中的奧米加3水平需要約8至12週才趨於穩定，因此30日通常不足以作出客觀判斷。我們建議以90日為一個周期，並在周期結束時安排身體檢查，與服用前的報告作比較。</p></div>
+              <summary class="faq__question"><span>每日服用多少？何時服用？</span><svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+              <div class="faq__answer"><p>每日2粒，隨餐或餐後服用，吸收較佳。每盒60粒，約30日份量。</p></div>
             </details>
             <details class="faq__item" role="listitem">
-              <summary class="faq__question"><span>魚油應該甚麼時候服用？服用多少？</span><svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
-              <div class="faq__answer"><p>建議餐後服用。Homega是脂溶性補充品，隨餐或餐後服用吸收效果更佳。有特定健康需要的人士（如關注膽固醇或血壓），建議每日2粒；純粹日常保健則每日1粒。每盒60粒，以每日2粒計算可服用約30日。</p></div>
+              <summary class="faq__question"><span>為何建議 6盒？</span><svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+              <div class="faq__answer"><p>Omega-3 需要約8至12週才在體內穩定。180日剛好是兩次身體檢查之間的完整周期，讓你以報告作客觀比較；6盒亦是每日成本最低的方案。</p></div>
             </details>
             <details class="faq__item" role="listitem">
-              <summary class="faq__question"><span>服用魚油有沒有副作用？</span><svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
-              <div class="faq__answer"><p>一般而言，魚油的副作用輕微。少數人可能出現輕微魚腥味或偶爾腸胃不適，隨餐服用可減少此類反應。以下人士應在服用前諮詢醫生：正在服用薄血藥（特別是華法林）者、即將接受手術者、孕婦及哺乳期婦女。服用華法林的人士不應服用Homega。如出現瘀傷、牙齦出血或過敏反應，請立即停止服用並就醫。</p><p class="text-small" style="color: var(--color-text-muted); font-style: italic;">如有任何健康疑問，請諮詢醫療專業人士。</p></div>
+              <summary class="faq__question"><span>有沒有副作用？誰不適合？</span><svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+              <div class="faq__answer"><p>一般輕微，少數人會有魚腥味或腸胃不適，隨餐服用可減少。服用華法林（薄血藥）人士不應服用；服用其他薄血藥、即將做手術、懷孕或哺乳人士，請先諮詢醫生。</p></div>
             </details>
             <details class="faq__item" role="listitem">
-              <summary class="faq__question"><span>送貨需要多久？運費如何計算？</span><svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
-              <div class="faq__answer"><p>所有訂單由香港倉發貨，順豐速遞一般1至2個工作天送達，全單免運費。</p></div>
+              <summary class="faq__question"><span>為何藥房買不到？</span><svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+              <div class="faq__answer"><p>Homega 只經 Wellous 官方授權經銷商直接銷售，不經零售中間環節，省下的成本用於原料與檢測。所有產品由香港倉直接發貨。</p></div>
             </details>
             <details class="faq__item" role="listitem">
-              <summary class="faq__question"><span>如何確保收到的是正品？</span><svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
-              <div class="faq__answer"><p>Minionions Marketing 為 Wellous 官方授權經銷商，Homega 只透過官方授權渠道直接銷售，不經第三方平台或零售商。你可到官方網站 <a href="https://tigroxglobal.com/">tigroxglobal.com</a> 查閱產品資料及檢測報告。</p></div>
+              <summary class="faq__question"><span>如何確保是正品？</span><svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+              <div class="faq__answer"><p>Minionions Marketing 為 Wellous 官方授權經銷商。產品資料及檢測報告可於官方網站 <a href="https://tigroxglobal.com/">tigroxglobal.com</a> 查閱。</p></div>
             </details>
             <details class="faq__item" role="listitem">
               <summary class="faq__question"><span>可以退換貨嗎？</span><svg class="faq__chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
-              <div class="faq__answer"><p>如產品在收貨時已損壞、出現品質問題，或經證明對成分過敏，可安排退換，請於收貨後盡快聯絡我們。詳情請參閱<a href="/policies/terms-of-service">服務條款</a>。</p></div>
+              <div class="faq__answer"><p>如產品收貨時已損壞、有品質問題，或經證明對成分過敏，可安排退換，請於收貨後盡快聯絡我們。詳情見<a href="/policies/terms-of-service">服務條款</a>。</p></div>
             </details>
           </div>
         </div>
@@ -632,15 +504,13 @@
     </section>
 
     <!-- ============================================================
-         13. Final CTA
+         10. Final CTA
          ============================================================ -->
-    <section class="final-cta bg-secondary section-padding p-section" aria-labelledby="final-heading">
-      <div class="container">
-        <h2 id="final-heading" class="p-section__title">你的血管，值得更完整的照顧。</h2>
-        <div class="final-cta__proof">
-          <span>50,000+ 瓶已售出</span><span>IFOS 5星認證</span><span>香港倉順豐直送</span><span>全單免運費</span>
-        </div>
-        <a href="#pricing" class="btn-cta btn-cta--full-mobile">開始我的90日心血管保養</a>
+    <section class="v2-final section-padding" aria-labelledby="final-heading">
+      <div class="container v2-narrow">
+        <h2 id="final-heading" class="v2-title v2-title--dark">三合一，一粒做足。</h2>
+        <p class="v2-final__proof">IFOS 5星 · 50,000+ 瓶已售出 · 順豐免運</p>
+        <a href="#pricing" class="btn-cta btn-cta--full-mobile">選擇方案</a>
       </div>
     </section>
 
@@ -679,13 +549,13 @@
     <div class="sticky-cta__inner">
       <div class="sticky-cta__info">
         <span class="sticky-cta__product-name">HOMEGA 魚油王</span>
-        <span class="sticky-cta__price">90日方案 每日約HK$18</span>
+        <span class="sticky-cta__price">6盒 · 每日 HK$16.7</span>
       </div>
-      <a href="#pricing" class="btn-cta sticky-cta__btn">查看方案</a>
+      <a href="#pricing" class="btn-cta sticky-cta__btn">選擇方案</a>
     </div>
   </div>
 
-  <script src="/js/main.js?v=2"></script>
-  <script src="/promo/promo.js?v=2"></script>
+  <script src="/js/main.js?v=3"></script>
+  <script src="/promo/promo.js?v=3"></script>
 </body>
 </html>
