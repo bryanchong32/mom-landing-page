@@ -1,5 +1,5 @@
 /**
- * Promo pages — campaign bar + checkout tracking.
+ * Promo pages — campaign bar. (Checkout click tracking lives in js/main.js.)
  * Plain ES5, no dependencies. Loaded after js/main.js (header, FAQ, carousel, sticky CTA).
  *
  * Campaign bar contract (promo/campaign.json):
@@ -83,25 +83,4 @@
   } else {
     hideAll();
   }
-
-  /* -----------------------------------------------------------------
-     2. Checkout click tracking (Meta Pixel + GA4)
-     Links carry data-checkout="1box|3box|6box" and data-value (HKD).
-     ----------------------------------------------------------------- */
-  var checkoutLinks = document.querySelectorAll('a[data-checkout]');
-  Array.prototype.forEach.call(checkoutLinks, function (a) {
-    a.addEventListener('click', function () {
-      var variant = a.getAttribute('data-checkout');
-      var value = Number(a.getAttribute('data-value')) || 0;
-      if (window.fbq) {
-        window.fbq('track', 'InitiateCheckout', { content_name: 'Homega ' + variant, currency: 'HKD', value: value });
-      }
-      if (window.gtag) {
-        window.gtag('event', 'begin_checkout', {
-          currency: 'HKD', value: value,
-          items: [{ item_name: 'Homega', item_variant: variant }]
-        });
-      }
-    });
-  });
 })();

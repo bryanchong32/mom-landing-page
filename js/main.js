@@ -247,4 +247,51 @@
     }, { threshold: 0 });
     stickyObs.observe(heroCta);
   }
+
+  /* -----------------------------------------------------------------
+     5. Checkout links → store: ad tags + click events
+     Buy buttons carry data-checkout (e.g. "3box"), data-value (HKD)
+     and data-product. Purchases happen on store.tigroxglobal.com, so the
+     click is the last step these pages can see; the ad tags are copied
+     onto the store link so the store can attribute the order.
+     Tags are kept for the browser tab session, so a visitor who lands on
+     one page and buys from another still carries them.
+     ----------------------------------------------------------------- */
+  var TAG_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid'];
+  var adTags = {};
+  var incoming = new URLSearchParams(window.location.search);
+  TAG_KEYS.forEach(function (k) { if (incoming.get(k)) adTags[k] = incoming.get(k); });
+  try {
+    if (Object.keys(adTags).length) {
+      sessionStorage.setItem('tigrox_ad_tags', JSON.stringify(adTags));
+    } else {
+      adTags = JSON.parse(sessionStorage.getItem('tigrox_ad_tags') || '{}') || {};
+    }
+  } catch (e) { /* storage blocked: tags from this page's URL still apply */ }
+
+  var checkoutLinks = document.querySelectorAll('a[data-checkout]');
+  Array.prototype.forEach.call(checkoutLinks, function (a) {
+    try {
+      var url = new URL(a.href);
+      Object.keys(adTags).forEach(function (k) {
+        if (!url.searchParams.has(k)) url.searchParams.set(k, adTags[k]);
+      });
+      a.href = url.toString();
+    } catch (e) { /* leave the link untouched */ }
+
+    a.addEventListener('click', function () {
+      var product = a.getAttribute('data-product') || 'Homega';
+      var variant = a.getAttribute('data-checkout');
+      var value = Number(a.getAttribute('data-value')) || 0;
+      if (window.fbq) {
+        window.fbq('track', 'InitiateCheckout', { content_name: product + ' ' + variant, currency: 'HKD', value: value });
+      }
+      if (window.gtag) {
+        window.gtag('event', 'begin_checkout', {
+          currency: 'HKD', value: value,
+          items: [{ item_name: product, item_variant: variant }]
+        });
+      }
+    });
+  });
 })();
