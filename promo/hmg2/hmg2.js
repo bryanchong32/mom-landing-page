@@ -10,9 +10,10 @@
  *    main.js appended to the query string survive a plan change.
  * 2. Reveal-on-view for the few animated figures.
  * 3. How-it-works animation (SVG, driven here).
- * 4. Voices feed: "show all" button.
- * 5. Small courtesies: hide the sticky bar over the bottom picker,
- *    pause the video when it scrolls away.
+ * 4. Testimonial reel: an endless, swipeable row.
+ * 5. Certification row: pause on touch (hover is pure CSS).
+ * 6. Small courtesies: hide the sticky bar over the bottom picker,
+ *    one video at a time, pause a video when it scrolls away.
  */
 (function () {
   'use strict';
@@ -20,19 +21,21 @@
   var reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   var hasIO = 'IntersectionObserver' in window;
   function each(list, fn) { Array.prototype.forEach.call(list, fn); }
+  function now() { return (window.performance && performance.now) ? performance.now() : Date.now(); }
 
   /* -----------------------------------------------------------------
      1. Plan picker
      ----------------------------------------------------------------- */
   var PLANS = {
-    '6': { path: '6hmg', checkout: '6box', value: 3000, label: '購買 6盒 · HK$3,000',
-           plan: '6盒 · 180 日', price: 'HK$3,000 · 每日 HK$16.7', nudge: '' },
-    '3': { path: '3hmg', checkout: '3box', value: 1650, label: '購買 3盒 · HK$1,650',
-           plan: '3盒 · 90 日', price: 'HK$1,650 · 每日 HK$18.3',
-           nudge: '加 HK$1,350 升級至 6盒：多出的 3盒，每盒只需 HK$450。' },
-    '1': { path: '1hmg', checkout: '1box', value: 700, label: '購買 1盒 · HK$700',
-           plan: '1盒 · 30 日', price: 'HK$700 · 每日 HK$23.3',
-           nudge: '加 HK$2,300 升級至 6盒：多出的 5盒，每盒只需 HK$460。' }
+    '6': { path: '6hmg', checkout: '6box', value: 3000, label: '購買完整療程 · HK$3,000',
+           plan: '完整療程 · 6樽', price: 'HK$3,000 · 每日 HK$16.7', nudge: '' },
+    '3': { path: '3hmg', checkout: '3box', value: 1650, label: '購買試用裝 · HK$1,650',
+           plan: '試用裝 · 3樽', price: 'HK$1,650 · 每日 HK$18.3',
+           nudge: '加 HK$1,350 升級至完整療程：多出的 3樽，每樽只需 HK$450。' },
+    '1': { path: '1hmg', checkout: '1box', value: 700, label: '購買 1樽 · HK$700',
+           plan: '1樽 · 30日', price: 'HK$700 · 每日 HK$23.3',
+           // 1 bottle is 30 days, so the 90-day guarantee cannot apply; say so before purchase
+           nudge: '1樽不適用 90日退款保證。加 HK$2,300 升級至完整療程：多出的 5樽，每樽只需 HK$460。' }
   };
 
   function applyPlan(key) {
@@ -70,7 +73,7 @@
       n.appendChild(document.createTextNode(p.nudge + ' '));
       var up = document.createElement('button');
       up.type = 'button';
-      up.textContent = '改選 6盒';
+      up.textContent = '改選完整療程';
       up.addEventListener('click', function () { applyPlan('6'); });
       n.appendChild(up);
       n.hidden = false;
@@ -314,21 +317,190 @@
   })();
 
   /* -----------------------------------------------------------------
-     4. Voices feed — the first few show; one tap opens the rest
+     4. Testimonial reel — an endless row that drifts slowly and stays
+        swipeable. Layout: [copy][real cards][copy]; the copies are
+        aria-hidden + inert. The drift is a transform on the track (smooth
+        sub-pixel motion); the moment a visitor touches, hovers, focuses
+        or presses a button, the drift is folded into the real scroll
+        position so native swiping takes over from exactly where it was.
+        Crossing a copy boundary shifts the scroll by one set width, which
+        shows identical content: no visible jump.
+        prefers-reduced-motion (or no IntersectionObserver): no copies,
+        no drift — a plain row that snaps card by card.
      ----------------------------------------------------------------- */
-  (function feed() {
-    var f = document.querySelector('[data-feed]');
-    var btn = document.querySelector('[data-more]');
-    if (!f || !btn) return;
-    btn.addEventListener('click', function () {
-      f.classList.add('is-open');
-      btn.setAttribute('aria-expanded', 'true');
-      btn.hidden = true;
+  (function reel() {
+    var root = document.querySelector('[data-reel]');
+    if (!root) return;
+    var view = root.querySelector('[data-reel-view]');
+    var track = root.querySelector('[data-reel-track]');
+    var btnPrev = root.querySelector('[data-reel-prev]');
+    var btnNext = root.querySelector('[data-reel-next]');
+    var btnToggle = root.querySelector('[data-reel-toggle]');
+    var originals = Array.prototype.slice.call(track.children);
+    var n = originals.length;
+    if (!n) return;
+
+    var SPEED = 26;          // px per second: slow enough to read along
+    var AFTER_SWIPE = 2500;  // ms of rest after a swipe or a button press
+    var AFTER_TAP = 7000;    // ms of rest after a tap: someone is reading that card
+
+    var loop = !reduced && hasIO && !!window.requestAnimationFrame;
+    var setW = 0, tx = 0, holdUntil = 0;
+    var paused = false, hovering = false, focused = false, touching = false, visible = false;
+
+    function stepSize() {
+      var c = originals[0];
+      return c.getBoundingClientRect().width + (parseFloat(getComputedStyle(c).marginRight) || 0);
+    }
+    function hold(ms) { holdUntil = Math.max(holdUntil, now() + ms); }
+
+    // Fold the drift into the real scroll position (so native scrolling continues from here)
+    function commit() {
+      if (!tx) return;
+      var target = view.scrollLeft + tx;
+      tx = 0;
+      track.style.transform = '';
+      view.scrollLeft = target;
+    }
+    // Keep the scroll position inside the middle band; content there is identical one set away
+    function recentre() {
+      if (!loop || !setW) return;
+      var x = view.scrollLeft;
+      if (x >= setW * 2) view.scrollLeft = x - setW;
+      else if (x < setW * 0.5) view.scrollLeft = x + setW;
+    }
+
+    function go(dir) {
+      commit();
+      hold(AFTER_SWIPE + 1500);
+      view.scrollBy({ left: dir * stepSize(), behavior: reduced ? 'auto' : 'smooth' });
+    }
+    if (btnPrev) btnPrev.addEventListener('click', function () { go(-1); });
+    if (btnNext) btnNext.addEventListener('click', function () { go(1); });
+
+    if (!loop) return; // static row (reduced motion / old browsers)
+
+    function copySet() {
+      var frag = document.createDocumentFragment();
+      originals.forEach(function (card) {
+        var c = card.cloneNode(true);
+        c.setAttribute('aria-hidden', 'true');
+        c.setAttribute('inert', '');
+        c.classList.add('is-copy');
+        frag.appendChild(c);
+      });
+      return frag;
+    }
+    track.insertBefore(copySet(), originals[0]);
+    track.appendChild(copySet());
+    root.classList.add('is-loop');
+
+    function measure() { setW = originals[0].offsetLeft - track.children[0].offsetLeft; }
+    measure();
+    view.scrollLeft = setW; // first real card where the row starts
+
+    function running() {
+      return visible && !paused && !hovering && !focused && !touching && !document.hidden && now() >= holdUntil;
+    }
+
+    var raf = 0, last = 0;
+    function frame(t) {
+      raf = requestAnimationFrame(frame);
+      var dt = last ? Math.min(0.1, (t - last) / 1000) : 0;
+      last = t;
+      if (!running()) { if (tx) commit(); return; }
+      tx += SPEED * dt;
+      if (view.scrollLeft + tx >= setW * 2) { // crossed into the trailing copy: step back one set
+        var target = view.scrollLeft + tx - setW;
+        tx = 0; track.style.transform = '';
+        view.scrollLeft = target;
+        return;
+      }
+      track.style.transform = 'translate3d(' + (-tx).toFixed(2) + 'px,0,0)';
+    }
+    function start() { if (!raf) { last = 0; raf = requestAnimationFrame(frame); } }
+    function stop() { if (raf) cancelAnimationFrame(raf); raf = 0; commit(); }
+
+    new IntersectionObserver(function (entries) {
+      visible = entries[0].isIntersecting;
+      if (visible) start(); else stop();
+    }, { threshold: 0.1 }).observe(view);
+
+    // Hover pauses, for a real mouse only: phones fire emulated mouse events on a tap
+    // and would otherwise leave the row "hovered" (paused) until the next tap elsewhere.
+    function isMouse(e) { return !e.pointerType || e.pointerType === 'mouse'; }
+    view.addEventListener('pointerenter', function (e) { if (isMouse(e)) { hovering = true; commit(); } });
+    view.addEventListener('pointerleave', function (e) { if (isMouse(e)) hovering = false; });
+
+    // Touch: pause while the finger is down; a tap (little movement) rests longer
+    var tStart = null, moved = false;
+    view.addEventListener('touchstart', function (e) {
+      touching = true; commit();
+      var p = e.touches[0]; tStart = { x: p.clientX, y: p.clientY }; moved = false;
+    }, { passive: true });
+    view.addEventListener('touchmove', function (e) {
+      if (!tStart) return;
+      var p = e.touches[0];
+      if (Math.abs(p.clientX - tStart.x) > 8 || Math.abs(p.clientY - tStart.y) > 8) moved = true;
+    }, { passive: true });
+    function touchEnd() { touching = false; tStart = null; hold(moved ? AFTER_SWIPE : AFTER_TAP); }
+    view.addEventListener('touchend', touchEnd, { passive: true });
+    view.addEventListener('touchcancel', touchEnd, { passive: true });
+
+    // Mouse click on a card = reading it
+    view.addEventListener('pointerdown', function (e) { if (isMouse(e)) { commit(); hold(AFTER_TAP); } });
+    // Keyboard focus pauses until focus leaves the row. Focus from a tap or click
+    // (the row is focusable) is not :focus-visible and must not pause it for good.
+    function keyboardFocus(el) { try { return el.matches(':focus-visible'); } catch (err) { return true; } }
+    view.addEventListener('focusin', function (e) { if (keyboardFocus(e.target)) { focused = true; commit(); } });
+    view.addEventListener('focusout', function () { if (focused) { focused = false; hold(AFTER_SWIPE); } });
+    // Trackpad / wheel scrolling
+    view.addEventListener('wheel', function () { commit(); hold(AFTER_SWIPE); }, { passive: true });
+
+    // After any scroll settles (swipe momentum, buttons), keep inside the middle band
+    var settle = 0;
+    view.addEventListener('scroll', function () {
+      clearTimeout(settle);
+      settle = setTimeout(function () { if (!touching) recentre(); }, 160);
+    }, { passive: true });
+
+    // Visible pause / play control (WCAG 2.2.2: moving content can be stopped)
+    if (btnToggle) {
+      btnToggle.addEventListener('click', function () {
+        paused = !paused;
+        btnToggle.setAttribute('aria-pressed', paused ? 'true' : 'false');
+        btnToggle.setAttribute('aria-label', paused ? '繼續自動播放' : '暫停自動播放');
+        if (paused) commit();
+      });
+    }
+
+    // Card widths change at breakpoints: keep the same card in view
+    var rt = 0;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () {
+        commit();
+        var oldW = setW, oldStep = oldW / n;
+        var idx = oldStep ? Math.round((view.scrollLeft - oldW) / oldStep) : 0;
+        measure();
+        view.scrollLeft = setW + (((idx % n) + n) % n) * (setW / n);
+      }, 150);
     });
   })();
 
   /* -----------------------------------------------------------------
-     5. Courtesies
+     5. Certification row — hover pauses in CSS; touch pauses here
+     ----------------------------------------------------------------- */
+  each(document.querySelectorAll('[data-loop]'), function (el) {
+    var t = 0;
+    el.addEventListener('touchstart', function () { clearTimeout(t); el.classList.add('is-paused'); }, { passive: true });
+    function resume() { clearTimeout(t); t = setTimeout(function () { el.classList.remove('is-paused'); }, 2500); }
+    el.addEventListener('touchend', resume, { passive: true });
+    el.addEventListener('touchcancel', resume, { passive: true });
+  });
+
+  /* -----------------------------------------------------------------
+     6. Courtesies
      ----------------------------------------------------------------- */
   var sticky = document.getElementById('sticky-mobile-cta');
   var endPicker = document.querySelector('#pricing .picker');
@@ -337,10 +509,16 @@
       sticky.classList.toggle('is-quiet', entries[0].isIntersecting);
     }, { threshold: 0.15 }).observe(endPicker);
   }
-  var video = document.querySelector('.card--video video');
-  if (hasIO && video) {
-    new IntersectionObserver(function (entries) {
-      if (!entries[0].isIntersecting && !video.paused) video.pause();
-    }, { threshold: 0.2 }).observe(video);
-  }
+  var videos = document.querySelectorAll('.talk video');
+  each(videos, function (v) {
+    // one voice at a time
+    v.addEventListener('play', function () {
+      each(videos, function (o) { if (o !== v && !o.paused) o.pause(); });
+    });
+    if (hasIO) {
+      new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting && !v.paused) v.pause();
+      }, { threshold: 0.2 }).observe(v);
+    }
+  });
 })();
