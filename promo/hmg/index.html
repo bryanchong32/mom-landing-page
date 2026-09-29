@@ -59,7 +59,7 @@
 
   <link rel="preload" as="image" href="/images/homega-box-front-300w.webp">
   <link rel="stylesheet" href="/css/design-tokens.css">
-  <link rel="stylesheet" href="/promo/hmg/hmg2.css?v=5">
+  <link rel="stylesheet" href="/promo/hmg/hmg2.css?v=6">
 </head>
 <body>
 
@@ -161,6 +161,234 @@
     </section>
 
     <!-- ==========================================================
+         1b. PROOF, first — customers' own words, right under the plans
+         (owner, 29 Sep: a hot buyer sees real messages straight after the price).
+         An endless row: hmg2.js section 4 loops it (clones are aria-hidden + inert);
+         without JS or under prefers-reduced-motion it stays a plain swipeable row.
+         ========================================================== -->
+    <section class="voices" aria-labelledby="voices-h">
+      <div class="wrap">
+        <h2 id="voices-h" class="h2">用家的原話。</h2>
+        <p class="voices__sub">客戶訊息原文，一字不改。</p>
+      </div>
+
+      <!-- Message cards: the customers' own messages, verbatim
+           (typos, Cantonese and emoji kept on purpose — they are the evidence).
+           The row starts on the first card, so keep a 已購用家 card first.
+           To add a message: append one more article.card--quote before the end of
+           [data-reel-track], same markup (avatar colours q__av--1…4 take turns);
+           the loop picks up every card in the track by itself. -->
+      <div class="reel" data-reel>
+        <div class="reel__view" data-reel-view tabindex="0" role="region" aria-label="用家分享，可左右滑動">
+          <div class="reel__track" data-reel-track>
+            <article class="card card--quote">
+              <header class="q__head">
+                <span class="q__av q__av--1" aria-hidden="true">P</span>
+                <div class="q__id">
+                  <p class="q__who"><b>Pinky P.</b></p>
+                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年3月18日購買</p>
+                </div>
+              </header>
+              <div class="q__msgs">
+                <p class="q__msg">未食前 個心好似頂住咁！ 有時仲會有1、2秒暈 果陣血壓 180-88/152-90</p>
+                <p class="q__msg">食左後就頭開始跌145-83 一樽後 變綠色127-73</p>
+              </div>
+            </article>
+            <article class="card card--quote">
+              <header class="q__head">
+                <span class="q__av q__av--2" aria-hidden="true">霍</span>
+                <div class="q__id">
+                  <p class="q__who"><b>霍生</b></p>
+                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年8月17日購買</p>
+                </div>
+              </header>
+              <div class="q__msgs">
+                <p class="q__msg">未食知前我有手麻同腳庫，食咗係無咗，呢啲係事實</p>
+              </div>
+            </article>
+            <article class="card card--quote">
+              <header class="q__head">
+                <span class="q__av q__av--4" aria-hidden="true">K</span>
+                <div class="q__id">
+                  <p class="q__who"><b>Kin T.</b></p>
+                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年8月3日購買</p>
+                </div>
+              </header>
+              <div class="q__msgs">
+                <p class="q__msg">確實有改善，原本160/102左右，現在每朝是138/94左右</p>
+                <p class="q__msg">每天一小時行機，加晚上不食米飯了</p>
+              </div>
+            </article>
+            <article class="card card--quote">
+              <header class="q__head">
+                <span class="q__av q__av--3" aria-hidden="true">W</span>
+                <div class="q__id">
+                  <p class="q__who"><b>Wah L.</b></p>
+                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2025年9月3日購買</p>
+                </div>
+              </header>
+              <div class="q__msgs">
+                <p class="q__msg">食前有手指麻痹，血壓14x/11x，食咗三個麻痹好吐。而家血壓11X/8x 😊</p>
+              </div>
+            </article>
+            <article class="card card--quote">
+              <header class="q__head">
+                <span class="q__av q__av--4" aria-hidden="true">T</span>
+                <div class="q__id">
+                  <p class="q__who"><b>Tung</b></p>
+                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年2月9日購買</p>
+                </div>
+              </header>
+              <div class="q__msgs">
+                <p class="q__msg">我5月抽血膽固醇係5.24，到6月尾再抽 膽固醇 落番4.8</p>
+              </div>
+            </article>
+            <article class="card card--quote">
+              <header class="q__head">
+                <span class="q__av q__av--1" aria-hidden="true">R</span>
+                <div class="q__id">
+                  <p class="q__who"><b>Regina W.</b></p>
+                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年7月3日購買</p>
+                </div>
+              </header>
+              <div class="q__msgs">
+                <p class="q__msg">每天食完早餐都有食，今早特意量下血壓，血壓幾好喎，會繼續食😊👍🏻</p>
+              </div>
+              <p class="q__ev"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="4" width="15" height="12" rx="2"/><circle cx="7.5" cy="8.5" r="1.5"/><path d="m4 15 4.5-4.5 3 3 2-2 3.5 3.5"/></svg>附上血壓計相片：123/79（平時約 140/9x）</p>
+            </article>
+            <article class="card card--quote">
+              <header class="q__head">
+                <span class="q__av q__av--2" aria-hidden="true">L</span>
+                <div class="q__id">
+                  <p class="q__who"><b>Leung W.Y.</b></p>
+                </div>
+              </header>
+              <div class="q__msgs">
+                <p class="q__msg">吃左魚油丸好左好多夜尿小左 感到血管好左好多</p>
+                <p class="q__msg">未吃之前157 吃左之後117</p>
+              </div>
+            </article>
+            <article class="card card--quote">
+              <header class="q__head">
+                <span class="q__av q__av--3" aria-hidden="true">黎</span>
+                <div class="q__id">
+                  <p class="q__who"><b>黎小姐</b></p>
+                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年3月17日購買</p>
+                </div>
+              </header>
+              <div class="q__msgs">
+                <p class="q__msg">自從食咗啲魚油丸之後，手麻痺都已經少咗，現在都開始做返運動.</p>
+              </div>
+            </article>
+            <article class="card card--quote">
+              <header class="q__head">
+                <span class="q__av q__av--1" aria-hidden="true">C</span>
+                <div class="q__id">
+                  <p class="q__who"><b>Catherine C.</b></p>
+                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年2月21日購買</p>
+                </div>
+              </header>
+              <div class="q__msgs">
+                <p class="q__msg">血压也穩定左</p>
+                <p class="q__msg">魚油丸，每天一粒</p>
+                <p class="q__msg">今天133/67</p>
+              </div>
+            </article>
+            <article class="card card--quote">
+              <header class="q__head">
+                <span class="q__av q__av--4" aria-hidden="true">B</span>
+                <div class="q__id">
+                  <p class="q__who"><b>Bonnie K.</b></p>
+                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年2月7日購買</p>
+                </div>
+              </header>
+              <div class="q__msgs">
+                <p class="q__msg">這段時間的血壓頗為為平穩，這個月只有三天 去到138 其餘都不錯。</p>
+              </div>
+            </article>
+            <article class="card card--quote">
+              <header class="q__head">
+                <span class="q__av q__av--1" aria-hidden="true">A</span>
+                <div class="q__id">
+                  <p class="q__who"><b>Angel I.</b></p>
+                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年4月16日購買</p>
+                </div>
+              </header>
+              <div class="q__msgs">
+                <p class="q__msg">夜晚睡覺時，除咗手腳沒有之前咁麻痹，其他就沒有什麼感覺和變化🙏🙏</p>
+              </div>
+            </article>
+            <article class="card card--quote">
+              <header class="q__head">
+                <span class="q__av q__av--4" aria-hidden="true">黎</span>
+                <div class="q__id">
+                  <p class="q__who"><b>黎女士</b></p>
+                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2025年10月6日購買</p>
+                </div>
+              </header>
+              <div class="q__msgs">
+                <p class="q__msg">而家我啲手指麻痺，好好多啦</p>
+                <p class="q__msg">同埋我啲手指麻痺已經好似冇乜啦</p>
+                <p class="q__msg">而家啲血壓好正常呀，好靚仔呀</p>
+                <p class="q__msg">之前超啊，一三幾一四幾囉</p>
+              </div>
+            </article>
+            <article class="card card--quote">
+              <header class="q__head">
+                <span class="q__av q__av--2" aria-hidden="true">F</span>
+                <div class="q__id">
+                  <p class="q__who"><b>Fanny C.</b></p>
+                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年7月21日購買</p>
+                </div>
+              </header>
+              <div class="q__msgs">
+                <p class="q__msg">開始食，血壓明顯降左，其它沒改變</p>
+                <p class="q__msg">現在120</p>
+              </div>
+            </article>
+            <article class="card card--quote">
+              <header class="q__head">
+                <span class="q__av q__av--3" aria-hidden="true">張</span>
+                <div class="q__id">
+                  <p class="q__who"><b>張小姐</b></p>
+                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年3月23日購買</p>
+                </div>
+              </header>
+              <div class="q__msgs">
+                <p class="q__msg">現在，沒有麻痺，謝謝</p>
+              </div>
+            </article>
+            <article class="card card--quote">
+              <header class="q__head">
+                <span class="q__av q__av--1" aria-hidden="true">I</span>
+                <div class="q__id">
+                  <p class="q__who"><b>Isaac I.</b></p>
+                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年7月10日購買</p>
+                </div>
+              </header>
+              <div class="q__msgs">
+                <p class="q__msg">正常，keep below 120/80</p>
+              </div>
+            </article>
+            <article class="card card--quote">
+              <header class="q__head">
+                <span class="q__av q__av--4" aria-hidden="true">S</span>
+                <div class="q__id">
+                  <p class="q__who"><b>Samuel C.</b></p>
+                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年7月12日購買</p>
+                </div>
+              </header>
+              <div class="q__msgs">
+                <p class="q__msg">暫時覺得睡覺好左和身體精神左</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+      <p class="voices__legal wrap">個人分享，效果因人而異。本產品為營養補充品，並非藥品。</p>
+    </section>
+
+    <!-- ==========================================================
          2. HOW IT WORKS — the three ingredients, animated
          (the mechanism animation is unchanged; new graphics come later)
          ========================================================== -->
@@ -174,16 +402,21 @@
         <!-- 鈣質搭地鐵，三樣逐一加上 — the owner's pick (motion-lab/m2v2.html), on its own cream
              panel on the dark stage. Behaviour: section 3 of hmg2.js. -->
         <div class="how__demo m2" data-m2>
-          <div class="m2-ctl">
-            <div class="m2-steps" role="tablist" aria-label="三樣逐一加上">
-              <button type="button" role="tab" id="m2-tab-0" aria-controls="m2-fig" aria-selected="true" data-beat="0">沒有補充<i class="m2-prog" aria-hidden="true"></i></button>
-              <button type="button" role="tab" id="m2-tab-1" aria-controls="m2-fig" aria-selected="false" tabindex="-1" data-beat="1" aria-label="加上 Omega-3"><b class="m2-dot m2-dot--o3" aria-hidden="true"></b><span class="m2-nw">+ Omega-3</span><i class="m2-prog" aria-hidden="true"></i></button>
-              <button type="button" role="tab" id="m2-tab-2" aria-controls="m2-fig" aria-selected="false" tabindex="-1" data-beat="2" aria-label="加上 D3"><b class="m2-dot m2-dot--d3" aria-hidden="true"></b><span class="m2-nw">+ D3</span><i class="m2-prog" aria-hidden="true"></i></button>
-              <button type="button" role="tab" id="m2-tab-3" aria-controls="m2-fig" aria-selected="false" tabindex="-1" data-beat="3" aria-label="加上 K2"><b class="m2-dot m2-dot--k2" aria-hidden="true"></b><span class="m2-nw">+ K2</span><i class="m2-prog" aria-hidden="true"></i></button>
+          <!-- Above the picture (owner, 29 Sep): the narration as a chat bubble pointing down at
+               the train, the four steps stacked on its right, pause under them. -->
+          <div class="m2-top">
+            <p class="m2-status" data-beat="0" aria-live="off"><b>沒有補充：</b>行車較慢，能入閘的鈣質也不多。</p>
+            <div class="m2-ctl">
+              <div class="m2-steps" role="tablist" aria-orientation="vertical" aria-label="三樣逐一加上">
+                <button type="button" role="tab" id="m2-tab-0" aria-controls="m2-fig" aria-selected="true" data-beat="0"><b class="m2-dot m2-dot--none" aria-hidden="true"></b><span class="m2-nw">沒有補充</span><i class="m2-prog" aria-hidden="true"></i></button>
+                <button type="button" role="tab" id="m2-tab-1" aria-controls="m2-fig" aria-selected="false" tabindex="-1" data-beat="1" aria-label="加上 Omega-3"><b class="m2-dot m2-dot--o3" aria-hidden="true"></b><span class="m2-nw">+ Omega-3</span><i class="m2-prog" aria-hidden="true"></i></button>
+                <button type="button" role="tab" id="m2-tab-2" aria-controls="m2-fig" aria-selected="false" tabindex="-1" data-beat="2" aria-label="加上 D3"><b class="m2-dot m2-dot--d3" aria-hidden="true"></b><span class="m2-nw">+ D3</span><i class="m2-prog" aria-hidden="true"></i></button>
+                <button type="button" role="tab" id="m2-tab-3" aria-controls="m2-fig" aria-selected="false" tabindex="-1" data-beat="3" aria-label="加上 K2"><b class="m2-dot m2-dot--k2" aria-hidden="true"></b><span class="m2-nw">+ K2</span><i class="m2-prog" aria-hidden="true"></i></button>
+              </div>
+              <button type="button" class="m2-play" aria-label="暫停動畫">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path class="m2-play__stop" d="M5 3.5h3.5v13H5zM11.5 3.5H15v13h-3.5z"/><path class="m2-play__go" d="M6 3.5l10.5 6.5L6 16.5z"/></svg>
+              </button>
             </div>
-            <button type="button" class="m2-play" aria-label="暫停動畫">
-              <svg viewBox="0 0 20 20" aria-hidden="true"><path class="m2-play__stop" d="M5 3.5h3.5v13H5zM11.5 3.5H15v13h-3.5z"/><path class="m2-play__go" d="M6 3.5l10.5 6.5L6 16.5z"/></svg>
-            </button>
           </div>
 
           <figure class="m2-fig" id="m2-fig" role="tabpanel" aria-labelledby="m2-tab-0" data-beat="0">
@@ -399,8 +632,6 @@
             </svg>
           </figure>
 
-          <p class="m2-status" data-beat="0" aria-live="off">沒有補充：行車較慢，
-    能入閘的鈣質也不多。</p>
           <p class="m2-note">K2（MK-7）會活化與血管及骨骼相關的蛋白質。<sup class="cite"><a href="#ref-1">1</a></sup></p>
         </div>
       </div>
@@ -455,8 +686,8 @@
                 <i class="t1-mk t1-mk--3 t1-p3"></i>
                 <i class="t1-mk t1-mk--6 t1-p6"></i>
 
-                <span class="t1-say t1-say--3 t1-p3"><span><span class="t1-say__h">一般</span>未達穩定水平</span></span>
-                <span class="t1-say t1-say--6 t1-p6"><span><span class="t1-say__h">一般</span>已達穩定水平</span><svg class="t1-ic" viewBox="0 0 16 16"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg></span>
+                <span class="t1-say t1-say--3 t1-p3"><span>未達穩定水平</span></span>
+                <span class="t1-say t1-say--6 t1-p6"><span>已達穩定水平</span><svg class="t1-ic" viewBox="0 0 16 16"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg></span>
               </div>
 
               <div class="t1-x">
@@ -531,14 +762,6 @@
             <div class="step__body">
               <p class="step__k">提純</p>
               <p class="fact__rule">分子蒸餾，去除重金屬、二噁英及其他污染物。</p>
-              <p class="fact__ours"><img class="fact__badge" src="/images/ifos-5star-badge.png" width="220" height="220" alt="" loading="lazy">IFOS <b>5星</b></p>
-              <p class="fact__small">國際魚油標準（IFOS）獨立檢測純度。另有 SGS 檢測報告：</p>
-              <ul class="sgs">
-                <li><a href="/images/cert-HOMEGA檢驗報告(重金屬).webp" target="_blank" rel="noopener"><span class="sgs__crop"><img src="/images/cert-HOMEGA檢驗報告(重金屬).webp" width="600" height="485" alt="SGS 檢測報告：重金屬" loading="lazy"></span><span>重金屬</span></a></li>
-                <li><a href="/images/cert-HOMEGA檢驗報告(西藥).webp" target="_blank" rel="noopener"><span class="sgs__crop"><img src="/images/cert-HOMEGA檢驗報告(西藥).webp" width="600" height="485" alt="SGS 檢測報告：西藥" loading="lazy"></span><span>西藥</span></a></li>
-                <li><a href="/images/cert-HOMEGA檢驗報告(農藥).webp" target="_blank" rel="noopener"><span class="sgs__crop"><img src="/images/cert-HOMEGA檢驗報告(農藥).webp" width="600" height="485" alt="SGS 檢測報告：農藥" loading="lazy"></span><span>農藥</span></a></li>
-                <li><a href="/images/cert-HOMEGA檢驗報告(防腐劑).webp" target="_blank" rel="noopener"><span class="sgs__crop"><img src="/images/cert-HOMEGA檢驗報告(防腐劑).webp" width="600" height="485" alt="SGS 檢測報告：防腐劑" loading="lazy"></span><span>防腐劑</span></a></li>
-              </ul>
             </div>
           </li>
 
@@ -570,6 +793,27 @@
             </div>
           </li>
         </ol>
+
+        <!-- The closing proof, after the chain (owner, 29 Sep: TOTOX first, then the reports).
+             The four SGS Taiwan test reports are real (2024年2月, numbers as printed on each).
+             A tap opens the full report in the viewer (hmg2.js section 5); without JS the
+             link opens the image in this same tab. -->
+        <div class="proof">
+          <div class="proof__a">
+            <h3 class="proof__h">第三方檢測報告</h3>
+            <p class="fact__ours proof__ifos"><img class="fact__badge" src="/images/ifos-5star-badge.png" width="220" height="220" alt="" loading="lazy">IFOS <b>5星</b></p>
+            <p class="fact__small">國際魚油標準（IFOS）獨立檢測純度。</p>
+          </div>
+          <div class="proof__b">
+            <p class="proof__sgs">SGS 測試報告 · 2024年2月<small>點按報告，可放大細看</small></p>
+            <ul class="sgs">
+              <li><a href="/images/sgs-heavy-metals-2000.webp" data-report aria-label="放大 SGS 測試報告：重金屬" data-title="重金屬（砷、鉛、汞、鎘、銅）" data-meta="SGS 測試報告 · 2024年2月 · 報告編號 PUF24100989"><span class="sgs__crop"><img src="/images/cert-HOMEGA檢驗報告(重金屬).webp" width="600" height="485" alt="" loading="lazy"><i class="sgs__zoom" aria-hidden="true"><svg viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M12.5 12.5l4.5 4.5M8.5 6v5M6 8.5h5"/></svg></i></span><span>重金屬</span></a></li>
+              <li><a href="/images/sgs-western-drugs-2000.webp" data-report aria-label="放大 SGS 測試報告：西藥成分" data-title="西藥成分（365 項）" data-meta="SGS 測試報告 · 2024年2月 · 報告編號 PUF24100992"><span class="sgs__crop"><img src="/images/cert-HOMEGA檢驗報告(西藥).webp" width="600" height="485" alt="" loading="lazy"><i class="sgs__zoom" aria-hidden="true"><svg viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M12.5 12.5l4.5 4.5M8.5 6v5M6 8.5h5"/></svg></i></span><span>西藥</span></a></li>
+              <li><a href="/images/sgs-pesticides-2000.webp" data-report aria-label="放大 SGS 測試報告：殘留農藥" data-title="殘留農藥（407 項）" data-meta="SGS 測試報告 · 2024年2月 · 報告編號 PUF24100988"><span class="sgs__crop"><img src="/images/cert-HOMEGA檢驗報告(農藥).webp" width="600" height="485" alt="" loading="lazy"><i class="sgs__zoom" aria-hidden="true"><svg viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M12.5 12.5l4.5 4.5M8.5 6v5M6 8.5h5"/></svg></i></span><span>農藥</span></a></li>
+              <li><a href="/images/sgs-preservatives-2000.webp" data-report aria-label="放大 SGS 測試報告：防腐劑" data-title="防腐劑（12 項）" data-meta="SGS 測試報告 · 2024年2月 · 報告編號 PUF24100991"><span class="sgs__crop"><img src="/images/cert-HOMEGA檢驗報告(防腐劑).webp" width="600" height="485" alt="" loading="lazy"><i class="sgs__zoom" aria-hidden="true"><svg viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M12.5 12.5l4.5 4.5M8.5 6v5M6 8.5h5"/></svg></i></span><span>防腐劑</span></a></li>
+            </ul>
+          </div>
+        </div>
 
         <p class="sea__oil">魚油原料：OmegaVie® 4020 TG QS5 · 法國 POLARIS</p>
       </div>
@@ -682,58 +926,15 @@
     </section>
 
     <!-- ==========================================================
-         4b. PROOF, part 2 — customers' own words, an endless row
+         4b. PROOF, part 2 — personal health records: before → after readings.
+         A plain swipeable row on phones, four across on desktop (no loop).
          ========================================================== -->
-    <section class="voices" aria-labelledby="voices-h">
+    <section class="records" aria-labelledby="records-h">
       <div class="wrap">
-        <h2 id="voices-h" class="h2">用家的原話。</h2>
-        <p class="voices__sub">客戶訊息原文，一字不改。</p>
+        <h2 id="records-h" class="h2">用家健康記錄</h2>
       </div>
-
-      <!-- Quote cards: the customers' own messages, verbatim
-           (typos, Cantonese and emoji kept on purpose — they are the evidence).
-           hmg2.js turns this row into an endless loop (clones are aria-hidden + inert);
-           without JS or under prefers-reduced-motion it stays a plain swipeable row. -->
-      <div class="reel" data-reel>
-        <div class="reel__view" data-reel-view tabindex="0" role="region" aria-label="用家分享，可左右滑動">
-          <div class="reel__track" data-reel-track>
-            <article class="card card--quote">
-              <header class="q__head">
-                <span class="q__av q__av--1" aria-hidden="true">P</span>
-                <div class="q__id">
-                  <p class="q__who"><b>Pinky P.</b></p>
-                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年3月18日購買</p>
-                </div>
-              </header>
-              <div class="q__msgs">
-                <p class="q__msg">未食前 個心好似頂住咁！ 有時仲會有1、2秒暈 果陣血壓 180-88/152-90</p>
-                <p class="q__msg">食左後就頭開始跌145-83 一樽後 變綠色127-73</p>
-              </div>
-            </article>
-            <article class="card card--quote">
-              <header class="q__head">
-                <span class="q__av q__av--2" aria-hidden="true">霍</span>
-                <div class="q__id">
-                  <p class="q__who"><b>霍生</b></p>
-                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年8月17日購買</p>
-                </div>
-              </header>
-              <div class="q__msgs">
-                <p class="q__msg">未食知前我有手麻同腳庫，食咗係無咗，呢啲係事實</p>
-              </div>
-            </article>
-            <article class="card card--quote">
-              <header class="q__head">
-                <span class="q__av q__av--3" aria-hidden="true">W</span>
-                <div class="q__id">
-                  <p class="q__who"><b>Wah L.</b></p>
-                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2025年9月3日購買</p>
-                </div>
-              </header>
-              <div class="q__msgs">
-                <p class="q__msg">食前有手指麻痹，血壓14x/11x，食咗三個麻痹好吐。而家血壓11X/8x 😊</p>
-              </div>
-            </article>
+      <div class="records__view" tabindex="0" role="region" aria-label="用家健康記錄，可左右滑動">
+        <div class="records__row">
             <article class="card card--record">
               <header class="slip__head"><span class="slip__title">個人健康記錄</span><span class="rec__time">3個月</span></header>
               <div class="rec__pair">
@@ -744,31 +945,6 @@
               <p class="rec__unit">mmol/L</p>
               <p class="rec__desc">黃小姐，46歲女性。服用Homega魚油王每日2粒，3個月。LDL由4.3降至2.27 mmol/L。</p>
               <p class="rec__note"><em>個人健康旅程記錄，涉及飲食、運動及生活方式等多重因素。效果因人而異，本產品為營養補充品。</em></p>
-            </article>
-            <article class="card card--quote">
-              <header class="q__head">
-                <span class="q__av q__av--4" aria-hidden="true">T</span>
-                <div class="q__id">
-                  <p class="q__who"><b>Tung</b></p>
-                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年2月9日購買</p>
-                </div>
-              </header>
-              <div class="q__msgs">
-                <p class="q__msg">我5月抽血膽固醇係5.24，到6月尾再抽 膽固醇 落番4.8</p>
-              </div>
-            </article>
-            <article class="card card--quote">
-              <header class="q__head">
-                <span class="q__av q__av--1" aria-hidden="true">R</span>
-                <div class="q__id">
-                  <p class="q__who"><b>Regina W.</b></p>
-                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年7月3日購買</p>
-                </div>
-              </header>
-              <div class="q__msgs">
-                <p class="q__msg">每天食完早餐都有食，今早特意量下血壓，血壓幾好喎，會繼續食😊👍🏻</p>
-              </div>
-              <p class="q__ev"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="4" width="15" height="12" rx="2"/><circle cx="7.5" cy="8.5" r="1.5"/><path d="m4 15 4.5-4.5 3 3 2-2 3.5 3.5"/></svg>附上血壓計相片：123/79（平時約 140/9x）</p>
             </article>
             <article class="card card--record">
               <header class="slip__head"><span class="slip__title">個人健康記錄</span><span class="rec__time">4個月</span></header>
@@ -781,30 +957,6 @@
               <p class="rec__desc">Louis，50歲男性。配合西藥服用Homega魚油王每日2粒，4個月。醫生確認血壓已穩定。</p>
               <p class="rec__note"><em>個人健康旅程記錄，涉及飲食、運動及生活方式等多重因素。效果因人而異，本產品為營養補充品。</em></p>
             </article>
-            <article class="card card--quote">
-              <header class="q__head">
-                <span class="q__av q__av--2" aria-hidden="true">L</span>
-                <div class="q__id">
-                  <p class="q__who"><b>Leung W.Y.</b></p>
-                </div>
-              </header>
-              <div class="q__msgs">
-                <p class="q__msg">吃左魚油丸好左好多夜尿小左 感到血管好左好多</p>
-                <p class="q__msg">未吃之前157 吃左之後117</p>
-              </div>
-            </article>
-            <article class="card card--quote">
-              <header class="q__head">
-                <span class="q__av q__av--3" aria-hidden="true">黎</span>
-                <div class="q__id">
-                  <p class="q__who"><b>黎小姐</b></p>
-                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年3月17日購買</p>
-                </div>
-              </header>
-              <div class="q__msgs">
-                <p class="q__msg">自從食咗啲魚油丸之後，手麻痺都已經少咗，現在都開始做返運動.</p>
-              </div>
-            </article>
             <article class="card card--record">
               <header class="slip__head"><span class="slip__title">個人健康記錄</span><span class="rec__time">3個月</span></header>
               <div class="rec__pair">
@@ -815,30 +967,6 @@
               <p class="rec__unit">手掌麻痺</p>
               <p class="rec__desc">Florence Chan，43歲女性。服用Homega魚油王每日2粒，3個月。手掌持續麻痺情況改善消失。</p>
               <p class="rec__note"><em>個人健康旅程記錄，涉及飲食、運動及生活方式等多重因素。效果因人而異，本產品為營養補充品。</em></p>
-            </article>
-            <article class="card card--quote">
-              <header class="q__head">
-                <span class="q__av q__av--4" aria-hidden="true">B</span>
-                <div class="q__id">
-                  <p class="q__who"><b>Bonnie K.</b></p>
-                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年2月7日購買</p>
-                </div>
-              </header>
-              <div class="q__msgs">
-                <p class="q__msg">這段時間的血壓頗為為平穩，這個月只有三天 去到138 其餘都不錯。</p>
-              </div>
-            </article>
-            <article class="card card--quote">
-              <header class="q__head">
-                <span class="q__av q__av--1" aria-hidden="true">A</span>
-                <div class="q__id">
-                  <p class="q__who"><b>Angel I.</b></p>
-                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年4月16日購買</p>
-                </div>
-              </header>
-              <div class="q__msgs">
-                <p class="q__msg">夜晚睡覺時，除咗手腳沒有之前咁麻痹，其他就沒有什麼感覺和變化🙏🙏</p>
-              </div>
             </article>
             <article class="card card--record">
               <header class="slip__head"><span class="slip__title">個人健康記錄</span><span class="rec__time">6個月</span></header>
@@ -851,44 +979,6 @@
               <p class="rec__desc">蘇先生，56歲男性。服用Homega魚油王每日2粒，6個月。CT掃描顯示血管阻塞由44%降至28%。</p>
               <p class="rec__note"><em>個人健康旅程記錄，涉及飲食、運動及生活方式等多重因素。效果因人而異，本產品為營養補充品。</em></p>
             </article>
-            <article class="card card--quote">
-              <header class="q__head">
-                <span class="q__av q__av--2" aria-hidden="true">F</span>
-                <div class="q__id">
-                  <p class="q__who"><b>Fanny C.</b></p>
-                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年7月21日購買</p>
-                </div>
-              </header>
-              <div class="q__msgs">
-                <p class="q__msg">開始食，血壓明顯降左，其它沒改變</p>
-                <p class="q__msg">現在120</p>
-              </div>
-            </article>
-            <article class="card card--quote">
-              <header class="q__head">
-                <span class="q__av q__av--3" aria-hidden="true">張</span>
-                <div class="q__id">
-                  <p class="q__who"><b>張小姐</b></p>
-                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年3月23日購買</p>
-                </div>
-              </header>
-              <div class="q__msgs">
-                <p class="q__msg">現在，沒有麻痺，謝謝</p>
-              </div>
-            </article>
-            <article class="card card--quote">
-              <header class="q__head">
-                <span class="q__av q__av--4" aria-hidden="true">S</span>
-                <div class="q__id">
-                  <p class="q__who"><b>Samuel C.</b></p>
-                  <p class="q__buyer"><i aria-hidden="true">✓</i> 已購用家 · 2026年7月12日購買</p>
-                </div>
-              </header>
-              <div class="q__msgs">
-                <p class="q__msg">暫時覺得睡覺好左和身體精神左</p>
-              </div>
-            </article>
-          </div>
         </div>
       </div>
       <p class="voices__legal wrap">個人分享，效果因人而異。本產品為營養補充品，並非藥品。</p>
@@ -1178,6 +1268,23 @@
     </div>
   </footer>
 
+  <!-- Report viewer: the SGS thumbnails in section 3a open here (hmg2.js section 5).
+       Fitted to the screen; tap the report (or pinch) to zoom; ‹ › or a swipe for the next. -->
+  <dialog class="rv" id="report-viewer" aria-labelledby="rv-title">
+    <div class="rv__bar">
+      <p class="rv__cap"><b id="rv-title"></b><small data-rv-meta></small></p>
+      <button type="button" class="rv__close" data-rv-close><span aria-hidden="true">✕</span> 關閉</button>
+    </div>
+    <div class="rv__stage" data-rv-stage>
+      <img class="rv__img" data-rv-img alt="" width="2000" height="1616">
+    </div>
+    <div class="rv__nav">
+      <button type="button" class="rv__step" data-rv-prev aria-label="上一份報告"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4l-6 6 6 6"/></svg></button>
+      <p class="rv__hint"><span data-rv-count></span><small data-rv-hint>點按報告可放大</small></p>
+      <button type="button" class="rv__step" data-rv-next aria-label="下一份報告"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 4l6 6-6 6"/></svg></button>
+    </div>
+  </dialog>
+
   <!-- Sticky buy bar (phones). js/main.js shows it once the hero button scrolls away. -->
   <div id="sticky-mobile-cta" class="sticky" aria-hidden="true" role="complementary" aria-label="快速購買" style="display: none;">
     <p class="sticky__info"><b data-sticky-plan>完整療程 · 6樽</b><span data-sticky-price>HK$3,000 · 每日 HK$16.7</span></p>
@@ -1186,7 +1293,7 @@
 
   <script src="/js/main.js?v=3"></script>
   <script src="/promo/promo.js?v=3"></script>
-  <script src="/promo/hmg/hmg2.js?v=5"></script>
+  <script src="/promo/hmg/hmg2.js?v=6"></script>
   <script src="/promo/hmg/t1.js?v=1"></script>
 </body>
 </html>

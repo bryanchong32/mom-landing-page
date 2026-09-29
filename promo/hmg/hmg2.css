@@ -358,16 +358,21 @@ a { color: inherit; }
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
 }
 
-/* the four beats: a step row, plus pause for the loop */
-.m2-ctl { display: flex; gap: 6px; align-items: stretch; }
+/* above the picture (owner, 29 Sep): the narration as a chat bubble on the left, its tail
+   pointing down at the train; the four steps stacked on the right. In the grid,
+   the bubble is as tall as the step list; pause sits under the list, beside the tail */
+.m2-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 8px; align-items: stretch; }
+.m2-ctl { display: contents; }
+.m2-status { grid-area: 1 / 1; }
 .m2-steps {
-  flex: 1 1 auto; min-width: 0; display: flex; gap: 3px; padding: 3px;
+  grid-area: 1 / 2;
+  display: flex; flex-direction: column; gap: 2px; padding: 3px;
   background: var(--m2-tabs); border: 1px solid var(--m2-line); border-radius: 12px;
 }
 .m2-steps button {
-  position: relative; overflow: hidden; flex: 1 1 auto; min-height: 48px; padding: 6px 6px 8px;
-  display: flex; align-items: center; justify-content: center; gap: 5px;
-  border: 0; border-radius: 9px; background: transparent; cursor: pointer; white-space: nowrap;
+  position: relative; overflow: hidden; min-height: 38px; padding: 3px 12px 5px 10px;
+  display: flex; align-items: center; justify-content: flex-start; gap: 7px;
+  border: 0; border-radius: 9px; background: transparent; cursor: pointer; white-space: nowrap; text-align: left;
   color: var(--m2-ink-2); font-size: 15px; font-weight: 500; line-height: 1.25;
   transition: background-color .2s, color .2s;
 }
@@ -376,6 +381,7 @@ a { color: inherit; }
 }
 /* each nutrient's colour; filled once it has been added */
 .m2-dot { flex: none; width: 10px; height: 10px; border-radius: 50%; border: 2px solid; transition: background-color .3s; }
+.m2-dot--none { border-color: var(--m2-off); }   /* 沒有補充: grey, the graphic's "not added" colour */
 .m2-dot--o3 { border-color: var(--m2-teal); }
 .m2-dot--d3 { border-color: var(--m2-gold); }
 .m2-dot--k2 { border-color: var(--m2-kraft); }
@@ -389,16 +395,16 @@ a { color: inherit; }
   background: var(--m2-ink); transform: scaleX(0); transform-origin: left;
 }
 .m2-play {
-  flex: none; width: 50px; display: grid; place-items: center; padding: 0; cursor: pointer;
-  border: 1px solid var(--m2-line); border-radius: 12px; background: var(--m2-tabs); color: var(--m2-ink);
+  grid-area: 2 / 2; justify-self: end; width: 48px; height: 32px; display: grid; place-items: center; padding: 0; cursor: pointer;
+  border: 1px solid var(--m2-line); border-radius: 10px; background: var(--m2-tabs); color: var(--m2-ink);
 }
 .m2-play[hidden] { display: none; }
-.m2-play svg { width: 20px; height: 20px; fill: currentColor; }
+.m2-play svg { width: 16px; height: 16px; fill: currentColor; }
 .m2-play .m2-play__go { display: none; }
 .m2-play.is-paused .m2-play__go { display: inline; }
 .m2-play.is-paused .m2-play__stop { display: none; }
 
-.m2-fig { margin-top: 12px; }
+.m2-fig { margin-top: 10px; }
 .m2-svg { width: 100%; height: auto; overflow: hidden; }
 
 /* SVG text: the smallest size here is 15 units = 14.6px on a 390px phone, 13.3px at 360px */
@@ -520,44 +526,77 @@ a { color: inherit; }
 .m2-fig.is-snap .m2-tag, .m2-fig.is-snap .m2-head, .m2-fig.is-snap .m2-fill,
 .m2-fig.is-snap .m2-slot { transition: none !important; }
 
-/* the caption's rule wears the colour of the nutrient this beat adds */
+/* the narration, as a chat bubble: its border and tail wear the colour of the nutrient this
+   beat adds (grey before any). It stretches to the height of the step stack, so the picture
+   below never jumps when the text changes length. Lines break only between phrases
+   (keep-all: at the commas and spaces), never inside one. */
 .m2-status {
-  margin-top: 12px; min-height: 3.2em; padding-left: 12px; border-left: 3px solid var(--m2-off);
-  font-size: 17px; line-height: 1.6; color: var(--m2-ink); white-space: pre-line; text-wrap: pretty;
+  --bc: var(--m2-off);
+  position: relative; display: flex; flex-direction: column; justify-content: center;
+  padding: 12px 14px; border: 2px solid var(--bc); border-radius: 16px;
+  background: var(--m2-card); color: var(--m2-ink);
+  box-shadow: 0 6px 16px rgba(44, 24, 16, .08);
+  font-size: 18px; line-height: 1.55; word-break: keep-all; overflow-wrap: anywhere;
+  font-feature-settings: "palt";
+  transition: border-color .3s;
 }
-.m2-status[data-beat="1"] { border-left-color: var(--m2-teal); }
-.m2-status[data-beat="2"] { border-left-color: var(--m2-gold); }
-.m2-status[data-beat="3"] { border-left-color: var(--m2-kraft); }
-/* one line under the caption: the K2 fact, with its source in the page's bottom list */
+.m2-status b { display: block; font-weight: 700; }
+/* the tail: a square turned 45°, two sides bordered, half of it tucked into the bubble */
+.m2-status::after {
+  content: ''; position: absolute; left: 28px; bottom: -9px; width: 15px; height: 15px;
+  background: var(--m2-card); border: solid var(--bc); border-width: 0 2px 2px 0;
+  border-bottom-right-radius: 3px; transform: rotate(45deg);
+  transition: border-color .3s;
+}
+.m2-status[data-beat="1"] { --bc: var(--m2-teal); }
+.m2-status[data-beat="2"] { --bc: var(--m2-gold); }
+.m2-status[data-beat="3"] { --bc: var(--m2-kraft); }
+/* one line under the picture: the K2 fact, with its source in the page's bottom list */
 .m2-note { margin-top: 10px; font-size: 13.5px; line-height: 1.6; color: var(--m2-ink-2); }
 
-/* phones: the step row must fit without clipping a label (checked 320–414px) */
-@media (max-width: 399px) {
-  .m2-steps button { padding-inline: 2px; gap: 4px; font-size: 14px; }
-  .m2-dot { width: 8px; height: 8px; }
-  .m2-play { width: 44px; }
+/* phones: bubble and stack side by side down to 340px (checked 340–430px); the bubble's
+   longest phrase (10 characters) must fit on one line */
+@media (max-width: 389px) {
+  .m2-status { font-size: 17px; }
 }
 @media (max-width: 379px) {
-  .m2-status { min-height: 4.8em; }
+  .m2-status { padding: 10px 12px; }
+  .m2-steps button { min-height: 36px; padding: 3px 10px 5px 9px; gap: 6px; font-size: 14px; }
+  .m2-dot { width: 9px; height: 9px; }
 }
-/* the smallest phones: the chips in the picture carry the colours, so the dots can go */
-@media (max-width: 359px) {
-  .m2-dot { display: none; }
-  .m2-play { width: 40px; }
+@media (max-width: 369px) {
+  .m2-status { font-size: 16px; }
+}
+@media (max-width: 349px) {
+  .m2-status { padding-inline: 10px; font-size: 15px; }
+}
+/* the smallest phones (320px): no room for both side by side, so the steps go back to one
+   row on top with pause beside it, and the bubble sits under them, right above the picture */
+@media (max-width: 339px) {
+  .m2-top { grid-template-columns: minmax(0, 1fr); row-gap: 10px; }
+  .m2-ctl { display: flex; gap: 6px; grid-area: 1 / 1; }
+  .m2-status { grid-area: 2 / 1; min-height: 6.4em; }
+  .m2-steps { flex: 1 1 auto; min-width: 0; flex-direction: row; gap: 3px; }
+  .m2-steps button { flex: 1 1 auto; justify-content: center; min-height: 44px; padding: 4px 2px 7px; }
+  .m2-dot { display: none; }   /* the chips in the picture carry the colours */
+  .m2-play { width: 40px; height: auto; }
+  .m2-fig { margin-top: 16px; }
 }
 /* tablets and up: keep the graphic at a phone-like reading size */
 @media (min-width: 600px) {
   .m2 { max-width: 560px; margin-inline: 0; padding: 16px 16px 20px; }
+  .m2-top { column-gap: 12px; }
+  .m2-status { padding: 14px 18px; font-size: 19px; }
+  .m2-steps button { min-height: 40px; }
 }
 @media (min-width: 1024px) {
   .m2 { margin-top: 0; justify-self: end; width: 100%; }
-  .m2-status { font-size: 18px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .m2-flap, .m2-tag, .m2-chip, .m2-chip__t, .m2-sub, .m2-ring, .m2-exit,
   .m2-lining, .m2-flow, .m2-fill, .m2-slot, .m2-head, .m2-dot,
   .m2-bone.is-full .m2-fill, .m2-bone.is-full .m2-slot,
-  .m2-steps button { transition: none; }
+  .m2-steps button, .m2-status, .m2-status::after { transition: none; }
   .m2-call.is-new .m2-pill { animation: none; }
   .m2-play { display: none; }
 }
@@ -574,8 +613,9 @@ a { color: inherit; }
    that 3樽 stops a month before the window opens and 6樽 runs right
    through it; each plan fills a full 180-day track (3樽 half, 6樽
    all). Colour = plan: kraft is 3樽, teal is 6樽. The two verdicts
-   are a minimal pair on the 穩定水平 line: 一般未達穩定水平 sits under
-   it at day 90, 一般已達穩定水平 ✓ sits on it at day 180.
+   are a minimal pair on the 穩定水平 line: 未達穩定水平 sits under
+   it at day 90, 已達穩定水平 ✓ sits on it at day 180 (owner, 29 Sep:
+   no 「一般」 on the chart; the lead and the caveat line carry the hedge).
    Everything below is scoped to .t1 / .t1-* and ports as is.
 
    PORT NOTES
@@ -743,8 +783,8 @@ a { color: inherit; }
 
 /* The verdict at each stop, in that plan's colour: just under the steady
    line at day 90 (in the gap between the line and the curve, left of the
-   3樽 marker), on it at day 180. 「一般」 is set lighter so the one
-   character that differs, 未 / 已, carries the pair. */
+   3樽 marker), on it at day 180. The one character that differs,
+   未 / 已, carries the pair. */
 .t1-say {
   position: absolute; z-index: 3;
   display: inline-flex; align-items: center; gap: 4px;
@@ -752,7 +792,6 @@ a { color: inherit; }
   font-size: 16px; font-weight: 700; line-height: 1.2; white-space: nowrap;
   transition: opacity 0.35s 0.12s, transform 0.5s 0.12s var(--t1-ease);
 }
-.t1-say__h { font-size: 14px; font-weight: 400; opacity: 0.78; margin-right: 1px; }
 .t1-say--3 {
   right: calc(50% + max(16px, 6.3% - 4px)); top: calc(var(--t1-ys) + 6px);
   background: var(--t1-kraft-l); color: var(--t1-ink);
@@ -873,7 +912,6 @@ a { color: inherit; }
 /* ---- Small phones: the verdicts stay inside the side gutter ---- */
 @media (max-width: 359px) {
   .t1-say { font-size: 15px; padding: 2px 8px 2px 9px; gap: 3px; }
-  .t1-say__h { font-size: 13px; }
   .t1-ic { width: 15px; height: 15px; }
   .t1-say--3 { right: calc(50% + 14px); }
   .t1-miss { font-size: 13px; }
@@ -908,7 +946,6 @@ a { color: inherit; }
   .t1-lab { font-size: 16px; padding: 0 14px; }
   .t1-lab small, .t1-miss { font-size: 15px; }
   .t1-say { font-size: 17px; }
-  .t1-say__h { font-size: 15px; }
   .t1-say--3 { right: calc(50% + 16px); }
   .t1-also { font-size: 16px; }
 }
@@ -972,18 +1009,45 @@ a { color: inherit; }
 .fish b { display: block; font-size: 15px; line-height: 1.4; }
 .fish small { display: block; font-size: 12px; line-height: 1.45; color: var(--mute); }
 
-.sgs { list-style: none; padding: 0; margin-top: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.sgs a { display: block; text-decoration: none; text-align: center; font-size: 12px; color: var(--ink-2); }
+/* The closing proof of 3a, after the chain: IFOS, then the four SGS reports.
+   A white card, so it reads as the evidence for the three steps above it. */
+.proof {
+  margin-top: 44px; padding: 20px 16px 18px; border-radius: 18px;
+  background: var(--card); box-shadow: 0 0 0 1px var(--line), 0 12px 28px rgba(28, 25, 23, 0.06);
+}
+.proof__h { font-size: 13px; font-weight: 700; letter-spacing: 0.16em; color: var(--teal); }
+.proof__ifos { margin-top: 6px; }
+.proof .fact__small { margin-top: 4px; }
+.proof__b { margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--line); }
+.proof__sgs { font-size: 15px; font-weight: 700; line-height: 1.5; color: var(--ink); }
+.proof__sgs small { display: block; font-size: 13px; font-weight: 400; color: var(--mute); }
+
+.sgs { list-style: none; padding: 0; margin-top: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.sgs a {
+  display: block; text-decoration: none; text-align: center; font-size: 13px; font-weight: 500; color: var(--ink-2);
+  -webkit-tap-highlight-color: transparent;
+}
 /* Each thumbnail shows the first report page (the SGS letterhead), not the banner */
 .sgs__crop {
-  display: block; position: relative; overflow: hidden; aspect-ratio: 3 / 4; margin-bottom: 4px;
+  display: block; position: relative; overflow: hidden; aspect-ratio: 3 / 4; margin-bottom: 5px;
   border-radius: 4px; background: #fff;
   box-shadow: 0 0 0 1px var(--line), 0 4px 10px rgba(28, 25, 23, 0.08);
+  transition: box-shadow 0.2s, transform 0.2s var(--ease);
 }
 .sgs__crop img {
   position: absolute; left: 0; top: 0; width: 230%; max-width: none; height: auto;
   transform: translate(-3%, -17%);
 }
+/* a small magnifier in the corner: this opens bigger */
+.sgs__zoom {
+  position: absolute; right: 4px; bottom: 4px; width: 24px; height: 24px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--teal); box-shadow: 0 2px 6px rgba(20, 60, 55, 0.3);
+}
+.sgs__zoom svg { width: 14px; height: 14px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; }
+@media (hover: hover) {
+  .sgs a:hover .sgs__crop { transform: translateY(-2px); box-shadow: 0 0 0 1px var(--teal-l), 0 8px 18px rgba(28, 25, 23, 0.12); }
+}
+.sgs a:active .sgs__crop { transform: scale(0.97); }
 
 /* TOTOX ruler: 0–30, GOED limit at 26 */
 .ruler { margin-top: 20px; padding-top: 34px; }
@@ -1033,10 +1097,61 @@ a { color: inherit; }
 .seal img { flex: none; width: 124px; height: auto; }
 .seal .fact__small--seal { margin-top: 0; color: var(--ink-2); word-break: keep-all; overflow-wrap: anywhere; }
 
-.sea__oil {
-  margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--line);
-  font-size: 13.5px; color: var(--ink-2);
+.sea__oil { margin-top: 20px; font-size: 13.5px; color: var(--ink-2); }
+
+/* ---------------------------------------------------------------
+   Report viewer (the SGS thumbnails above): full screen, the report
+   fitted to it; tap to zoom to its real size and pan (hmg2.js section 7)
+   --------------------------------------------------------------- */
+.rv {
+  position: fixed; inset: 0; width: 100%; height: 100%; height: 100dvh; max-width: none; max-height: none;
+  margin: 0; padding: 0; border: 0;
+  display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+  background: #161311; color: #fff;
+  overscroll-behavior: contain;
 }
+.rv:not([open]) { display: none; }
+.rv::backdrop { background: rgba(22, 19, 17, 0.6); }
+html.rv-lock, html.rv-lock body { overflow: hidden; }
+.rv__bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 12px 10px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.rv__cap { min-width: 0; line-height: 1.4; }
+.rv__cap b { display: block; font-size: 16px; font-weight: 700; }
+.rv__cap small { display: block; margin-top: 1px; font-size: 12.5px; color: rgba(255, 255, 255, 0.72); }
+.rv__cap small span { white-space: nowrap; }   /* 「報告編號 PUF…」 never splits */
+.rv__close {
+  flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 999px; background: rgba(255, 255, 255, 0.12);
+  color: #fff; font-size: 15px; font-weight: 700; cursor: pointer;
+}
+.rv__close:hover { background: rgba(255, 255, 255, 0.2); }
+/* fitted: the image box fills the stage and the report sits inside it (contain), so the
+   thumbnail shown first and the full report that replaces it take exactly the same place */
+.rv__stage { position: relative; overflow: hidden; }
+.rv__img {
+  position: absolute; left: 10px; top: 10px; width: calc(100% - 20px); height: calc(100% - 20px);
+  max-width: none; object-fit: contain; cursor: zoom-in;
+}
+/* zoomed: the report at its real size (2000px wide, its small print readable), panned natively */
+.rv.is-zoom .rv__stage { overflow: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.rv.is-zoom .rv__img {
+  position: static; display: block; width: 2000px; height: auto; margin: 0 auto;
+  object-fit: fill; cursor: zoom-out;
+}
+.rv__nav {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 8px 12px 12px; border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.rv__step {
+  flex: none; width: 48px; height: 44px; display: grid; place-items: center; padding: 0; cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 12px; background: rgba(255, 255, 255, 0.08); color: #fff;
+}
+.rv__step svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.rv__hint { text-align: center; line-height: 1.4; }
+.rv__hint span { display: block; font: 600 14px var(--num); font-variant-numeric: tabular-nums; }
+.rv__hint small { display: block; font-size: 12.5px; color: rgba(255, 255, 255, 0.7); }
 
 /* ---------------------------------------------------------------
    3b. How much EPA+DHA — the label lesson, then the certifications
@@ -1137,7 +1252,8 @@ a { color: inherit; }
 .credits span { display: block; margin-top: 2px; font-size: 12px; line-height: 1.45; color: var(--mute); }
 
 /* ---------------------------------------------------------------
-   4b. Proof: customers' own words, an endless row
+   1b. Proof, first: customers' own words, an endless row (right under
+   the plans; the record slips below have their own section, 4b)
    --------------------------------------------------------------- */
 .voices { background: var(--paper-2); padding: 64px 0 52px; }
 .voices__sub { margin-top: 6px; font-size: 14px; color: var(--mute); }
@@ -1239,6 +1355,21 @@ a { color: inherit; }
 .rec__unit { margin-top: 2px; font-size: 12px; color: var(--mute); }
 .rec__desc { margin-top: 14px; font-size: 14px; line-height: 1.7; }
 .rec__note { margin-top: auto; padding-top: 14px; font-size: 11.5px; line-height: 1.55; color: var(--mute); }
+
+/* ---------------------------------------------------------------
+   4b. Proof: personal health records — a plain swipeable row on
+   phones (no loop), four across on desktop
+   --------------------------------------------------------------- */
+.records { background: var(--paper-2); padding: 64px 0 52px; }
+.records__view {
+  margin-top: 24px; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut);
+  padding: 4px 0 12px; outline-offset: -2px; scrollbar-width: none;
+}
+.records__view::-webkit-scrollbar { display: none; }
+.records__row { display: flex; align-items: stretch; width: max-content; padding-inline: var(--gut); }
+.records__row .card { flex: none; width: min(300px, 80vw); margin-right: 12px; scroll-snap-align: start; }
+.records__row .card:last-child { margin-right: 0; }
 
 /* ---------------------------------------------------------------
    4c. Proof: expert videos
@@ -1376,6 +1507,9 @@ a { color: inherit; }
   .faces li:nth-child(n+7) { margin-bottom: 0; }
   .gels { max-width: 560px; }
   .reel .card { width: 320px; }
+  .records__row .card { width: 320px; }
+  .proof { padding: 24px 24px 22px; }
+  .sgs { max-width: 560px; gap: 14px; }
   .talks__grid { grid-template-columns: 1fr 1fr; column-gap: 28px; }
   .talks__h { grid-column: 1 / -1; }
 }
@@ -1446,7 +1580,16 @@ a { color: inherit; }
   }
   .step--source .step__body > * { grid-column: 1; }
   .step--source .sea__photo { grid-column: 2; grid-row: 1 / -1; margin-top: 0; }
-  .sea__oil { margin-top: 56px; }
+  .sea__oil { margin-top: 24px; }
+  /* the proof card: IFOS on the left, the four reports on the right */
+  .proof {
+    margin-top: 64px; padding: 30px 32px 28px;
+    display: grid; grid-template-columns: 300px minmax(0, 1fr); align-items: start;
+  }
+  .proof__b { margin-top: 0; padding: 0 0 0 40px; border-top: 0; border-left: 1px dashed var(--line); }
+  .sgs { max-width: none; gap: 18px; margin-top: 14px; }
+  .sgs a { font-size: 14px; }
+  .sgs__zoom { width: 28px; height: 28px; right: 6px; bottom: 6px; }
 
   .dose { padding: 104px 0 88px; }
   .dose__grid { display: grid; grid-template-columns: 380px minmax(0, 1fr); column-gap: 72px; align-items: start; }
@@ -1470,6 +1613,14 @@ a { color: inherit; }
   .voices { padding: 104px 0 80px; }
   .reel { margin-top: 36px; }
   .reel .card { width: 340px; margin-right: 16px; }
+
+  .records { padding: 104px 0 80px; }
+  .records__view { margin-top: 36px; overflow: visible; padding: 0; }
+  .records__row {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px;
+    width: auto; max-width: 1120px; margin-inline: auto;
+  }
+  .records__row .card { width: auto; margin: 0; }
 
   .talks { padding: 104px 0 112px; }
   .talks__grid { grid-template-columns: minmax(0, 320px) minmax(0, 1fr) minmax(0, 1fr); column-gap: 40px; align-items: start; }

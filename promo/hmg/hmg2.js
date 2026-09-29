@@ -14,6 +14,7 @@
  * 5. Certification row: pause on touch (hover is pure CSS).
  * 6. Small courtesies: hide the sticky bar over the bottom picker,
  *    one video at a time, pause a video when it scrolls away.
+ * 7. Report viewer: the SGS thumbnails open the full report in a dialog.
  * (The build-up chart in section 2b runs from its own file, t1.js.)
  */
 (function () {
@@ -137,12 +138,14 @@
     var reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     var hasIO = 'IntersectionObserver' in window;
 
-    // what each beat has; `add` is the one it brings in
+    // what each beat has; `add` is the one it brings in. The narration bubble shows
+    // `head` in bold on its own line, then `text`; the bubble breaks lines only between
+    // phrases, and the no-break spaces keep 「沒有 K2 指路」 in one piece.
     var BEATS = [
-      { o3: 0, d3: 0, k2: 0, add: '',   text: '沒有補充：行車較慢，\n能入閘的鈣質也不多。' },
-      { o3: 1, d3: 0, k2: 0, add: 'o3', text: '加上 Omega-3：支持血液流動，\n行車暢順。' },
-      { o3: 1, d3: 1, k2: 0, add: 'd3', text: '加上 D3：入閘的鈣質多了，\n但沒有 K2 指路，有些坐過了站。' },
-      { o3: 1, d3: 1, k2: 1, add: 'k2', text: '加上 K2：有 K2 指路，\n鈣質都在骨骼站下車。' }
+      { o3: 0, d3: 0, k2: 0, add: '',   head: '沒有補充：',    text: '行車較慢，能入閘的鈣質也不多。' },
+      { o3: 1, d3: 0, k2: 0, add: 'o3', head: '加上 Omega-3：', text: '支持血液流動，行車暢順。' },
+      { o3: 1, d3: 1, k2: 0, add: 'd3', head: '加上 D3：',     text: '入閘的鈣質多了，但沒有\u00a0K2\u00a0指路，有些坐過了站。' },
+      { o3: 1, d3: 1, k2: 1, add: 'k2', head: '加上 K2：',     text: '有\u00a0K2\u00a0指路，鈣質都在骨骼站下車。' }
     ];
     var NUT = ['o3', 'd3', 'k2'];
 
@@ -375,8 +378,14 @@
         el.tabIndex = on ? 0 : -1;
         cls(el, 'is-done', j > 0 && j <= b);
       });
-      var txt = BEATS[b].text;
-      if (status.textContent !== txt) status.textContent = txt;   // no repeat announcements
+      var m = BEATS[b];
+      if (status.textContent !== m.head + m.text) {                // no repeat announcements
+        var h = document.createElement('b');
+        h.textContent = m.head;
+        status.textContent = '';
+        status.appendChild(h);
+        status.appendChild(document.createTextNode(m.text));
+      }
       status.setAttribute('data-beat', String(b));
     }
 
@@ -528,7 +537,8 @@
       progs.forEach(function (pr) { pr.style.transform = 'scaleX(0)'; });
     }
 
-    /* ---- steps: tap one to stop the loop and watch that beat once ---- */
+    /* ---- steps (a vertical stack beside the bubble): tap one to stop the loop and
+       watch that beat once; the arrow keys move along the stack either way ---- */
     function choose(b) {
       auto = false; userPaused = false; held = false; seen = true;
       status.setAttribute('aria-live', 'polite');
@@ -541,8 +551,10 @@
       el.addEventListener('click', function () { choose(j); });
       el.addEventListener('keydown', function (e) {
         var n = tabs.length;
-        var to = e.key === 'ArrowRight' ? (j + 1) % n : e.key === 'ArrowLeft' ? (j + n - 1) % n
-          : e.key === 'Home' ? 0 : e.key === 'End' ? n - 1 : -1;
+        var k = e.key;
+        var to = k === 'ArrowDown' || k === 'ArrowRight' ? (j + 1) % n
+          : k === 'ArrowUp' || k === 'ArrowLeft' ? (j + n - 1) % n
+          : k === 'Home' ? 0 : k === 'End' ? n - 1 : -1;
         if (to < 0) return;
         e.preventDefault();
         tabs[to].focus();
@@ -602,9 +614,11 @@
   })();
 
   /* -----------------------------------------------------------------
-     4. Testimonial reel — an endless row that drifts slowly and stays
-        swipeable. Layout: [copy][real cards][copy]; the copies are
-        aria-hidden + inert. The drift is a transform on the track (smooth
+     4. Testimonial reel (section 1b, right under the plans) — an endless
+        row that drifts slowly and stays swipeable. It starts on the first
+        card (a 已購用家 message) and only starts drifting once half of it
+        is on screen, so the reader meets that card first.
+        Layout: [copy][real cards][copy]; the copies are aria-hidden + inert. The drift is a transform on the track (smooth
         sub-pixel motion); the moment a visitor touches, hovers, focuses
         or presses a button, the drift is folded into the real scroll
         position so native swiping takes over from exactly where it was.
@@ -691,10 +705,14 @@
     function start() { if (!raf) { last = 0; raf = requestAnimationFrame(frame); } }
     function stop() { if (raf) cancelAnimationFrame(raf); raf = 0; commit(); }
 
+    var met = false;
     new IntersectionObserver(function (entries) {
-      visible = entries[0].isIntersecting;
-      if (visible) start(); else stop();
-    }, { threshold: 0.1 }).observe(view);
+      var e = entries[entries.length - 1];
+      if (!e.isIntersecting) { visible = false; stop(); return; }
+      if (e.intersectionRatio < 0.5) return;               // keeps drifting while it leaves
+      if (!met) { met = true; commit(); measure(); view.scrollLeft = setW; }   // first look: the first card
+      visible = true; start();
+    }, { threshold: [0, 0.5] }).observe(view);
 
     // Hover pauses, for a real mouse only: phones fire emulated mouse events on a tap
     // and would otherwise leave the row "hovered" (paused) until the next tap elsewhere.
@@ -705,7 +723,7 @@
     // Touch: pause while the finger is down; a tap (little movement) rests longer
     var tStart = null, moved = false;
     view.addEventListener('touchstart', function (e) {
-      touching = true; commit();
+      touching = true; met = true; commit();
       var p = e.touches[0]; tStart = { x: p.clientX, y: p.clientY }; moved = false;
     }, { passive: true });
     view.addEventListener('touchmove', function (e) {
@@ -718,14 +736,14 @@
     view.addEventListener('touchcancel', touchEnd, { passive: true });
 
     // Mouse click on a card = reading it
-    view.addEventListener('pointerdown', function (e) { if (isMouse(e)) { commit(); hold(AFTER_TAP); } });
+    view.addEventListener('pointerdown', function (e) { met = true; if (isMouse(e)) { commit(); hold(AFTER_TAP); } });
     // Keyboard focus pauses until focus leaves the row. Focus from a tap or click
     // (the row is focusable) is not :focus-visible and must not pause it for good.
     function keyboardFocus(el) { try { return el.matches(':focus-visible'); } catch (err) { return true; } }
     view.addEventListener('focusin', function (e) { if (keyboardFocus(e.target)) { focused = true; commit(); } });
     view.addEventListener('focusout', function () { if (focused) { focused = false; hold(AFTER_SWIPE); } });
     // Trackpad / wheel scrolling
-    view.addEventListener('wheel', function () { commit(); hold(AFTER_SWIPE); }, { passive: true });
+    view.addEventListener('wheel', function () { met = true; commit(); hold(AFTER_SWIPE); }, { passive: true });
 
     // After any scroll settles (swipe momentum, buttons), keep inside the middle band
     var settle = 0;
@@ -781,5 +799,122 @@
       }, { threshold: 0.2 }).observe(v);
     }
   });
+
+  /* -----------------------------------------------------------------
+     7. Report viewer — each SGS thumbnail (section 3a) opens the full
+        report in a <dialog>, fitted to the screen. Tap the report to see it
+        at its real size and pan around (a pinch zooms too); ‹ ›, the arrow
+        keys or a sideways swipe go to the next report. ✕, Esc or a tap
+        beside the report closes it; focus goes back to the thumbnail and
+        the page behind does not scroll. Without <dialog> support the link
+        simply opens the image in this tab.
+     ----------------------------------------------------------------- */
+  (function viewer() {
+    var dlg = document.getElementById('report-viewer');
+    var links = Array.prototype.slice.call(document.querySelectorAll('a[data-report]'));
+    if (!dlg || !links.length || typeof dlg.showModal !== 'function') return;
+    var stage = dlg.querySelector('[data-rv-stage]');
+    var img = dlg.querySelector('[data-rv-img]');
+    var title = dlg.querySelector('#rv-title');
+    var meta = dlg.querySelector('[data-rv-meta]');
+    var count = dlg.querySelector('[data-rv-count]');
+    var hint = dlg.querySelector('[data-rv-hint]');
+    var AR = 2000 / 1616;                 // every report image has this shape (thumbnails too)
+    var cur = 0, opener = null, zoomed = false, token = 0;
+
+    function thumbSrc(a) { var t = a.querySelector('img'); return t ? (t.currentSrc || t.src) : ''; }
+
+    // Where the report actually shows inside the image box (the box is letterboxed)
+    function shown() {
+      var r = img.getBoundingClientRect(), w = r.width, h = r.height;
+      if (w / h > AR) w = h * AR; else h = w / AR;
+      return { left: r.left + (r.width - w) / 2, top: r.top + (r.height - h) / 2, width: w, height: h };
+    }
+
+    function setZoom(on, fx, fy) {
+      zoomed = on;
+      dlg.classList.toggle('is-zoom', on);
+      hint.textContent = on ? '再點按一下，縮回原來大小' : '點按報告可放大';
+      if (on) {                           // keep the tapped spot in the middle of the screen
+        stage.scrollLeft = fx * img.offsetWidth - stage.clientWidth / 2;
+        stage.scrollTop = fy * img.offsetHeight - stage.clientHeight / 2;
+      } else { stage.scrollLeft = 0; stage.scrollTop = 0; }
+    }
+
+    function show(i) {
+      cur = (i + links.length) % links.length;
+      var a = links[cur], my = ++token, full = a.href;
+      setZoom(false);
+      title.textContent = a.getAttribute('data-title');
+      meta.textContent = '';                // each part (source · month · report number) stays whole
+      a.getAttribute('data-meta').split(' · ').forEach(function (part, k) {
+        if (k) meta.appendChild(document.createTextNode(' · '));
+        var sp = document.createElement('span'); sp.textContent = part; meta.appendChild(sp);
+      });
+      count.textContent = (cur + 1) + ' / ' + links.length;
+      img.alt = 'SGS 測試報告：' + a.getAttribute('data-title');
+      // the thumbnail (already loaded) shows at once; the full report takes its place when ready
+      img.src = thumbSrc(a) || full;
+      var pre = new Image();
+      pre.onload = function () {
+        if (my !== token) return;
+        img.src = full;
+        var next = new Image(); next.src = links[(cur + 1) % links.length].href;   // warm the next one
+      };
+      pre.src = full;
+    }
+
+    function open(i, from) {
+      opener = from;
+      show(i);
+      document.documentElement.classList.add('rv-lock');
+      dlg.showModal();
+    }
+
+    links.forEach(function (a, i) {
+      a.addEventListener('click', function (e) {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button > 0) return;   // "open in new tab" still works
+        e.preventDefault();
+        open(i, a);
+      });
+    });
+
+    dlg.addEventListener('close', function () {
+      document.documentElement.classList.remove('rv-lock');
+      setZoom(false);
+      if (opener) { try { opener.focus({ preventScroll: true }); } catch (err) { opener.focus(); } }
+    });
+    dlg.querySelector('[data-rv-close]').addEventListener('click', function () { dlg.close(); });
+    dlg.querySelector('[data-rv-prev]').addEventListener('click', function () { show(cur - 1); });
+    dlg.querySelector('[data-rv-next]').addEventListener('click', function () { show(cur + 1); });
+    dlg.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(cur + 1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); show(cur - 1); }
+    });
+
+    // A tap on the report zooms in (or back out); a tap beside it closes the viewer
+    stage.addEventListener('click', function (e) {
+      if (zoomed) { setZoom(false); return; }
+      var s = shown();
+      var fx = (e.clientX - s.left) / s.width, fy = (e.clientY - s.top) / s.height;
+      if (fx < 0 || fx > 1 || fy < 0 || fy > 1) { dlg.close(); return; }
+      setZoom(true, fx, fy);
+    });
+
+    // A sideways swipe on the fitted report: next / previous. Not while zoomed (the finger
+    // is panning then), not with two fingers (a pinch), not while the page is pinched in.
+    var sx = 0, sy = 0, st = 0, multi = false;
+    stage.addEventListener('touchstart', function (e) {
+      multi = e.touches.length > 1;
+      sx = e.touches[0].clientX; sy = e.touches[0].clientY; st = now();
+    }, { passive: true });
+    stage.addEventListener('touchmove', function (e) { if (e.touches.length > 1) multi = true; }, { passive: true });
+    stage.addEventListener('touchend', function (e) {
+      if (multi || zoomed || e.touches.length) return;
+      if (window.visualViewport && window.visualViewport.scale > 1.05) return;
+      var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > 1.5 * Math.abs(dy) && now() - st < 800) show(cur + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+  })();
 
 })();
