@@ -1,5 +1,5 @@
 /**
- * Homega sales page (/promo/hmg2/) — page behaviour.
+ * Homega sales page (/promo/hmg/) — page behaviour.
  * Plain ES5, no dependencies. Loaded after /js/main.js (checkout tracking,
  * ad-tag passthrough, FAQ accordion, sticky bar) and /promo/promo.js
  * (campaign bar). This file never uses the [data-plan] attribute, so

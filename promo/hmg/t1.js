@@ -1,5 +1,5 @@
 /**
- * Homega sales page (/promo/hmg2/) — section 2b, the build-up chart ("the curve").
+ * Homega sales page (/promo/hmg/) — section 2b, the build-up chart ("the curve").
  * Ported from promo/hmg2/motion-lab/t1.html (the owner's pick, design E).
  *
  * Plays when the plan bars are on screen (pauses when the chart leaves), stops at

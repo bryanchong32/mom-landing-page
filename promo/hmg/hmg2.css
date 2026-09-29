@@ -1,5 +1,5 @@
 /* =================================================================
-   Homega sales page v3 (/promo/hmg2/) — own stylesheet.
+   Homega sales page v3 (/promo/hmg/) — own stylesheet.
    Only css/design-tokens.css is shared; nothing here leaks to other pages.
    Look: the packaging itself — teal ink, kraft paper, cream, one wave.
    Mobile-first; desktop from 1024px.
@@ -380,7 +380,7 @@ a { color: inherit; }
 
 /* ---------------------------------------------------------------
    2b. Why 180 days — the build-up curve (owner's pick, design E,
-       ported from motion-lab/t1.html; behaviour in t1.js)
+       ported from promo/hmg2/motion-lab/t1.html; behaviour in t1.js)
    --------------------------------------------------------------- */
 /* =================================================================
    t1 · Corrected curve: why the 180-day course.
