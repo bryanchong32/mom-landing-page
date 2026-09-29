@@ -10,7 +10,8 @@
  *    main.js appended to the query string survive a plan change.
  * 2. Reveal-on-view for the few animated figures.
  * 3. Section 2 animation: 鈣質搭地鐵，三樣逐一加上 (ported from motion-lab/m2v2).
- * 4. Testimonial reel: an endless, swipeable row (no buttons, owner 29 Sep).
+ * 4. Endless rows: the customer messages (1b) and the health records (4b)
+ *    each drift as an endless, swipeable row (no buttons, owner 29 Sep).
  * 5. Certification row: pause on touch (hover is pure CSS).
  * 6. Small courtesies: hide the sticky bar over the bottom picker,
  *    one video at a time, pause a video when it scrolls away.
@@ -614,10 +615,11 @@
   })();
 
   /* -----------------------------------------------------------------
-     4. Testimonial reel (section 1b, right under the plans) — an endless
-        row that drifts slowly and stays swipeable. It starts on the first
-        card (a 已購用家 message) and only starts drifting once half of it
-        is on screen, so the reader meets that card first.
+     4. Endless rows — every [data-reel]: the customer messages (section 1b,
+        right under the plans) and the health-record slips (4b). Each row
+        drifts slowly and stays swipeable. It starts on its first card (for
+        the messages, a 已購用家 one) and only starts drifting once half of
+        it is on screen, so the reader meets that card first.
         Layout: [copy][real cards][copy]; the copies are aria-hidden + inert. The drift is a transform on the track (smooth
         sub-pixel motion); the moment a visitor touches, hovers, focuses
         or presses a button, the drift is folded into the real scroll
@@ -627,9 +629,7 @@
         prefers-reduced-motion (or no IntersectionObserver): no copies,
         no drift — a plain row that snaps card by card.
      ----------------------------------------------------------------- */
-  (function reel() {
-    var root = document.querySelector('[data-reel]');
-    if (!root) return;
+  each(document.querySelectorAll('[data-reel]'), function reel(root) {
     var view = root.querySelector('[data-reel-view]');
     var track = root.querySelector('[data-reel-track]');
     var originals = Array.prototype.slice.call(track.children);
@@ -680,7 +680,13 @@
     root.classList.add('is-loop');
 
     function measure() { setW = originals[0].offsetLeft - track.children[0].offsetLeft; }
-    measure();
+    // Enough copies after the real set to fill the screen from any point in the middle band
+    // (a short set, like the four record slips on a wide desktop, needs more than one)
+    function fill() {
+      var after = track.children.length / n - 2;
+      while (setW && after * setW < view.clientWidth) { track.appendChild(copySet()); after++; }
+    }
+    measure(); fill();
     view.scrollLeft = setW; // first real card where the row starts
 
     function running() {
@@ -760,11 +766,11 @@
         commit();
         var oldW = setW, oldStep = oldW / n;
         var idx = oldStep ? Math.round((view.scrollLeft - oldW) / oldStep) : 0;
-        measure();
+        measure(); fill();
         view.scrollLeft = setW + (((idx % n) + n) % n) * (setW / n);
       }, 150);
     });
-  })();
+  });
 
   /* -----------------------------------------------------------------
      5. Certification row — hover pauses in CSS; touch pauses here

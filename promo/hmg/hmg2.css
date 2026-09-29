@@ -107,18 +107,14 @@ a { color: inherit; }
 }
 
 /* ---------------------------------------------------------------
-   Header — both logos go to the official site
+   Header — the brand marks only, no links (owner, 29 Sep)
    --------------------------------------------------------------- */
 .top { background: var(--teal); }
 .top__in { display: flex; align-items: center; justify-content: space-between; height: 54px; }
-.top__logo { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+.top__logo { display: flex; align-items: center; gap: 11px; }
 .top__tigrox { height: 26px; width: auto; }
 .top__rule { width: 1px; height: 20px; background: rgba(250, 247, 242, 0.4); }
 .top__homega { height: 13px; width: auto; margin-top: 1px; }
-.top__site {
-  font-size: 13px; color: rgba(250, 247, 242, 0.8); text-decoration: none;
-  border-bottom: 1px solid rgba(250, 247, 242, 0.35); line-height: 1.4;
-}
 
 /* ---------------------------------------------------------------
    1. Hero — formula, boxes, plan picker, buy
@@ -1357,19 +1353,11 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
 .rec__note { margin-top: auto; padding-top: 14px; font-size: 11.5px; line-height: 1.55; color: var(--mute); }
 
 /* ---------------------------------------------------------------
-   4b. Proof: personal health records — a plain swipeable row on
-   phones (no loop), four across on desktop
+   4b. Proof: personal health records — an endless row, the same
+   .reel as the messages (hmg2.js section 4); slips share one height
    --------------------------------------------------------------- */
 .records { background: var(--paper-2); padding: 64px 0 52px; }
-.records__view {
-  margin-top: 24px; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut);
-  padding: 4px 0 12px; outline-offset: -2px; scrollbar-width: none;
-}
-.records__view::-webkit-scrollbar { display: none; }
-.records__row { display: flex; align-items: stretch; width: max-content; padding-inline: var(--gut); }
-.records__row .card { flex: none; width: min(300px, 80vw); margin-right: 12px; scroll-snap-align: start; }
-.records__row .card:last-child { margin-right: 0; }
+.reel--records .reel__track { align-items: stretch; }
 
 /* ---------------------------------------------------------------
    4c. Proof: expert videos
@@ -1507,7 +1495,6 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
   .faces li:nth-child(n+7) { margin-bottom: 0; }
   .gels { max-width: 560px; }
   .reel .card { width: 320px; }
-  .records__row .card { width: 320px; }
   .proof { padding: 24px 24px 22px; }
   .sgs { max-width: 560px; gap: 14px; }
   .talks__grid { grid-template-columns: 1fr 1fr; column-gap: 28px; }
@@ -1615,12 +1602,6 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
   .reel .card { width: 340px; margin-right: 16px; }
 
   .records { padding: 104px 0 80px; }
-  .records__view { margin-top: 36px; overflow: visible; padding: 0; }
-  .records__row {
-    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px;
-    width: auto; max-width: 1120px; margin-inline: auto;
-  }
-  .records__row .card { width: auto; margin: 0; }
 
   .talks { padding: 104px 0 112px; }
   .talks__grid { grid-template-columns: minmax(0, 320px) minmax(0, 1fr) minmax(0, 1fr); column-gap: 40px; align-items: start; }

@@ -59,7 +59,7 @@
 
   <link rel="preload" as="image" href="/images/homega-box-front-300w.webp">
   <link rel="stylesheet" href="/css/design-tokens.css">
-  <link rel="stylesheet" href="/promo/hmg/hmg2.css?v=6">
+  <link rel="stylesheet" href="/promo/hmg/hmg2.css?v=7">
 </head>
 <body>
 
@@ -74,15 +74,14 @@
     </div>
   </div>
 
-  <!-- Logo goes to the official site: visitors check it before buying. -->
+  <!-- The brand marks only: no links in the header (owner, 29 Sep). The footer keeps its links. -->
   <header class="top">
     <div class="wrap top__in">
-      <a class="top__logo" href="https://tigroxglobal.com/" aria-label="Tigrox 官方網站 · Homega 魚油王">
+      <div class="top__logo">
         <img class="top__tigrox" src="/images/tigrox-logo-white.png" alt="tigrox" width="2795" height="1169">
         <span class="top__rule" aria-hidden="true"></span>
         <img class="top__homega" src="/promo/hmg/homega-wordmark-white.webp" alt="Homega" width="369" height="60">
-      </a>
-      <a class="top__site" href="https://tigroxglobal.com/">官方網站</a>
+      </div>
     </div>
   </header>
 
@@ -395,7 +394,7 @@
     <section class="how" aria-labelledby="how-h">
       <div class="wrap how__grid">
         <div class="how__head">
-          <h2 id="how-h" class="h2">三樣，缺一不可。</h2>
+          <h2 id="how-h" class="h2">三合一成分，缺一不可。</h2>
           <p class="how__one">血管好比地鐵，鈣質就是乘客。</p>
         </div>
 
@@ -407,7 +406,7 @@
           <div class="m2-top">
             <p class="m2-status" data-beat="0" aria-live="off"><b>沒有補充：</b>行車較慢，能入閘的鈣質也不多。</p>
             <div class="m2-ctl">
-              <div class="m2-steps" role="tablist" aria-orientation="vertical" aria-label="三樣逐一加上">
+              <div class="m2-steps" role="tablist" aria-orientation="vertical" aria-label="三種成分逐一加上">
                 <button type="button" role="tab" id="m2-tab-0" aria-controls="m2-fig" aria-selected="true" data-beat="0"><b class="m2-dot m2-dot--none" aria-hidden="true"></b><span class="m2-nw">沒有補充</span><i class="m2-prog" aria-hidden="true"></i></button>
                 <button type="button" role="tab" id="m2-tab-1" aria-controls="m2-fig" aria-selected="false" tabindex="-1" data-beat="1" aria-label="加上 Omega-3"><b class="m2-dot m2-dot--o3" aria-hidden="true"></b><span class="m2-nw">+ Omega-3</span><i class="m2-prog" aria-hidden="true"></i></button>
                 <button type="button" role="tab" id="m2-tab-2" aria-controls="m2-fig" aria-selected="false" tabindex="-1" data-beat="2" aria-label="加上 D3"><b class="m2-dot m2-dot--d3" aria-hidden="true"></b><span class="m2-nw">+ D3</span><i class="m2-prog" aria-hidden="true"></i></button>
@@ -421,7 +420,7 @@
 
           <figure class="m2-fig" id="m2-fig" role="tabpanel" aria-labelledby="m2-tab-0" data-beat="0">
             <svg class="m2-svg" viewBox="0 0 360 380" role="img" aria-labelledby="m2-svg-t m2-svg-d">
-              <title id="m2-svg-t">示意動畫：鈣質搭地鐵去骨骼站，三樣逐一加上</title>
+              <title id="m2-svg-t">示意動畫：鈣質搭地鐵去骨骼站，三種成分逐一加上</title>
               <desc id="m2-svg-d">把血管比作地鐵，鈣質是乘客。沒有補充時，行車較慢，能入閘的鈣質不多，骨骼圖顏色淺、有空位。加上 Omega-3，支持血液流動，行車暢順。加上 D3，決定吸收多少鈣：入閘的鈣質多了，但沒有 K2 指路，有些鈣質坐過了站，留在車上。加上 K2，決定鈣去哪裡：有 K2 指路，鈣質都在骨骼站下車，填滿骨骼圖的空位。Homega 一粒三合一。</desc>
               <defs>
                 <linearGradient id="m2-vessel" x1="0" y1="0" x2="0" y2="1">
@@ -926,15 +925,18 @@
     </section>
 
     <!-- ==========================================================
-         4b. PROOF, part 2 — personal health records: before → after readings.
-         A plain swipeable row on phones, four across on desktop (no loop).
+         4b. PROOF, part 2 — personal health records: before → after readings,
+         an endless row like the messages (owner, 29 Sep: "never-ending").
          ========================================================== -->
     <section class="records" aria-labelledby="records-h">
       <div class="wrap">
         <h2 id="records-h" class="h2">用家健康記錄</h2>
       </div>
-      <div class="records__view" tabindex="0" role="region" aria-label="用家健康記錄，可左右滑動">
-        <div class="records__row">
+      <!-- An endless row like the messages above (hmg2.js section 4): the copies are
+           aria-hidden + inert; under prefers-reduced-motion it stays a plain swipeable row. -->
+      <div class="reel reel--records" data-reel>
+        <div class="reel__view" data-reel-view tabindex="0" role="region" aria-label="用家健康記錄，可左右滑動">
+          <div class="reel__track" data-reel-track>
             <article class="card card--record">
               <header class="slip__head"><span class="slip__title">個人健康記錄</span><span class="rec__time">3個月</span></header>
               <div class="rec__pair">
@@ -979,6 +981,7 @@
               <p class="rec__desc">蘇先生，56歲男性。服用Homega魚油王每日2粒，6個月。CT掃描顯示血管阻塞由44%降至28%。</p>
               <p class="rec__note"><em>個人健康旅程記錄，涉及飲食、運動及生活方式等多重因素。效果因人而異，本產品為營養補充品。</em></p>
             </article>
+          </div>
         </div>
       </div>
       <p class="voices__legal wrap">個人分享，效果因人而異。本產品為營養補充品，並非藥品。</p>
@@ -1293,7 +1296,7 @@
 
   <script src="/js/main.js?v=3"></script>
   <script src="/promo/promo.js?v=3"></script>
-  <script src="/promo/hmg/hmg2.js?v=6"></script>
+  <script src="/promo/hmg/hmg2.js?v=7"></script>
   <script src="/promo/hmg/t1.js?v=1"></script>
 </body>
 </html>
