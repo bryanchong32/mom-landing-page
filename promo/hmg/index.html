@@ -59,7 +59,7 @@
 
   <link rel="preload" as="image" href="/images/homega-box-front-300w.webp">
   <link rel="stylesheet" href="/css/design-tokens.css">
-  <link rel="stylesheet" href="/promo/hmg/hmg2.css?v=4">
+  <link rel="stylesheet" href="/promo/hmg/hmg2.css?v=5">
 </head>
 <body>
 
@@ -168,82 +168,240 @@
       <div class="wrap how__grid">
         <div class="how__head">
           <h2 id="how-h" class="h2">三樣，缺一不可。</h2>
-          <p class="how__one">D3 決定吸收多少鈣；<br>K2 決定鈣去哪裡。</p>
+          <p class="how__one">血管好比地鐵，鈣質就是乘客。</p>
         </div>
 
-        <div class="how__demo">
-          <div class="modes" role="tablist" aria-label="看看少了一樣會怎樣" data-modes>
-            <button type="button" role="tab" aria-selected="true" data-mode="all">三樣齊備</button>
-            <button type="button" role="tab" aria-selected="false" data-mode="noD3">少了 D3</button>
-            <button type="button" role="tab" aria-selected="false" data-mode="noK2">少了 K2</button>
-            <button type="button" role="tab" aria-selected="false" data-mode="noO3">少了 Omega-3</button>
+        <!-- 鈣質搭地鐵，三樣逐一加上 — the owner's pick (motion-lab/m2v2.html), on its own cream
+             panel on the dark stage. Behaviour: section 3 of hmg2.js. -->
+        <div class="how__demo m2" data-m2>
+          <div class="m2-ctl">
+            <div class="m2-steps" role="tablist" aria-label="三樣逐一加上">
+              <button type="button" role="tab" id="m2-tab-0" aria-controls="m2-fig" aria-selected="true" data-beat="0">沒有補充<i class="m2-prog" aria-hidden="true"></i></button>
+              <button type="button" role="tab" id="m2-tab-1" aria-controls="m2-fig" aria-selected="false" tabindex="-1" data-beat="1" aria-label="加上 Omega-3"><b class="m2-dot m2-dot--o3" aria-hidden="true"></b><span class="m2-nw">+ Omega-3</span><i class="m2-prog" aria-hidden="true"></i></button>
+              <button type="button" role="tab" id="m2-tab-2" aria-controls="m2-fig" aria-selected="false" tabindex="-1" data-beat="2" aria-label="加上 D3"><b class="m2-dot m2-dot--d3" aria-hidden="true"></b><span class="m2-nw">+ D3</span><i class="m2-prog" aria-hidden="true"></i></button>
+              <button type="button" role="tab" id="m2-tab-3" aria-controls="m2-fig" aria-selected="false" tabindex="-1" data-beat="3" aria-label="加上 K2"><b class="m2-dot m2-dot--k2" aria-hidden="true"></b><span class="m2-nw">+ K2</span><i class="m2-prog" aria-hidden="true"></i></button>
+            </div>
+            <button type="button" class="m2-play" aria-label="暫停動畫">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path class="m2-play__stop" d="M5 3.5h3.5v13H5zM11.5 3.5H15v13h-3.5z"/><path class="m2-play__go" d="M6 3.5l10.5 6.5L6 16.5z"/></svg>
+            </button>
           </div>
 
-          <figure class="mech" data-mode-view="all">
-            <svg class="mech__svg" viewBox="0 0 360 290" role="img" aria-labelledby="mech-t">
-              <title id="mech-t">示意動畫：D3 幫助吸收鈣質，K2 把鈣質導向骨骼而非血管壁，Omega-3 支持血液流動。</title>
+          <figure class="m2-fig" id="m2-fig" role="tabpanel" aria-labelledby="m2-tab-0" data-beat="0">
+            <svg class="m2-svg" viewBox="0 0 360 380" role="img" aria-labelledby="m2-svg-t m2-svg-d">
+              <title id="m2-svg-t">示意動畫：鈣質搭地鐵去骨骼站，三樣逐一加上</title>
+              <desc id="m2-svg-d">把血管比作地鐵，鈣質是乘客。沒有補充時，行車較慢，能入閘的鈣質不多，骨骼圖顏色淺、有空位。加上 Omega-3，支持血液流動，行車暢順。加上 D3，決定吸收多少鈣：入閘的鈣質多了，但沒有 K2 指路，有些鈣質坐過了站，留在車上。加上 K2，決定鈣去哪裡：有 K2 指路，鈣質都在骨骼站下車，填滿骨骼圖的空位。Homega 一粒三合一。</desc>
               <defs>
-                <linearGradient id="m-vessel" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="#3a2320"/><stop offset=".5" stop-color="#4a2a25"/><stop offset="1" stop-color="#3a2320"/>
+                <linearGradient id="m2-vessel" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" class="m2-s1"/><stop offset=".5" class="m2-s2"/><stop offset="1" class="m2-s1"/>
                 </linearGradient>
-                <radialGradient id="m-cell" cx=".4" cy=".35" r=".7">
-                  <stop offset="0" stop-color="#e89a86"/><stop offset="1" stop-color="#b8543f"/>
-                </radialGradient>
+                <!-- the line fades out at both ends instead of stopping in a hard edge -->
+                <linearGradient id="m2-ends" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".07" stop-color="#fff"/>
+                  <stop offset=".93" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+                </linearGradient>
+                <mask id="m2-fade" maskUnits="userSpaceOnUse" x="0" y="130" width="360" height="80">
+                  <rect x="0" y="130" width="360" height="80" fill="url(#m2-ends)"/>
+                </mask>
+                <!-- the bone's outline: a shaft and four knobs (the script sets how thick it is) -->
+                <g id="m2-bshape">
+                  <rect class="m2-bs-shaft" x="162" y="306" width="124" height="12"/>
+                  <circle class="m2-bs-k" cx="158.7" cy="304.5" r="11"/>
+                  <circle class="m2-bs-k" cx="158.7" cy="319.5" r="11"/>
+                  <circle class="m2-bs-k" cx="289.3" cy="304.5" r="11"/>
+                  <circle class="m2-bs-k" cx="289.3" cy="319.5" r="11"/>
+                </g>
+                <clipPath id="m2-bclip">
+                  <rect class="m2-bs-shaft" x="162" y="306" width="124" height="12"/>
+                  <circle class="m2-bs-k" cx="158.7" cy="304.5" r="11"/>
+                  <circle class="m2-bs-k" cx="158.7" cy="319.5" r="11"/>
+                  <circle class="m2-bs-k" cx="289.3" cy="304.5" r="11"/>
+                  <circle class="m2-bs-k" cx="289.3" cy="319.5" r="11"/>
+                </clipPath>
+                <linearGradient id="m2-shine-g" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+                  <stop offset=".5" stop-color="#fff" stop-opacity=".8"/>
+                  <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+                </linearGradient>
               </defs>
 
-              <!-- zone: food calcium -->
-              <text class="m-label" x="16" y="22">飲食中的鈣</text>
-              <text class="m-label" x="16" y="92">血管</text>
+              <text class="m2-t m2-t--src" x="12" y="17">飲食中的鈣</text>
+              <text class="m2-t m2-t--note" x="348" y="17" text-anchor="end">示意</text>
 
-              <!-- D3 gate -->
-              <g class="m-d3">
-                <line class="m-gate" x1="16" y1="66" x2="344" y2="66"/>
-                <g transform="translate(270 44)">
-                  <rect class="m-chip m-chip--d3" width="74" height="22" rx="11"/>
-                  <text class="m-chip__t" x="37" y="15.5" text-anchor="middle">D3 · 吸收</text>
+              <!-- D3: the entry gates (two lanes between three cabinets) -->
+              <g class="m2-gates">
+                <rect class="m2-cab" x="4" y="50" width="26" height="56" rx="4"/>
+                <rect class="m2-cab" x="66" y="50" width="26" height="56" rx="4"/>
+                <rect class="m2-cab" x="128" y="50" width="26" height="56" rx="4"/>
+                <g class="m2-lane">
+                  <rect class="m2-flap m2-flap--l" x="30" y="78" width="18" height="5" rx="2.5"/>
+                  <rect class="m2-flap m2-flap--r" x="48" y="78" width="18" height="5" rx="2.5"/>
                 </g>
+                <g class="m2-lane">
+                  <rect class="m2-flap m2-flap--l" x="92" y="78" width="18" height="5" rx="2.5"/>
+                  <rect class="m2-flap m2-flap--r" x="110" y="78" width="18" height="5" rx="2.5"/>
+                </g>
+                <g class="m2-light" transform="translate(7 54)"><rect width="20" height="15" rx="3"/><path class="m2-ok" d="M10 3.5v7.5M6.5 7.5l3.5 3.5 3.5-3.5"/><path class="m2-no" d="M7 4.5l6 6M13 4.5l-6 6"/></g>
+                <g class="m2-light" transform="translate(69 54)"><rect width="20" height="15" rx="3"/><path class="m2-ok" d="M10 3.5v7.5M6.5 7.5l3.5 3.5 3.5-3.5"/><path class="m2-no" d="M7 4.5l6 6M13 4.5l-6 6"/></g>
+                <g class="m2-light" transform="translate(131 54)"><rect width="20" height="15" rx="3"/><path class="m2-ok" d="M10 3.5v7.5M6.5 7.5l3.5 3.5 3.5-3.5"/><path class="m2-no" d="M7 4.5l6 6M13 4.5l-6 6"/></g>
               </g>
 
-              <!-- vessel -->
-              <rect x="0" y="100" width="360" height="76" fill="url(#m-vessel)"/>
-              <g class="m-streaks" data-layer="streaks"></g>
-              <g data-layer="cells"></g>
-              <line class="m-wall" x1="0" y1="100" x2="360" y2="100"/>
-              <line class="m-wall" x1="0" y1="176" x2="234" y2="176"/>
-              <line class="m-wall" x1="286" y1="176" x2="360" y2="176"/>
-              <line class="m-door" x1="234" y1="176" x2="286" y2="176"/>
-              
-              <g class="m-o3" transform="translate(14 146)">
-                <rect class="m-chip m-chip--o3" width="104" height="22" rx="11"/>
-                <text class="m-chip__t" x="52" y="15.5" text-anchor="middle">Omega-3 · 流動</text>
+              <g class="m2-call m2-call--d3" data-anchor="start" data-x="162">
+                <g class="m2-pill">
+                  <rect class="m2-ring" x="159" y="37" width="96" height="34" rx="17"/>
+                  <rect class="m2-chip" x="162" y="40" width="90" height="28" rx="14"/>
+                  <text class="m2-chip__t" x="207" y="59.5" text-anchor="middle">D3 · 入閘</text>
+                </g>
+                <text class="m2-sub" x="164" y="96">決定吸收多少鈣</text>
               </g>
 
-              <!-- K2 route to bone -->
-              <g class="m-k2">
-                <path class="m-route" d="M260 182 V208"/>
-                <g transform="translate(112 186)">
-                  <rect class="m-chip m-chip--k2" width="80" height="22" rx="11"/>
-                  <text class="m-chip__t" x="40" y="15.5" text-anchor="middle">K2 · 導向</text>
-                </g>
+              <!-- the line = the blood vessel; open on top under the gates (the platform), and at the bottom (the way out) -->
+              <g class="m2-tube" mask="url(#m2-fade)">
+                <rect x="0" y="140" width="360" height="60" fill="url(#m2-vessel)"/>
+                <path class="m2-lining" d="M0 144.5H14M140 144.5H360M0 195.5H198M250 195.5H360"/>
+                <path class="m2-flow" d="M0 144.5H14M140 144.5H360"/>
+                <path class="m2-flow" d="M0 195.5H198M250 195.5H360"/>
+                <path class="m2-wall" d="M0 140H14M140 140H360M0 200H198M250 200H360"/>
+              </g>
+              <text class="m2-t m2-t--tube" x="350" y="176" text-anchor="end">血管</text>
+
+              <!-- K2: the way off to 骨骼站 -->
+              <g class="m2-exit">
+                <path class="m2-exit__path" d="M224 206V290"/>
+                <path d="M217 284l7 8 7-8"/>
               </g>
 
-              <!-- bone -->
-              <g transform="translate(198 222)">
-                <g class="m-bone m-bone--base">
-                  <circle cx="11" cy="9" r="10"/><circle cx="11" cy="29" r="10"/><circle cx="109" cy="9" r="10"/><circle cx="109" cy="29" r="10"/><rect x="11" y="11" width="98" height="16" rx="3"/>
+              <text class="m2-t m2-t--note" x="314" y="317">示意</text>
+              <g class="m2-plate">
+                <rect x="182" y="346" width="84" height="29" rx="4"/>
+                <rect class="m2-plate__band" x="182" y="346" width="84" height="4" rx="2"/>
+                <text class="m2-t--plate" x="224" y="368" text-anchor="middle">骨骼站</text>
+              </g>
+
+              <!-- the scene layers: they fade out and back in between beats (a new beat is a new scene) -->
+              <g class="m2-scene">
+              <!-- 骨骼站: the bone fills out as calcium arrives (示意) -->
+              <g class="m2-bone">
+                <use href="#m2-bshape" class="m2-b-edge"/>
+                <use href="#m2-bshape" class="m2-b-edge m2-b-edge--strong" opacity="0"/>
+                <use href="#m2-bshape" class="m2-b-body"/>
+                <use href="#m2-bshape" class="m2-b-body m2-b-body--strong" opacity="0"/>
+                <g class="m2-pores">
+                  <circle cx="153.5" cy="302" r="2.6"/>
+                  <circle cx="161" cy="310" r="1.8"/>
+                  <circle cx="155.5" cy="322.5" r="2.3"/>
+                  <circle cx="165" cy="318.5" r="1.6"/>
+                  <circle cx="294.5" cy="302.5" r="2.4"/>
+                  <circle cx="287" cy="309.5" r="1.7"/>
+                  <circle cx="292.5" cy="322.5" r="2.6"/>
+                  <circle cx="283.5" cy="318" r="1.6"/>
+                  <circle cx="175" cy="312" r="1.6"/>
+                  <circle cx="200" cy="309.5" r="1.4"/>
+                  <circle cx="224" cy="314.5" r="1.4"/>
+                  <circle cx="248" cy="309.5" r="1.4"/>
+                  <circle cx="273" cy="313" r="1.6"/>
                 </g>
-                <g class="m-bone m-bone--fill" data-bone>
-                  <circle cx="11" cy="9" r="10"/><circle cx="11" cy="29" r="10"/><circle cx="109" cy="9" r="10"/><circle cx="109" cy="29" r="10"/><rect x="11" y="11" width="98" height="16" rx="3"/>
+                <circle class="m2-slot" cx="188" cy="312" r="5"/>
+                <circle class="m2-slot" cx="212" cy="312" r="5"/>
+                <circle class="m2-slot" cx="236" cy="312" r="5"/>
+                <circle class="m2-slot" cx="260" cy="312" r="5"/>
+                <circle class="m2-fill" cx="188" cy="312" r="6" opacity="0"/>
+                <circle class="m2-fill" cx="212" cy="312" r="6" opacity="0"/>
+                <circle class="m2-fill" cx="236" cy="312" r="6" opacity="0"/>
+                <circle class="m2-fill" cx="260" cy="312" r="6" opacity="0"/>
+                <path class="m2-gloss" d="M180 305H240M248 305H256" opacity="0"/>
+                <g clip-path="url(#m2-bclip)"><path class="m2-shine" d="M-8 282h28l-20 62h-28z" opacity="0"/></g>
+              </g>
+
+              <!-- the closing line: the real red softgel, with the three inside it -->
+              <g class="m2-head">
+                <g transform="translate(12 329)">
+                  <rect class="m2-gel" width="34" height="16" rx="8"/>
+                  <path class="m2-gel__hi" d="M6.5 4H13"/>
+                  <circle class="m2-gel__dot m2-gel__dot--o3" cx="9.6" cy="9.3" r="2.8"/>
+                  <circle class="m2-gel__dot m2-gel__dot--d3" cx="17" cy="9.3" r="2.8"/>
+                  <circle class="m2-gel__dot m2-gel__dot--k2" cx="24.4" cy="9.3" r="2.8"/>
+                </g>
+                <text class="m2-head__brand" x="53" y="343">Homega</text>
+                <text class="m2-head__line" x="14" y="371">一粒三合一</text>
+              </g>
+              </g>
+
+              <g class="m2-scene">
+              <!-- a brisk train leaves short streaks behind it -->
+              <g class="m2-speed" opacity="0" transform="translate(6 0)">
+                <path d="M-4 158H-24M-8 170H-34M-4 182H-20"/>
+              </g>
+              <!-- the train; calcium rides inside -->
+              <g class="m2-train" transform="translate(6 0)">
+                <path class="m2-car" d="M8 148H126C140 148 150 156 152 170V186Q152 192 146 192H8Q2 192 2 186V154Q2 148 8 148Z"/>
+                <path class="m2-win" d="M137 154C143 156 146.5 161 148 168H137Z"/>
+                <rect class="m2-win" x="8" y="153" width="28" height="30" rx="5"/>
+                <rect class="m2-win" x="40" y="153" width="28" height="30" rx="5"/>
+                <rect class="m2-win" x="72" y="153" width="28" height="30" rx="5"/>
+                <rect class="m2-win" x="104" y="153" width="28" height="30" rx="5"/>
+                <rect class="m2-stripe" x="2" y="185.5" width="146" height="3"/>
+                <circle class="m2-lamp" cx="147" cy="178" r="2.5"/>
+              </g>
+              <g class="m2-riders">
+                <g class="m2-rider" transform="translate(48 36)" opacity="0"><circle r="12"/><text y="5.5" text-anchor="middle">鈣</text></g>
+                <g class="m2-rider" transform="translate(110 36)" opacity="0"><circle r="12"/><text y="5.5" text-anchor="middle">鈣</text></g>
+                <g class="m2-rider" transform="translate(48 36)" opacity="0"><circle r="12"/><text y="5.5" text-anchor="middle">鈣</text></g>
+                <g class="m2-rider" transform="translate(110 36)" opacity="0"><circle r="12"/><text y="5.5" text-anchor="middle">鈣</text></g>
+              </g>
+              </g>
+
+              <g class="m2-call m2-call--o3" data-anchor="start" data-x="12">
+                <g class="m2-pill">
+                  <rect class="m2-ring" x="9" y="209" width="158" height="34" rx="17"/>
+                  <rect class="m2-chip" x="12" y="212" width="152" height="28" rx="14"/>
+                  <text class="m2-chip__t" x="88" y="231.5" text-anchor="middle">Omega-3 · 行車暢順</text>
+                </g>
+                <text class="m2-sub" x="14" y="268">支持血液流動</text>
+              </g>
+              <g class="m2-call m2-call--k2" data-anchor="end" data-x="356">
+                <g class="m2-pill">
+                  <rect class="m2-ring" x="269" y="209" width="90" height="34" rx="17"/>
+                  <rect class="m2-chip" x="272" y="212" width="84" height="28" rx="14"/>
+                  <text class="m2-chip__t" x="314" y="231.5" text-anchor="middle">K2 · 指路</text>
+                </g>
+                <text class="m2-sub" x="356" y="268" text-anchor="end">決定鈣去哪裡</text>
+              </g>
+
+              <!-- what is happening, where it happens -->
+              <g class="m2-tags m2-scene">
+                <g transform="translate(160 104)">
+                  <g class="m2-tag m2-tag--gate">
+                    <path d="M0 12l7-6v12z"/>
+                    <rect x="6" width="80" height="24" rx="12"/>
+                    <text x="46" y="17.8" text-anchor="middle">入閘不多</text>
+                  </g>
+                </g>
+                <!-- these three ride along with the train -->
+                <g class="m2-tagpos m2-tagpos--slow" transform="translate(82 0)">
+                  <g class="m2-tag m2-tag--slow">
+                    <rect x="-42" y="108" width="84" height="24" rx="12"/><path d="M-6 131.5h12l-6 6z"/>
+                    <text y="125.8" text-anchor="middle">行車較慢</text>
+                  </g>
+                </g>
+                <g class="m2-tagpos m2-tagpos--fast" transform="translate(82 0)">
+                  <g class="m2-tag m2-tag--fast">
+                    <rect x="-42" y="108" width="84" height="24" rx="12"/><path d="M-6 131.5h12l-6 6z"/>
+                    <text y="125.8" text-anchor="middle">行車暢順</text>
+                  </g>
+                </g>
+                <g class="m2-tagpos m2-tagpos--past" transform="translate(224 0)">
+                  <g class="m2-tag m2-tag--past">
+                    <rect x="-42" y="108" width="84" height="24" rx="12"/><path d="M-6 131.5h12l-6 6z"/>
+                    <text y="125.8" text-anchor="middle">坐過了站</text>
+                  </g>
                 </g>
               </g>
-              <text class="m-label" x="258" y="284" text-anchor="middle">骨骼</text>
-
-              <g data-layer="ca"></g>
             </svg>
-            <figcaption class="mech__key"><span class="key key--ca"></span>鈣質 <span class="key key--cell"></span>血球 <span class="mech__note">示意動畫</span></figcaption>
           </figure>
 
-          <p class="how__status" aria-live="polite" data-mode-status>三樣齊備：鈣質吸收了，也送到骨骼；Omega-3 支持血液流動。</p>
+          <p class="m2-status" data-beat="0" aria-live="off">沒有補充：行車較慢，
+    能入閘的鈣質也不多。</p>
+          <p class="m2-note">K2（MK-7）會活化與血管及骨骼相關的蛋白質。<sup class="cite"><a href="#ref-1">1</a></sup></p>
         </div>
       </div>
     </section>
@@ -256,7 +414,7 @@
       <div class="t1-in">
         <div class="t1-copy">
           <h3 id="t1-h" class="t1-h">Omega-3 <span class="t1-nw">一般要 4–6 個月，</span><br>才在紅血球中<wbr>累積到穩定水平。</h3>
-          <p class="t1-lead">3樽（90日）完結時，水平一般仍未達穩定；<b>6樽（180日）涵蓋整段 4–6 個月。<sup class="t1-cite"><a href="#ref-1">1</a>,<a href="#ref-2">2</a></sup></b></p>
+          <p class="t1-lead">3樽（90日）完結時，水平一般仍未達穩定；<b>6樽（180日）涵蓋整段 4–6 個月。<sup class="t1-cite"><a href="#ref-2">2</a>,<a href="#ref-3">3</a></sup></b></p>
         </div>
 
         <figure class="t1-fig" data-t1>
@@ -324,7 +482,7 @@
           </div>
 
           <figcaption class="t1-cap">
-            <p class="t1-also"><b>維他命 D3</b> 同樣需時：有研究顯示，血液水平約 <span class="t1-nw">5 個月內</span>達到穩定<sup class="t1-cite"><a href="#ref-3">3</a></sup>。</p>
+            <p class="t1-also"><b>維他命 D3</b> 同樣需時：有研究顯示，血液水平約 <span class="t1-nw">5 個月內</span>達到穩定<sup class="t1-cite"><a href="#ref-4">4</a></sup>。</p>
             <div class="t1-cap__row">
               <p class="t1-note">曲線只作示意，並非實測數據；個別情況因人而異。</p>
               <button type="button" class="t1-replay" data-t1-replay hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8a5.5 5.5 0 1 0 1.7-4M2.5 2.5v3h3"/></svg>重播</button>
@@ -430,7 +588,7 @@
           <p class="fact__ours">Homega 每粒 EPA+DHA <b>468mg</b></p>
           <figure class="gels" data-reveal>
             <div class="gel">
-              <p class="gel__name">一般 1000mg 魚油<small>EPA 180mg + DHA 120mg = 300mg<sup class="cite"><a href="#ref-4">4</a></sup></small></p>
+              <p class="gel__name">一般 1000mg 魚油<small>EPA 180mg + DHA 120mg = 300mg<sup class="cite"><a href="#ref-5">5</a></sup></small></p>
               <div class="gel__pill" style="--len:100%"><span class="gel__good" style="--w:30%">300mg</span><span class="gel__rest">700mg</span></div>
             </div>
             <div class="gel gel--us">
@@ -844,13 +1002,13 @@
           <details class="faq__item">
             <summary><span>多久才會感覺到分別？</span><i aria-hidden="true"></i></summary>
             <div class="faq__a">
-              <p>因人而異，我們不會承諾任何效果會在某個時間出現。可以參考的，是體內水平累積所需的時間：Omega-3 在紅血球細胞膜一般需要 4–6 個月才達到穩定<sup class="cite"><a href="#ref-1">1</a>,<a href="#ref-2">2</a></sup>；維他命 D 的血液水平約需 5 個月<sup class="cite"><a href="#ref-3">3</a></sup>，亦有研究指可能需時一年<sup class="cite"><a href="#ref-5">5</a></sup>。所以建議每日持續服用，給身體足夠時間。詳見上方的<a href="#timing">累積時間示意圖</a>。</p>
+              <p>因人而異，我們不會承諾任何效果會在某個時間出現。可以參考的，是體內水平累積所需的時間：Omega-3 在紅血球細胞膜一般需要 4–6 個月才達到穩定<sup class="cite"><a href="#ref-2">2</a>,<a href="#ref-3">3</a></sup>；維他命 D 的血液水平約需 5 個月<sup class="cite"><a href="#ref-4">4</a></sup>，亦有研究指可能需時一年<sup class="cite"><a href="#ref-6">6</a></sup>。所以建議每日持續服用，給身體足夠時間。詳見上方的<a href="#timing">累積時間示意圖</a>。</p>
             </div>
           </details>
           <details class="faq__item">
             <summary><span>為何建議完整療程（6樽）？</span><i aria-hidden="true"></i></summary>
             <div class="faq__a">
-              <p>Omega-3 在紅血球細胞膜一般需要 4–6 個月才達到穩定水平<sup class="cite"><a href="#ref-1">1</a>,<a href="#ref-2">2</a></sup>，維他命 D 的血液水平約需 5 個月<sup class="cite"><a href="#ref-3">3</a></sup>。試用裝的 90 日結束時，這些水平一般仍在上升；完整療程的 180 日涵蓋整個累積期，之後繼續保持。個別情況因人而異。</p>
+              <p>Omega-3 在紅血球細胞膜一般需要 4–6 個月才達到穩定水平<sup class="cite"><a href="#ref-2">2</a>,<a href="#ref-3">3</a></sup>，維他命 D 的血液水平約需 5 個月<sup class="cite"><a href="#ref-4">4</a></sup>。試用裝的 90 日結束時，這些水平一般仍在上升；完整療程的 180 日涵蓋整個累積期，之後繼續保持。個別情況因人而異。</p>
               <p>完整療程亦是每日成本最低的方案（每日 HK$16.7），而 <a href="/policies/money-back-guarantee/" target="_blank" rel="noopener">90日退款保證</a>只適用於完整療程。</p>
             </div>
           </details>
@@ -914,7 +1072,7 @@
           </details>
           <details class="faq__item">
             <summary><span>魚油為何要加入 K2 和 D3？</span><i aria-hidden="true"></i></summary>
-            <div class="faq__a"><p>D3 幫助身體吸收鈣質；K2（MK-7）啟動把鈣質導向骨骼的蛋白質，而不是讓鈣質留在血管壁。簡單來說：D3 決定吸收多少鈣，K2 決定鈣去哪裡。再加上支持心血管健康的 Omega-3，三樣一粒到位。</p></div>
+            <div class="faq__a"><p>D3 幫助身體吸收鈣質；K2（MK-7）啟動把鈣質導向骨骼的蛋白質<sup class="cite"><a href="#ref-1">1</a></sup>，而不是讓鈣質留在血管壁。簡單來說：D3 決定吸收多少鈣，K2 決定鈣去哪裡。再加上支持心血管健康的 Omega-3，三樣一粒到位。</p></div>
           </details>
           <details class="faq__item">
             <summary><span>Homega 與一般魚油有何不同？</span><i aria-hidden="true"></i></summary>
@@ -990,11 +1148,12 @@
       <div class="wrap sources__wrap">
         <h2 id="sources-h" class="sources__h">資料來源</h2>
         <ol class="sources__list">
-          <li id="ref-1"><a href="https://doi.org/10.1161/JAHA.113.000513" target="_blank" rel="noopener">Flock MR, et al. <i>J Am Heart Assoc</i> 2013;2:e000513</a></li>
-          <li id="ref-2"><a href="https://doi.org/10.3389/fnut.2023.1072653" target="_blank" rel="noopener">Dempsey M, et al. <i>Front Nutr</i> 2023;10:1072653</a></li>
-          <li id="ref-3"><a href="https://doi.org/10.1093/ajcn/77.1.204" target="_blank" rel="noopener">Heaney RP, et al. <i>Am J Clin Nutr</i> 2003;77:204–10</a></li>
-          <li id="ref-4"><a href="https://ods.od.nih.gov/factsheets/Omega3FattyAcids-HealthProfessional/" target="_blank" rel="noopener">美國國家衛生研究院（NIH）膳食補充劑辦公室：Omega-3 Fatty Acids — Fact Sheet for Health Professionals</a></li>
-          <li id="ref-5"><a href="https://doi.org/10.1186/1475-2891-3-8" target="_blank" rel="noopener">Vieth R, et al. <i>Nutr J</i> 2004;3:8</a></li>
+          <li id="ref-1"><a href="https://doi.org/10.1017/jns.2015.25" target="_blank" rel="noopener">Knapen MHJ, et al. <i>J Nutr Sci</i> 2015;4:e35</a></li>
+          <li id="ref-2"><a href="https://doi.org/10.1161/JAHA.113.000513" target="_blank" rel="noopener">Flock MR, et al. <i>J Am Heart Assoc</i> 2013;2:e000513</a></li>
+          <li id="ref-3"><a href="https://doi.org/10.3389/fnut.2023.1072653" target="_blank" rel="noopener">Dempsey M, et al. <i>Front Nutr</i> 2023;10:1072653</a></li>
+          <li id="ref-4"><a href="https://doi.org/10.1093/ajcn/77.1.204" target="_blank" rel="noopener">Heaney RP, et al. <i>Am J Clin Nutr</i> 2003;77:204–10</a></li>
+          <li id="ref-5"><a href="https://ods.od.nih.gov/factsheets/Omega3FattyAcids-HealthProfessional/" target="_blank" rel="noopener">美國國家衛生研究院（NIH）膳食補充劑辦公室：Omega-3 Fatty Acids — Fact Sheet for Health Professionals</a></li>
+          <li id="ref-6"><a href="https://doi.org/10.1186/1475-2891-3-8" target="_blank" rel="noopener">Vieth R, et al. <i>Nutr J</i> 2004;3:8</a></li>
         </ol>
       </div>
     </section>
@@ -1027,7 +1186,7 @@
 
   <script src="/js/main.js?v=3"></script>
   <script src="/promo/promo.js?v=3"></script>
-  <script src="/promo/hmg/hmg2.js?v=4"></script>
+  <script src="/promo/hmg/hmg2.js?v=5"></script>
   <script src="/promo/hmg/t1.js?v=1"></script>
 </body>
 </html>
