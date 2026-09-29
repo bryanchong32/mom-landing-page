@@ -31,7 +31,15 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+/* Locked to the phone's width (owner, iPhone, 29 Sep): iOS Safari ignores overflow-x on body
+   alone, so both html and body clip, and neither rubber-bands sideways. `hidden` is the
+   fallback for browsers without `clip`. touch-action: manipulation stops accidental
+   double-tap zoom but keeps pinch-zoom (older readers zoom to read). */
+html {
+  -webkit-text-size-adjust: 100%; scroll-behavior: smooth;
+  overflow-x: hidden; overflow-x: clip; overscroll-behavior-x: none;
+  touch-action: manipulation;
+}
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -40,7 +48,7 @@ body {
   color: var(--ink);
   background: var(--paper);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: hidden; overflow-x: clip; overscroll-behavior-x: none;
 }
 h1, h2, h3, p, ol, ul, dl, dd, figure, blockquote { margin: 0; }
 /* Proportional CJK punctuation in display type: no half-empty "。" boxes */
@@ -275,18 +283,16 @@ a { color: inherit; }
   fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
 }
 
-/* 「90日退款保證*」: small and quiet; the * leads to the collapsed terms at the bottom */
-.promise { margin-top: 10px; text-align: center; font-size: 14px; line-height: 1.4; }
-.promise a {
-  display: inline-flex; align-items: center; gap: 5px; padding: 6px 4px;
-  color: var(--teal-d); font-weight: 700; text-decoration: none;
+/* 「✓ 90日退款保證 · 已售出 50,000+ 瓶」 — one calm line right above the buy button */
+.trustline {
+  margin-top: 12px; text-align: center; white-space: nowrap;
+  font-size: 13.5px; line-height: 1.4; color: var(--ink-2);
 }
-.promise svg {
-  width: 17px; height: 17px; flex: none;
-  fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
-}
-.promise__star { margin-left: 1px; font-family: var(--num); color: var(--teal); text-decoration: underline; text-underline-offset: 2px; }
-.promise a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.trustline a { color: var(--teal-d); font-weight: 700; text-decoration: none; }
+.trustline a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.trustline i { font-style: normal; }
+.trustline__dot { margin: 0 6px; color: var(--kraft); }
+.trustline + .buy { margin-top: 8px; }
 
 /* Accepted payment marks: one white chip each, so mixed logo backgrounds read as a set */
 .pay {
@@ -302,6 +308,8 @@ a { color: inherit; }
 .pay--alipay img { height: 14px; }
 .pay--payme img, .pay--alipay-hk img { height: 20px; }
 .hero__fine { margin-top: 10px; text-align: center; font-size: 12.5px; color: var(--mute); }
+.sf { display: inline-block; width: 16px; height: 16px; margin-right: 5px; vertical-align: -3px; border-radius: 50%; }
+.sf--cover { width: 22px; height: 22px; margin: 0; vertical-align: 0; }
 
 /* ---------------------------------------------------------------
    2. How it works — dark stage for the animation
@@ -846,7 +854,7 @@ a { color: inherit; }
 .js .stab:not(.in) .stab__row i { width: 0; }
 .stab .fact__small { margin-top: 8px; }
 .seal { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
-.seal img { flex: none; width: 112px; height: auto; }
+.seal img { flex: none; width: 124px; height: auto; }
 .seal .fact__small--seal { margin-top: 0; color: var(--ink-2); word-break: keep-all; overflow-wrap: anywhere; }
 
 .sea__oil {
@@ -864,10 +872,10 @@ a { color: inherit; }
 /* Softgels drawn to scale: length = oil mg, teal = EPA+DHA */
 .gels { margin-top: 18px; display: grid; gap: 14px; }
 .gel__name {
-  display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0 10px;
   margin-bottom: 6px; font-size: 13.5px; color: var(--ink-2);
 }
-.gel__name small { font-size: 12px; color: var(--mute); }
+.gel__name small { font: 500 12.5px var(--num); color: var(--mute); }
 .gel--us .gel__name { color: var(--ink); font-weight: 700; }
 .gel__pill {
   position: relative; display: flex; overflow: hidden;
@@ -907,7 +915,7 @@ a { color: inherit; }
    and slides by exactly one half, so the wrap never shows a jump. */
 .certs { margin-top: 56px; }
 .loop {
-  --cert-w: 128px; --cert-gap: 14px; --loop-s: 44s;
+  --cert-w: 102px; --cert-gap: 11px; --loop-s: 36s;
   margin-top: 14px; overflow: hidden;
   -webkit-mask: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
           mask: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
@@ -916,12 +924,12 @@ a { color: inherit; }
 .loop__set { list-style: none; margin: 0; padding: 0; display: flex; }
 .cert { flex: none; width: var(--cert-w); margin-right: var(--cert-gap); padding-block: 4px 2px; }
 .cert__logo {
-  display: grid; place-items: center; height: 112px; padding: 14px;
-  background: #fff; border-radius: 14px;
+  display: grid; place-items: center; height: 90px; padding: 11px;
+  background: #fff; border-radius: 12px;
   box-shadow: 0 0 0 1px var(--line), 0 6px 16px rgba(28, 25, 23, 0.06);
 }
-.cert__logo img { width: auto; height: auto; max-width: 100%; max-height: 76px; }
-.cert__name { display: block; margin-top: 8px; text-align: center; font-size: 13px; font-weight: 500; line-height: 1.4; color: var(--ink-2); }
+.cert__logo img { width: auto; height: auto; max-width: 100%; max-height: 61px; }
+.cert__name { display: block; margin-top: 6px; text-align: center; font-size: 12px; font-weight: 500; line-height: 1.4; color: var(--ink-2); }
 .loop.is-paused .loop__track { animation-play-state: paused; }
 /* hover pause only where a real pointer hovers; on phones a tap would leave it stuck paused */
 @media (hover: hover) { .loop:hover .loop__track { animation-play-state: paused; } }
@@ -932,8 +940,10 @@ a { color: inherit; }
    --------------------------------------------------------------- */
 .experts { padding: 72px 0 64px; }
 .board__h {
-  font: 700 clamp(2.4rem, 12vw, 3.2rem)/1.05 var(--num); letter-spacing: -0.025em; color: var(--ink);
+  display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px;
+  font: 700 clamp(2.1rem, 10.5vw, 3rem)/1 var(--num); letter-spacing: -0.02em; color: var(--ink);
 }
+.board__logo { height: 0.92em; width: auto; margin-top: -0.08em; }
 .board__h b { font-weight: 700; color: var(--teal); }
 .board__sub { margin-top: 10px; font-family: var(--serif); font-weight: 700; font-size: clamp(1.05rem, 4.6vw, 1.3rem); line-height: 1.45; color: var(--ink-2); }
 .faces {
@@ -961,51 +971,83 @@ a { color: inherit; }
   scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut);
   padding: 4px 0 10px; outline-offset: -2px;
 }
-.reel__track { display: flex; align-items: stretch; width: max-content; padding-inline: var(--gut); }
+.reel__track { display: flex; align-items: flex-start; width: max-content; padding-inline: var(--gut); }
 .reel .card { flex: none; width: min(300px, 80vw); margin-right: 12px; scroll-snap-align: start; }
 /* Loop mode (hmg2.js): the row drifts on its own, so no snapping and no scrollbar */
 .reel.is-loop .reel__view { scroll-snap-type: none; scrollbar-width: none; }
 .reel.is-loop .reel__view::-webkit-scrollbar { display: none; }
-.reel__ctrl { display: flex; justify-content: center; gap: 10px; margin-top: 12px; }
-.reel__btn {
-  width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
-  border: 1px solid var(--kraft-m); background: var(--card); color: var(--ink); cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-.reel__btn:hover { border-color: var(--kraft); }
-.reel__btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.reel__btn .i-play { display: none; fill: currentColor; stroke-width: 1.5; }
-.reel__btn[aria-pressed="true"] .i-play { display: block; }
-.reel__btn[aria-pressed="true"] .i-pause { display: none; }
-html:not(.js) .reel__ctrl, .reel:not(.is-loop) .reel__btn--play { display: none; }
 
-.card { display: flex; flex-direction: column; background: var(--card); border-radius: 16px; padding: 18px; }
-.q__head { display: flex; align-items: center; gap: 10px; }
+.card { display: flex; flex-direction: column; }
+
+/* A message from a customer: who sent it, the verified purchase, then their own words in
+   bubbles (verbatim; emoji and typos kept). The page's own palette, no messaging-app look. */
+.card--quote {
+  padding: 16px 16px 18px; border-radius: 20px;
+  background: #fff; box-shadow: 0 1px 2px rgba(44, 24, 16, 0.05), 0 10px 24px rgba(44, 24, 16, 0.07);
+}
+.q__head { display: flex; align-items: center; gap: 11px; }
 .q__av {
-  flex: none; width: 36px; height: 36px; border-radius: 50%;
-  display: grid; place-items: center;
-  background: var(--paper-2); color: var(--kraft); font: 700 15px var(--serif);
+  flex: none; width: 42px; height: 42px; border-radius: 50%;
+  display: grid; place-items: center; font: 700 17px var(--serif);
 }
-.q__who { display: flex; flex-direction: column; line-height: 1.3; }
-.q__who b { font-size: 15px; }
-.q__who span { font-size: 12.5px; color: var(--mute); }
+.q__av--1 { background: #DCEBE7; color: var(--teal-d); }
+.q__av--2 { background: #F1E4CB; color: #8A6A33; }
+.q__av--3 { background: #F2DDD2; color: #9E4A26; }
+.q__av--4 { background: #E1E6EE; color: #43566B; }
+.q__id { min-width: 0; }
+.q__who { line-height: 1.3; }
+.q__who b { font-size: 16px; }
 /* 「✓ 已購用家 · 購買日期」: a verified purchase (CRM), not a rating */
-.q__buyer {
-  align-self: flex-start; margin-top: 10px;
-  padding: 1px 9px; border-radius: 999px;
-  background: rgba(27, 107, 99, 0.08); color: var(--teal-d);
-  font-size: 12.5px; font-weight: 700; line-height: 1.7;
-}
+.q__buyer { margin-top: 2px; font-size: 12.5px; font-weight: 700; line-height: 1.45; color: var(--teal-d); }
 .q__buyer i { font-style: normal; }
-.q__tags { list-style: none; padding: 0; margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
-.q__tags li { padding: 1px 9px; border-radius: 999px; background: rgba(27, 107, 99, 0.08); color: var(--teal); font-size: 12px; }
-.q__msgs { margin-top: 12px; display: grid; gap: 6px; justify-items: start; }
+.q__msgs { margin-top: 14px; display: grid; gap: 6px; justify-items: start; }
 .q__msg {
-  padding: 9px 13px; border-radius: 4px 14px 14px 14px;
-  background: var(--paper); font-size: 16px; line-height: 1.65; color: var(--ink);
+  position: relative; max-width: 94%;
+  padding: 10px 14px; border-radius: 6px 18px 18px 18px;
+  background: #F5EDE0; font-size: 16px; line-height: 1.65; color: var(--ink);
   overflow-wrap: anywhere;
 }
-.q__ev { margin-top: 10px; padding-left: 10px; border-left: 2px solid var(--kraft-m); font-size: 12.5px; color: var(--mute); }
+/* the first bubble's tail points back at the sender */
+.q__msg:first-child::before {
+  content: ''; position: absolute; left: -7px; top: 0;
+  border-top: 12px solid #F5EDE0; border-left: 9px solid transparent;
+}
+.q__msgs { padding-left: 7px; }
+/* A photo the customer attached, described by us: quieter than their words */
+.q__ev {
+  display: flex; align-items: center; gap: 8px; margin: 10px 0 0 7px; padding: 7px 10px;
+  border: 1px dashed rgba(44, 24, 16, 0.2); border-radius: 12px;
+  font-size: 12.5px; line-height: 1.5; color: var(--ink-2);
+}
+.q__ev svg { flex: none; width: 18px; height: 18px; fill: none; stroke: var(--kraft); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+/* A reading slip: perforated top, the period stamped, before → after as a readout */
+.card--record {
+  padding: 20px 18px 16px; border-radius: 2px 2px 14px 14px;
+  background: #FFFDF6;
+  box-shadow: 0 1px 2px rgba(44, 24, 16, 0.06), 0 10px 22px rgba(44, 24, 16, 0.08);
+  -webkit-mask: radial-gradient(circle 4.5px at 50% 0, transparent 95%, #000) 0 0 / 15px 100% repeat-x;
+          mask: radial-gradient(circle 4.5px at 50% 0, transparent 95%, #000) 0 0 / 15px 100% repeat-x;
+}
+.slip__head {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding-bottom: 10px; border-bottom: 1.5px solid var(--ink);
+}
+.slip__title { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; color: var(--ink); }
+.rec__time {
+  padding: 1px 9px; border: 1.5px solid var(--teal); border-radius: 4px;
+  color: var(--teal); font: 700 12.5px/1.5 var(--num); transform: rotate(-3deg);
+}
+.rec__pair { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 4px 12px; margin-top: 14px; }
+.rec__pair p { display: flex; flex-direction: column; }
+.rec__pair small { font-size: 12px; color: var(--mute); }
+.rec__pair b { font: 700 1.3rem/1.25 var(--num); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.rec__after b { font-size: 1.75rem; color: var(--teal); }
+.rec__arrow { padding-bottom: 5px; font-size: 1.2rem; color: var(--kraft); }
+.rec__unit { margin-top: 2px; font-size: 12px; color: var(--mute); }
+.rec__desc { margin-top: 12px; padding-top: 12px; border-top: 1px dashed rgba(44, 24, 16, 0.22); font-size: 14px; line-height: 1.7; }
+.rec__note { margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(44, 24, 16, 0.22); font-size: 11.5px; line-height: 1.55; color: var(--mute); }
+
 .voices__legal { margin-top: 16px; text-align: center; font-size: 12.5px; color: var(--mute); }
 
 .rec__time {
@@ -1100,38 +1142,15 @@ html:not(.js) .reel__ctrl, .reel:not(.is-loop) .reel__btn--play { display: none;
 /* ---------------------------------------------------------------
    Sources + collapsed guarantee terms — the fine print at the bottom
    --------------------------------------------------------------- */
-.sources { background: var(--card); padding: 8px 0 28px; }
-.sources__wrap, .terms__wrap { max-width: 800px; }
+.sources { background: var(--card); padding: 8px 0 40px; }
+.sources__wrap { max-width: 800px; }
 .sources__h { padding-top: 22px; border-top: 1px solid var(--line); font-size: 13px; font-weight: 700; color: var(--ink-2); }
 .sources__list { margin-top: 6px; padding-left: 1.5em; font-size: 13px; line-height: 1.7; color: var(--mute); }
 .sources__list li { scroll-margin-top: 80px; }
 .sources__list li::marker { font-family: var(--num); }
-.sources__list a { color: var(--ink-2); text-decoration: underline; text-decoration-color: rgba(44, 24, 16, 0.3); text-underline-offset: 2px; }
+.sources__list a { overflow-wrap: anywhere; color: var(--ink-2); text-decoration: underline; text-decoration-color: rgba(44, 24, 16, 0.3); text-underline-offset: 2px; }
 .sources__list li:target { background: rgba(27, 107, 99, 0.08); border-radius: 4px; }
 
-.terms { background: var(--paper-2); padding: 18px 0 22px; }
-.terms__box { scroll-margin-top: 12px; }
-.terms__sum {
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 10px 0; cursor: pointer; list-style: none;
-  font-size: 14px; font-weight: 700; color: var(--ink-2);
-}
-.terms__sum::-webkit-details-marker { display: none; }
-.terms__sum i { position: relative; width: 12px; height: 12px; flex: none; }
-.terms__sum i::before, .terms__sum i::after {
-  content: ''; position: absolute; left: 0; right: 0; top: 5px; height: 2px;
-  background: var(--ink-2); transition: transform 0.25s;
-}
-.terms__sum i::after { transform: rotate(90deg); }
-.terms__box[open] .terms__sum i::after { transform: rotate(0); }
-.terms__body { padding: 6px 0 14px; }
-.terms__intro { font-size: 15px; line-height: 1.75; color: var(--ink); }
-.terms__list { margin-top: 12px; padding-left: 1.5em; display: grid; gap: 8px; }
-.terms__list > li { padding-left: 4px; font-size: 14.5px; line-height: 1.75; color: var(--ink-2); }
-.terms__list > li::marker { font-family: var(--num); font-weight: 700; color: var(--teal); }
-.terms__list b { color: var(--ink); }
-.terms__list a { color: var(--teal); font-weight: 700; }
-.terms__list a[href^="https://wa.me/"] { white-space: nowrap; }
 
 /* ---------------------------------------------------------------
    Footer
@@ -1257,16 +1276,17 @@ html:not(.js) .reel__ctrl, .reel:not(.is-loop) .reel__btn--play { display: none;
   .dose__grid { display: grid; grid-template-columns: 380px minmax(0, 1fr); column-gap: 72px; align-items: start; }
   .dose__body { margin-top: 8px; }
   .certs { margin-top: 80px; }
-  .loop { --cert-w: 168px; --cert-gap: 20px; --loop-s: 58s; max-width: 1600px; margin-inline: auto; }
-  .cert__logo { height: 140px; padding: 18px; }
-  .cert__logo img { max-height: 96px; }
-  .cert__name { font-size: 14px; }
+  .loop { --cert-w: 134px; --cert-gap: 16px; --loop-s: 46s; max-width: 1600px; margin-inline: auto; }
+  .cert__logo { height: 112px; padding: 14px; }
+  .cert__logo img { max-height: 77px; }
+  .cert__name { font-size: 13px; }
 
   .experts { padding: 104px 0 96px; }
   .board { display: grid; grid-template-columns: 380px minmax(0, 1fr); column-gap: 72px; }
   .board__h, .board__sub { grid-column: 1; }
-  .board__h { align-self: end; font-size: 4.5rem; line-height: 1; }
-  .board__h b { display: block; font-size: 1.28em; margin-top: 2px; }
+  .board__h { align-self: end; display: block; font-size: 5.6rem; line-height: 1; }
+  .board__logo { display: block; height: 0.62em; margin: 0 0 12px -2px; }
+  .board__h b { display: block; }
   .board__sub { font-size: 1.35rem; }
   .faces { grid-column: 2; grid-row: 1 / span 3; margin-top: 0; }
   .credits { grid-column: 1 / -1; grid-template-columns: repeat(4, 1fr); margin-top: 48px; }
@@ -1274,7 +1294,6 @@ html:not(.js) .reel__ctrl, .reel:not(.is-loop) .reel__btn--play { display: none;
   .voices { padding: 104px 0 80px; }
   .reel { margin-top: 36px; }
   .reel .card { width: 340px; margin-right: 16px; }
-  .reel__ctrl { justify-content: flex-end; }
 
   .talks { padding: 104px 0 112px; }
   .talks__grid { grid-template-columns: minmax(0, 320px) minmax(0, 1fr) minmax(0, 1fr); column-gap: 40px; align-items: start; }

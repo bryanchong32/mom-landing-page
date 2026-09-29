@@ -10,12 +10,10 @@
  *    main.js appended to the query string survive a plan change.
  * 2. Reveal-on-view for the few animated figures.
  * 3. How-it-works animation (SVG, driven here).
- * 4. Testimonial reel: an endless, swipeable row.
+ * 4. Testimonial reel: an endless, swipeable row (no buttons, owner 29 Sep).
  * 5. Certification row: pause on touch (hover is pure CSS).
  * 6. Small courtesies: hide the sticky bar over the bottom picker,
  *    one video at a time, pause a video when it scrolls away.
- * 7. Guarantee terms: collapsed at the bottom; every #guarantee link
- *    (and arriving with #guarantee in the URL) opens them and scrolls there.
  * (The build-up chart in section 2b runs from its own file, t1.js.)
  */
 (function () {
@@ -335,25 +333,18 @@
     if (!root) return;
     var view = root.querySelector('[data-reel-view]');
     var track = root.querySelector('[data-reel-track]');
-    var btnPrev = root.querySelector('[data-reel-prev]');
-    var btnNext = root.querySelector('[data-reel-next]');
-    var btnToggle = root.querySelector('[data-reel-toggle]');
     var originals = Array.prototype.slice.call(track.children);
     var n = originals.length;
     if (!n) return;
 
     var SPEED = 26;          // px per second: slow enough to read along
-    var AFTER_SWIPE = 2500;  // ms of rest after a swipe or a button press
+    var AFTER_SWIPE = 2500;  // ms of rest after a swipe
     var AFTER_TAP = 7000;    // ms of rest after a tap: someone is reading that card
 
     var loop = !reduced && hasIO && !!window.requestAnimationFrame;
     var setW = 0, tx = 0, holdUntil = 0;
-    var paused = false, hovering = false, focused = false, touching = false, visible = false;
+    var hovering = false, focused = false, touching = false, visible = false;
 
-    function stepSize() {
-      var c = originals[0];
-      return c.getBoundingClientRect().width + (parseFloat(getComputedStyle(c).marginRight) || 0);
-    }
     function hold(ms) { holdUntil = Math.max(holdUntil, now() + ms); }
 
     // Fold the drift into the real scroll position (so native scrolling continues from here)
@@ -371,14 +362,6 @@
       if (x >= setW * 2) view.scrollLeft = x - setW;
       else if (x < setW * 0.5) view.scrollLeft = x + setW;
     }
-
-    function go(dir) {
-      commit();
-      hold(AFTER_SWIPE + 1500);
-      view.scrollBy({ left: dir * stepSize(), behavior: reduced ? 'auto' : 'smooth' });
-    }
-    if (btnPrev) btnPrev.addEventListener('click', function () { go(-1); });
-    if (btnNext) btnNext.addEventListener('click', function () { go(1); });
 
     if (!loop) return; // static row (reduced motion / old browsers)
 
@@ -402,7 +385,7 @@
     view.scrollLeft = setW; // first real card where the row starts
 
     function running() {
-      return visible && !paused && !hovering && !focused && !touching && !document.hidden && now() >= holdUntil;
+      return visible && !hovering && !focused && !touching && !document.hidden && now() >= holdUntil;
     }
 
     var raf = 0, last = 0;
@@ -466,16 +449,6 @@
       settle = setTimeout(function () { if (!touching) recentre(); }, 160);
     }, { passive: true });
 
-    // Visible pause / play control (WCAG 2.2.2: moving content can be stopped)
-    if (btnToggle) {
-      btnToggle.addEventListener('click', function () {
-        paused = !paused;
-        btnToggle.setAttribute('aria-pressed', paused ? 'true' : 'false');
-        btnToggle.setAttribute('aria-label', paused ? '繼續自動播放' : '暫停自動播放');
-        if (paused) commit();
-      });
-    }
-
     // Card widths change at breakpoints: keep the same card in view
     var rt = 0;
     window.addEventListener('resize', function () {
@@ -524,40 +497,4 @@
     }
   });
 
-  /* -----------------------------------------------------------------
-     7. Guarantee terms — a closed <details id="guarantee"> above the footer
-     ----------------------------------------------------------------- */
-  (function terms() {
-    var box = document.getElementById('guarantee');
-    if (!box) return;
-    var MARGIN = 12; // matches .terms__box { scroll-margin-top }
-    function openTerms() {
-      box.open = true;
-      // after the layout grows, bring the summary to the top of the screen
-      requestAnimationFrame(function () {
-        box.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
-        // The page can shift a few px during a long smooth scroll (the details opening,
-        // the sticky bar's body padding, late layout). Once the scroll settles, land exactly.
-        var done = false, t = 0;
-        function settle() {
-          if (done) return;
-          done = true; clearTimeout(t);
-          window.removeEventListener('scrollend', settle);
-          var off = box.getBoundingClientRect().top - MARGIN;
-          if (Math.abs(off) > 3) window.scrollBy(0, off);
-        }
-        if ('onscrollend' in window) window.addEventListener('scrollend', settle);
-        t = setTimeout(settle, 1600); // browsers without scrollend
-      });
-    }
-    each(document.querySelectorAll('a[href="#guarantee"]'), function (a) {
-      a.addEventListener('click', function (e) {
-        e.preventDefault();
-        if (window.history && history.replaceState) history.replaceState(null, '', '#guarantee');
-        openTerms();
-      });
-    });
-    if (location.hash === '#guarantee') openTerms();
-    window.addEventListener('hashchange', function () { if (location.hash === '#guarantee') openTerms(); });
-  })();
 })();
