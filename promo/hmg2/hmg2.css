@@ -44,7 +44,7 @@ body {
 }
 h1, h2, h3, p, ol, ul, dl, dd, figure, blockquote { margin: 0; }
 /* Proportional CJK punctuation in display type: no half-empty "。" boxes */
-.hero__one, .h2, .h3, .how__one, .sea__lead, .fact__ours, .time__end, .board__h, .plan__what b, .terms__h { font-feature-settings: "palt"; }
+.hero__one, .h2, .h3, .how__one, .sea__lead, .fact__ours, .plan__what b { font-feature-settings: "palt"; }
 img, svg, video { display: block; max-width: 100%; }
 /* No one-character last lines ("物。") in running text */
 p, li, dd { text-wrap: pretty; }
@@ -214,7 +214,6 @@ a { color: inherit; }
   -webkit-tap-highlight-color: transparent;
 }
 .plan--6 { padding-block: 13px 12px; }
-.plan--3 { padding-top: 11px; }
 .plan input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
 .plan__dot {
   width: 20px; height: 20px; border-radius: 50%;
@@ -271,27 +270,23 @@ a { color: inherit; }
 }
 .buy:hover { background: var(--buy-h); }
 .buy:active { transform: translateY(1px); }
-.buy svg, .time__pick svg {
+.buy svg {
   width: 18px; height: 18px; flex: none;
   fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
 }
 
-/* Guarantee short line → the full terms (#guarantee) */
-.promise {
-  display: grid; grid-template-columns: 22px 1fr; column-gap: 9px; align-items: start;
-  margin-top: 12px; padding: 10px 12px; border-radius: 10px;
-  background: rgba(27, 107, 99, 0.08); color: var(--ink); text-decoration: none;
-  font-size: 13.5px; line-height: 1.55;
+/* 「90日退款保證*」: small and quiet; the * leads to the collapsed terms at the bottom */
+.promise { margin-top: 10px; text-align: center; font-size: 14px; line-height: 1.4; }
+.promise a {
+  display: inline-flex; align-items: center; gap: 5px; padding: 6px 4px;
+  color: var(--teal-d); font-weight: 700; text-decoration: none;
 }
 .promise svg {
-  width: 22px; height: 22px; margin-top: -1px;
-  fill: none; stroke: var(--teal); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+  width: 17px; height: 17px; flex: none;
+  fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
 }
-.promise b { color: var(--teal-d); }
-.promise em {
-  font-style: normal; margin-left: 4px; white-space: nowrap;
-  color: var(--teal); font-weight: 700; text-decoration: underline; text-underline-offset: 2px;
-}
+.promise__star { margin-left: 1px; font-family: var(--num); color: var(--teal); text-decoration: underline; text-underline-offset: 2px; }
+.promise a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 /* Accepted payment marks: one white chip each, so mixed logo backgrounds read as a set */
 .pay {
@@ -311,7 +306,7 @@ a { color: inherit; }
 /* ---------------------------------------------------------------
    2. How it works — dark stage for the animation
    --------------------------------------------------------------- */
-.how { background: var(--dark); color: var(--paper); padding: 64px 0 72px; }
+.how { background: var(--dark); color: var(--paper); padding: 64px 0 64px; }
 .how .h2, .how .h3 { color: #fff; }
 .how__one {
   margin-top: 10px; font-family: var(--serif); font-weight: 600;
@@ -383,70 +378,359 @@ a { color: inherit; }
   font-size: 15px; line-height: 1.6; color: #fff;
 }
 
-/* Bridge: build-up curve → the 完整療程 plan */
-.time { margin-top: 56px; padding-top: 44px; border-top: 1px solid var(--line-dark); scroll-margin-top: 12px; }
-.time__lead { margin-top: 8px; color: rgba(250, 247, 242, 0.78); font-size: 15px; text-wrap: balance; word-break: keep-all; }
-.nw { white-space: nowrap; }
-.time__fig { margin-top: 18px; }
-.curve svg { width: 100%; height: auto; overflow: visible; }
-.c-band { fill: rgba(61, 168, 158, 0.16); }
-.c-t { font: 500 11.5px var(--font-body); fill: rgba(250, 247, 242, 0.6); }
-.c-t--band { fill: var(--teal-l); font-weight: 700; font-size: 12px; }
-.c-t--steady { fill: rgba(250, 247, 242, 0.78); font-size: 12px; }
-.c-t--y { fill: rgba(250, 247, 242, 0.5); }
-.c-t--note { fill: var(--kraft-l); font-weight: 700; font-size: 12px; }
-.c-steady { stroke: rgba(250, 247, 242, 0.3); stroke-width: 1; stroke-dasharray: 3 4; }
-.c-axis, .c-ticks line { stroke: rgba(250, 247, 242, 0.3); stroke-width: 1; }
-.c-curve {
-  fill: none; stroke: var(--teal-l); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round;
-  stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-dashoffset 1.8s var(--ease);
+/* ---------------------------------------------------------------
+   2b. Why 180 days — the build-up curve (owner's pick, design E,
+       ported from motion-lab/t1.html; behaviour in t1.js)
+   --------------------------------------------------------------- */
+/* =================================================================
+   t1 · Corrected curve: why the 180-day course.
+   One build-up curve on the verified timing (steady level typically
+   4–6 months after starting). The 4–6 month window runs as a column
+   from the steady line down through both plan bars, so the eye sees
+   that 3樽 stops a month before the window opens and 6樽 runs right
+   through it; each plan fills a full 180-day track (3樽 half, 6樽
+   all). Colour = plan: kraft is 3樽, teal is 6樽. The two verdicts
+   are a minimal pair on the 穩定水平 line: 一般未達穩定水平 sits under
+   it at day 90, 一般已達穩定水平 ✓ sits on it at day 180.
+   Everything below is scoped to .t1 / .t1-* and ports as is.
+
+   PORT NOTES
+   - The chart is drawn for a light background and brings its own
+     (--t1-bg). Section 2 (.how) is dark and 3a (.sea) is paper: as its
+     own section between them, set --t1-bg: var(--color-bg-secondary)
+     so it doesn't merge with .sea. Nothing in the chart paints the
+     background colour, so any light value works.
+   - Keep id="timing": the FAQ answer links to #timing. Its quoted title
+     「Omega-3，需要時間累積」 should become this heading.
+   - Citations are numbered t1-ref-1…3 so they don't clash with the
+     page's #ref-1…5. The source list sits after the 6樽 button on
+     phones (so the button stays close to the bars) and under the chart
+     on desktop (grid area "src").
+   - Below 900px the page pins #sticky-mobile-cta (about 68px) to the
+     bottom of the screen; the script treats the bottom 84px as covered
+     (T1_COVER), so the run starts only once the plan bars are above the
+     bar. If the page ever adds viewport-fit=cover, add the safe-area
+     inset to that number.
+   - For the owner (Cap. 231): the plan name 「完整療程」 ("course of
+     treatment") is the page's own and is kept here for consistency.
+     A reviewer flagged 療程 as a remaining wording risk; if it changes
+     (for example 完整裝 or 180日裝), change it page-wide, including
+     the bar label, the button and the aria-label below.
+   ================================================================= */
+.t1 {
+  --t1-ink: var(--color-text-primary, #2C1810);
+  --t1-ink2: var(--color-text-secondary, #5C4F47);
+  --t1-mute: var(--color-text-muted, #7A6E66);
+  --t1-bg: var(--color-bg-secondary, #F3EDE4);
+  --t1-teal: var(--color-primary, #1B6B63);
+  --t1-teal-d: var(--color-primary-dark, #145550);
+  --t1-kraft: var(--color-secondary, #B49A6B);
+  --t1-kraft-l: var(--color-secondary-light, #D2BF9A);
+  --t1-num: Inter, var(--font-body);
+  --t1-ease: cubic-bezier(0.2, 0.75, 0.2, 1);
+  /* chart geometry (px) */
+  --t1-ph: 220px;   /* plot height */
+  --t1-xh: 32px;    /* month labels row */
+  --t1-pm: 8px;     /* gap above the plan bars */
+  --t1-bh: 36px;    /* plan bar height */
+  --t1-gap: 8px;    /* gap between the bars */
+  /* curve landmarks, % of plot height from the top (same function as the path and the JS) */
+  --t1-ys: 16%;     /* the steady level (the band starts here too: --t1-ph * 0.16) */
+  --t1-y3: 27.6%;   /* the level on day 90 */
+  padding: 56px 0 64px;
+  background: var(--t1-bg);
+  color: var(--t1-ink);
+  scroll-margin-top: 12px;
 }
-.c-stops line { stroke: rgba(250, 247, 242, 0.28); stroke-dasharray: 2 3; }
-.c-stops circle { fill: var(--dark); stroke: var(--paper); stroke-width: 2; }
-.c-stops circle.is-6 { fill: var(--teal-l); stroke: #fff; }
-.c-bar { fill: rgba(250, 247, 242, 0.2); transform-box: fill-box; transform-origin: left; transition: transform 1.2s var(--ease) 0.5s; }
-.c-bar--6 { fill: var(--teal-l); }
-.c-t--bar { fill: rgba(250, 247, 242, 0.78); font-weight: 600; font-size: 12px; }
-.c-t--bar6 { fill: #1C1917; font-weight: 700; font-size: 12px; }
-.js .curve:not(.in) .c-curve { stroke-dashoffset: 1; }
-.js .curve:not(.in) .c-bar { transform: scaleX(0); }
-.curve__note { margin-top: 8px; text-align: right; font-size: 12.5px; color: rgba(250, 247, 242, 0.55); }
+.t1-in { max-width: 1120px; margin-inline: auto; padding-inline: 20px; }
 
-/* Footnote markers → the numbered source list */
-.cite { font: 600 10.5px var(--num); line-height: 0; vertical-align: super; margin-left: 1px; }
-.cite a { color: var(--kraft-l); text-decoration: none; padding: 0 1px; }
-
-.tfacts { list-style: none; padding: 0; margin-top: 18px; display: grid; gap: 10px; }
-.tfacts li {
-  display: grid; grid-template-columns: 86px 1fr; column-gap: 12px;
-  padding-top: 10px; border-top: 1px solid var(--line-dark);
-  font-size: 14px; line-height: 1.6; color: rgba(250, 247, 242, 0.82);
-}
-.tfacts b { color: #fff; font-weight: 700; }
-
-.refs { margin-top: 18px; font-size: 13px; line-height: 1.6; }
-.refs__h { font-weight: 700; }
-.refs__list { margin-top: 4px; padding-left: 1.5em; }
-.refs__list li { padding-left: 2px; }
-.refs__list i { font-style: italic; }
-.refs--dark { color: rgba(250, 247, 242, 0.72); }
-.refs--dark .refs__h { color: rgba(250, 247, 242, 0.9); }
-.refs--dark a {
-  color: rgba(250, 247, 242, 0.82); text-decoration: underline;
-  text-decoration-color: rgba(250, 247, 242, 0.3); text-underline-offset: 2px;
-}
-.refs--dark li::marker { font-family: var(--num); color: var(--kraft-l); }
-
-.time__end {
-  margin-top: 26px; font-family: var(--serif); font-weight: 700;
-  font-size: clamp(1.15rem, 4.8vw, 1.45rem); line-height: 1.5; color: #fff;
+.t1-h {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(1.35rem, 5.6vw, 1.9rem);
+  line-height: 1.38;
+  font-feature-settings: "palt";
   text-wrap: balance;
+  word-break: keep-all;   /* break only at spaces, punctuation and the <wbr> */
 }
-.time__why { margin-top: 10px; font-size: 15px; line-height: 1.75; color: rgba(250, 247, 242, 0.78); }
-.time__pick {
-  display: inline-flex; align-items: center; gap: 6px; margin-top: 14px;
-  color: var(--kraft-l); font-weight: 700; text-decoration: none;
-  border-bottom: 1px solid rgba(210, 191, 154, 0.5); padding-bottom: 2px;
+.t1-nw { white-space: nowrap; }
+.t1-lead { margin-top: 10px; font-size: 16px; line-height: 1.7; color: var(--t1-ink2); word-break: keep-all; }
+.t1-lead b { display: inline-block; color: var(--t1-ink); font-weight: 700; }
+.t1-cite { font: 600 13px/0 var(--t1-num); vertical-align: super; margin-left: 1px; }
+/* Vertical padding on an inline link grows the tap area without moving the line. */
+.t1-cite a { color: var(--t1-teal); text-decoration: none; padding: 12px 4px; margin: 0 -3px; }
+
+.t1-fig { margin-top: 24px; }
+
+/* Header row: what the curve is, and that it is an illustration */
+.t1-top {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  margin-bottom: 6px;
+}
+.t1-ylab { font-size: 14px; font-weight: 500; line-height: 1.4; color: var(--t1-ink2); }
+.t1-tag {
+  flex: none; font-size: 13px; line-height: 1.5; color: var(--t1-mute);
+  border: 1px solid rgba(44, 24, 16, 0.2); border-radius: 999px; padding: 0 9px;
+}
+
+/* x = days (0–180 → 0–100% of .t1-body); the side margins leave room
+   for the 180-day marker, which sits on the right edge. */
+.t1-body { position: relative; margin-inline: 10px; }
+
+/* The 4–6 month window: one column from the steady line down past both
+   bars. Starting at the line lets the 已達 verdict cap it cleanly. */
+.t1-band {
+  position: absolute; left: 66.6667%; right: 0;
+  top: calc(var(--t1-ph) * 0.16); bottom: -10px;
+  background: rgba(27, 107, 99, 0.11);
+  border-radius: 8px;
+  transition: background-color 0.6s ease;
+}
+
+.t1-plot { position: relative; height: var(--t1-ph); }
+.t1-grid, .t1-cv, .t1-cv svg {
+  position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible;
+}
+.t1-steady { stroke: rgba(20, 85, 80, 0.5); stroke-width: 1.5; stroke-dasharray: 5 5; }
+.t1-axis, .t1-ticks { stroke: rgba(44, 24, 16, 0.38); stroke-width: 1.5; }
+.t1-curve {
+  fill: none; stroke: var(--t1-teal); stroke-width: 4;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.t1-lvl {
+  position: absolute; left: 0; bottom: calc(100% - var(--t1-ys) + 3px);
+  font-size: 14px; font-weight: 700; line-height: 1.3; color: var(--t1-teal-d);
+}
+/* Where the curve starts: the reader's own level, not zero */
+.t1-base {
+  position: absolute; left: 22px; bottom: 5px;
+  font-size: 13px; font-weight: 500; line-height: 1.35; color: var(--t1-mute); white-space: nowrap;
+}
+.t1-bandlab {
+  position: absolute; left: 66.6667%; right: 0; bottom: 10px;
+  text-align: center; color: var(--t1-teal-d);
+}
+.t1-bandlab b { font: 700 16px/1.3 var(--t1-num); letter-spacing: -0.01em; white-space: nowrap; }
+
+/* Moving "today" hairline, drawn under everything it meets. JS places it with a
+   transform: translate to the dot, scaleY to the length (100px = scale 1). */
+.t1-guide {
+  position: absolute; left: 0; top: 0; width: 0; height: 100px; margin-left: -0.75px;
+  border-left: 1.5px solid rgba(44, 24, 16, 0.28);
+  transform-origin: 0 0;
+}
+
+/* Where each plan stops: dashed line from the curve down to its bar. The
+   3樽 line breaks for the 「3個月」 label (second piece in the month row),
+   so nothing has to paint the background colour to hide it. */
+.t1-stop {
+  position: absolute; width: 0; margin-left: -1px;
+  border-left: 2px dashed; transform-origin: 50% 0;
+  transition: opacity 0.2s, transform 0.45s var(--t1-ease);
+}
+.t1-stop--3 { left: 50%; top: var(--t1-y3); bottom: 0; border-color: var(--t1-kraft); }
+.t1-stop--3b {
+  left: 50%; top: calc(var(--t1-xh) - 4px); bottom: calc(-1 * var(--t1-pm));
+  border-color: var(--t1-kraft);
+  transition: opacity 0.1s 0.3s, transform 0.2s 0.3s linear;
+}
+.t1-stop--6 {
+  z-index: 1; left: 100%; top: var(--t1-ys);
+  bottom: calc(-1 * (var(--t1-xh) + var(--t1-pm) + var(--t1-bh) + var(--t1-gap)));
+  border-color: rgba(27, 107, 99, 0.6);
+}
+
+.t1-mk, .t1-dot { position: absolute; border-radius: 50%; }
+.t1-mk {
+  z-index: 2; transform: translate(-50%, -50%);
+  transition: opacity 0.2s, transform 0.5s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.t1-mk--3 {
+  left: 50%; top: var(--t1-y3); width: 19px; height: 19px;
+  background: var(--t1-kraft-l); border: 3px solid var(--t1-ink2);
+}
+.t1-mk--6, .t1-dot {
+  background: var(--t1-teal); border: 3px solid #fff;
+  box-shadow: 0 0 0 1.5px var(--t1-teal), 0 2px 8px rgba(27, 107, 99, 0.35);
+}
+.t1-mk--6 { left: 100%; top: var(--t1-ys); width: 22px; height: 22px; }
+/* JS places the dot with a transform (translate to the point, then -50% to centre it) */
+.t1-dot { z-index: 1; left: 0; top: 0; width: 17px; height: 17px; }
+
+/* The verdict at each stop, in that plan's colour: just under the steady
+   line at day 90 (in the gap between the line and the curve, left of the
+   3樽 marker), on it at day 180. 「一般」 is set lighter so the one
+   character that differs, 未 / 已, carries the pair. */
+.t1-say {
+  position: absolute; z-index: 3;
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 10px 2px 11px; border-radius: 999px;
+  font-size: 16px; font-weight: 700; line-height: 1.2; white-space: nowrap;
+  transition: opacity 0.35s 0.12s, transform 0.5s 0.12s var(--t1-ease);
+}
+.t1-say__h { font-size: 14px; font-weight: 400; opacity: 0.78; margin-right: 1px; }
+.t1-say--3 {
+  right: calc(50% + max(16px, 6.3% - 4px)); top: calc(var(--t1-ys) + 6px);
+  background: var(--t1-kraft-l); color: var(--t1-ink);
+}
+.t1-say--6 {
+  right: 26px; bottom: calc(100% - var(--t1-ys) + 4px);
+  background: var(--t1-teal); color: #fff;
+}
+.t1-ic {
+  width: 16px; height: 16px; flex: none;
+  fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* Moving parts show and hide as clean cuts (no fades), so two labels never
+   share a frame half-transparent. */
+.t1-dot, .t1-guide, .t1-chip { opacity: 0; pointer-events: none; }
+.t1-playing .t1-dot, .t1-playing .t1-guide, .t1-chipon .t1-chip { opacity: 1; }
+.t1-hold .t1-guide { opacity: 0; }  /* round day 90 the dashed 3樽 line takes its place */
+
+/* Month labels */
+.t1-x { position: relative; height: var(--t1-xh); }
+.t1-m {
+  position: absolute; top: 6px;
+  left: calc(var(--m) / 6 * 100%); transform: translateX(-50%);
+  font: 500 13px/1.35 var(--t1-num); color: var(--t1-mute); white-space: nowrap;
+}
+.t1-m--0 { transform: none; }
+.t1-m--6 { transform: translateX(-100%); padding-right: 7px; }
+.t1-m.is-key { top: 5px; font-size: 14px; font-weight: 700; color: var(--t1-ink); }
+.t1-m--under { visibility: hidden; }  /* the day counter is passing over it */
+.t1-chip {
+  position: absolute; left: 0; top: 3px; z-index: 3;
+  width: 6em; padding: 2px 0; border-radius: 6px;
+  background: var(--t1-ink); color: #fff; text-align: center;
+  font: 700 14px/1.45 var(--t1-num); font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+
+/* The two plans, drawn to the same time scale. Each sits in a full 180-day
+   track (3樽 fills half of it, 6樽 all of it). The plan name is also printed
+   in ink on the empty track, under the fill, so both rows are named in every
+   frame; the fill covers it as it passes. */
+.t1-plans { display: grid; gap: var(--t1-gap); margin-top: var(--t1-pm); }
+.t1-track {
+  position: relative; height: var(--t1-bh);
+  border-radius: 7px; background: rgba(44, 24, 16, 0.07);
+}
+.t1-bar { position: relative; height: 100%; border-radius: 7px; overflow: hidden; }
+.t1-bar--3 { width: 50%; background: var(--t1-kraft-l); color: var(--t1-ink); }
+.t1-bar--6 { width: 100%; background: var(--t1-teal); color: #fff; }
+.t1-lab {
+  display: flex; align-items: center; height: 100%; padding: 0 10px;
+  white-space: nowrap; font-size: 15px; font-weight: 700; line-height: 1;
+}
+.t1-lab small { font-size: 14px; font-weight: 500; margin-right: 6px; }
+.t1-ghost { position: absolute; inset: 0; color: var(--t1-ink); }
+/* What 3樽 misses, said in the bar row too: the empty half of its track */
+.t1-miss {
+  position: absolute; left: 50%; right: 0; top: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 500; line-height: 1; color: var(--t1-ink2); white-space: nowrap;
+  transition: opacity 0.4s 0.1s;
+}
+
+/* Caption: the vitamin D line, then the honesty note and replay */
+.t1-cap { margin-top: 22px; }
+/* keep-all: Chinese lines break at punctuation and spaces, never inside a phrase */
+.t1-also { font-size: 16px; line-height: 1.7; color: var(--t1-ink2); word-break: keep-all; }
+.t1-also b { color: var(--t1-ink); font-weight: 700; white-space: nowrap; }
+.t1-cap__row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin-top: 12px;
+}
+.t1-note { font-size: 14.5px; line-height: 1.55; color: var(--t1-ink2); word-break: keep-all; }
+.t1-replay {
+  flex: none; display: inline-flex; align-items: center; gap: 6px;
+  min-height: 44px; padding: 0 16px;
+  border: 1px solid rgba(44, 24, 16, 0.2); border-radius: 999px;
+  background: transparent; color: var(--t1-ink2); font-size: 15px; font-weight: 500; cursor: pointer;
+}
+.t1-replay[hidden] { display: none; }
+.t1-replay.t1-wait { visibility: hidden; }  /* its place is kept while the chart plays */
+.t1-replay svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.t1-replay:hover { background: rgba(44, 24, 16, 0.05); }
+
+.t1-pick {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 22px;
+  min-height: 50px; padding: 0 22px;
+  border: 2px solid var(--t1-teal); border-radius: 999px;
+  color: var(--t1-teal-d); background: rgba(27, 107, 99, 0.04);
+  font-size: 16px; font-weight: 700; text-decoration: none;
+  transition: background-color 0.2s;
+}
+.t1-pick:hover { background: rgba(27, 107, 99, 0.1); }
+.t1-pick svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---- Animation states. No JS: the finished chart shows as is. ---- */
+.js .t1-chart:not(.t1-done) .t1-cv { clip-path: inset(0 100% 0 0); }
+.js .t1-chart:not(.t1-done) .t1-bar { clip-path: inset(0 100% 0 0 round 7px); }
+.js .t1-chart:not(.t1-done):not(.t1-inband) .t1-band { background-color: rgba(27, 107, 99, 0.05); }
+.js .t1-chart:not(.t1-done):not(.t1-inband) .t1-miss,
+.js .t1-chart:not(.t1-done):not(.t1-at3) .t1-p3,
+.js .t1-chart:not(.t1-done):not(.t1-at6) .t1-p6 { opacity: 0; }
+.js .t1-chart:not(.t1-done):not(.t1-at3) .t1-mk.t1-p3,
+.js .t1-chart:not(.t1-done):not(.t1-at6) .t1-mk.t1-p6 { transform: translate(-50%, -50%) scale(0.3); }
+.js .t1-chart:not(.t1-done):not(.t1-at3) .t1-stop.t1-p3,
+.js .t1-chart:not(.t1-done):not(.t1-at6) .t1-stop.t1-p6 { transform: scaleY(0); }
+.js .t1-chart:not(.t1-done):not(.t1-at3) .t1-say.t1-p3,
+.js .t1-chart:not(.t1-done):not(.t1-at6) .t1-say.t1-p6 { transform: translateY(8px); }
+/* Replay: jump back to the start without animating backwards */
+.t1-reset *, .t1-reset .t1-band { transition: none !important; animation: none !important; }
+
+/* ---- Narrow phones (up to 389px, e.g. 375px iPhones): the 6樽 label fits
+   inside half a bar, so the fill edge never cuts it during the day-90 hold ---- */
+@media (max-width: 389px) {
+  .t1-lab { padding: 0 8px; font-size: 14px; }
+  .t1-lab small { font-size: 13px; margin-right: 4px; }
+}
+/* ---- Small phones: the verdicts stay inside the side gutter ---- */
+@media (max-width: 359px) {
+  .t1-say { font-size: 15px; padding: 2px 8px 2px 9px; gap: 3px; }
+  .t1-say__h { font-size: 13px; }
+  .t1-ic { width: 15px; height: 15px; }
+  .t1-say--3 { right: calc(50% + 14px); }
+  .t1-miss { font-size: 13px; }
+  .t1-lab small { display: none; }  /* 3樽 · 90日 / 6樽 · 180日, as in the lead */
+}
+
+/* ---- Tablet ---- */
+@media (min-width: 640px) {
+  .t1 { --t1-ph: 250px; }
+  .t1-in { padding-inline: 32px; }
+  .t1-fig { max-width: 640px; }
+  .t1-lab { padding: 0 12px; }
+  .t1-say--3 { right: calc(50% + 22px); }
+}
+
+/* ---- Desktop: words left, chart right (same grid as section 2) ---- */
+@media (min-width: 1024px) {
+  .t1 { --t1-ph: 270px; --t1-bh: 40px; padding: 104px 0; }
+  .t1-in {
+    padding-inline: 40px;
+    display: grid; grid-template-columns: 380px minmax(0, 1fr); column-gap: 72px;
+    grid-template-areas: "copy fig" "pick fig"; grid-template-rows: auto 1fr;
+  }
+  .t1-copy { grid-area: copy; padding-top: 34px; }
+  .t1-lead { margin-top: 16px; font-size: 17px; }
+  .t1-fig { grid-area: fig; margin-top: 0; max-width: none; }
+  .t1-pick { grid-area: pick; align-self: start; justify-self: start; margin-top: 28px; }
+  .t1-ylab, .t1-lvl { font-size: 15px; }
+  .t1-tag, .t1-m, .t1-base { font-size: 14px; }
+  .t1-m.is-key { font-size: 15px; }
+  .t1-bandlab b { font-size: 17px; }
+  .t1-lab { font-size: 16px; padding: 0 14px; }
+  .t1-lab small, .t1-miss { font-size: 15px; }
+  .t1-say { font-size: 17px; }
+  .t1-say__h { font-size: 15px; }
+  .t1-say--3 { right: calc(50% + 16px); }
+  .t1-also { font-size: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t1-chart *, .t1-band { transition: none !important; animation: none !important; }
 }
 
 /* ---------------------------------------------------------------
@@ -561,6 +845,9 @@ a { color: inherit; }
 .stab__row em { font: 600 13px var(--num); font-style: normal; text-align: right; }
 .js .stab:not(.in) .stab__row i { width: 0; }
 .stab .fact__small { margin-top: 8px; }
+.seal { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
+.seal img { flex: none; width: 112px; height: auto; }
+.seal .fact__small--seal { margin-top: 0; color: var(--ink-2); word-break: keep-all; overflow-wrap: anywhere; }
 
 .sea__oil {
   margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--line);
@@ -644,12 +931,11 @@ a { color: inherit; }
    4a. Proof: the advisory board
    --------------------------------------------------------------- */
 .experts { padding: 72px 0 64px; }
-.board__h { font-family: var(--serif); font-weight: 700; font-size: clamp(1.35rem, 5.8vw, 1.9rem); line-height: 1.35; text-wrap: balance; word-break: keep-all; }
-.board__h b {
-  font: 700 2.2em/1 var(--num); color: var(--teal); letter-spacing: -0.03em;
-  vertical-align: -0.1em; margin-right: 4px;
+.board__h {
+  font: 700 clamp(2.4rem, 12vw, 3.2rem)/1.05 var(--num); letter-spacing: -0.025em; color: var(--ink);
 }
-.board__sub { margin-top: 6px; font-size: 13.5px; color: var(--mute); }
+.board__h b { font-weight: 700; color: var(--teal); }
+.board__sub { margin-top: 10px; font-family: var(--serif); font-weight: 700; font-size: clamp(1.05rem, 4.6vw, 1.3rem); line-height: 1.45; color: var(--ink-2); }
 .faces {
   list-style: none; padding: 0; margin-top: 22px;
   display: flex; flex-wrap: wrap; justify-content: center;
@@ -703,6 +989,14 @@ html:not(.js) .reel__ctrl, .reel:not(.is-loop) .reel__btn--play { display: none;
 .q__who { display: flex; flex-direction: column; line-height: 1.3; }
 .q__who b { font-size: 15px; }
 .q__who span { font-size: 12.5px; color: var(--mute); }
+/* 「✓ 已購用家 · 購買日期」: a verified purchase (CRM), not a rating */
+.q__buyer {
+  align-self: flex-start; margin-top: 10px;
+  padding: 1px 9px; border-radius: 999px;
+  background: rgba(27, 107, 99, 0.08); color: var(--teal-d);
+  font-size: 12.5px; font-weight: 700; line-height: 1.7;
+}
+.q__buyer i { font-style: normal; }
 .q__tags { list-style: none; padding: 0; margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
 .q__tags li { padding: 1px 9px; border-radius: 999px; background: rgba(27, 107, 99, 0.08); color: var(--teal); font-size: 12px; }
 .q__msgs { margin-top: 12px; display: grid; gap: 6px; justify-items: start; }
@@ -764,40 +1058,13 @@ html:not(.js) .reel__ctrl, .reel:not(.is-loop) .reel__btn--play { display: none;
 }
 .cover p { font-size: 13px; line-height: 1.5; color: var(--mute); }
 .cover b { display: block; font-size: 14px; color: var(--ink); }
+.cover a { color: inherit; text-decoration: underline; text-decoration-color: rgba(44, 24, 16, 0.3); text-underline-offset: 2px; }
 .picker--card .pay { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
-
-/* ---------------------------------------------------------------
-   6. 90日退款保證 — the full terms, readable
-   --------------------------------------------------------------- */
-.terms { background: var(--paper-2); padding: 64px 0; scroll-margin-top: 8px; }
-.terms__card {
-  max-width: 760px; margin-inline: auto; padding: 24px 20px 26px;
-  background: var(--card); border-radius: 18px; box-shadow: 0 0 0 1px var(--line);
-}
-.terms__head { display: flex; align-items: center; gap: 14px; }
-.seal {
-  flex: none; display: grid; place-content: center; justify-items: center;
-  width: 64px; height: 64px; border-radius: 50%;
-  background: var(--teal); color: #fff; line-height: 1;
-  box-shadow: inset 0 0 0 4px var(--teal), inset 0 0 0 5.5px rgba(255, 255, 255, 0.6);
-}
-.seal b { font: 700 24px/1 var(--num); letter-spacing: -0.02em; }
-.seal small { margin-top: 3px; font-size: 11px; font-weight: 700; }
-.terms__h { font-family: var(--serif); font-weight: 700; font-size: clamp(1.5rem, 6.2vw, 2.1rem); line-height: 1.25; }
-.terms__sub { margin-top: 2px; font-size: 14px; color: var(--mute); }
-.terms__intro { margin-top: 18px; font-size: 16px; line-height: 1.75; color: var(--ink); }
-.terms__list { margin-top: 14px; padding-left: 1.5em; display: grid; gap: 10px; }
-.terms__list > li { padding-left: 4px; font-size: 15px; line-height: 1.75; color: var(--ink-2); }
-.terms__list > li::marker { font-family: var(--num); font-weight: 700; color: var(--teal); }
-.terms__list b { color: var(--ink); }
-.terms__list ul { margin-top: 4px; padding-left: 1.1em; }
-.terms__list ul li { margin-top: 2px; }
-.terms__list a { color: var(--teal); font-weight: 700; }
 
 /* ---------------------------------------------------------------
    FAQ — grouped
    --------------------------------------------------------------- */
-.faq { background: var(--card); padding: 64px 0; scroll-margin-top: 8px; }
+.faq { background: var(--card); padding: 64px 0 48px; scroll-margin-top: 8px; }
 .faq__wrap { max-width: 800px; }
 .faq__list { margin-top: 12px; }
 .faq__group { margin-top: 34px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
@@ -820,12 +1087,51 @@ html:not(.js) .reel__ctrl, .reel:not(.is-loop) .reel__btn--play { display: none;
 .faq__a p + p, .faq__a p + ul, .faq__a ul + p { margin-top: 10px; }
 .faq__a ul { padding-left: 1.2em; }
 .faq__a li + li { margin-top: 4px; }
-.faq__refs { font-size: 13px; line-height: 1.7; color: var(--mute); }
 .spec { display: grid; gap: 8px; }
 .spec div { display: grid; grid-template-columns: 86px 1fr; gap: 10px; font-size: 14px; line-height: 1.6; }
 .spec dt { color: var(--mute); }
 .spec dd { color: var(--ink); }
 .spec--terms dt { font: 700 14px/1.6 var(--num); color: var(--teal); }
+
+/* Footnote markers (FAQ) → the one source list at the bottom */
+.cite { font: 600 11px var(--num); line-height: 0; vertical-align: super; margin-left: 1px; }
+.cite a { color: var(--teal); text-decoration: none; padding: 8px 2px; }
+
+/* ---------------------------------------------------------------
+   Sources + collapsed guarantee terms — the fine print at the bottom
+   --------------------------------------------------------------- */
+.sources { background: var(--card); padding: 8px 0 28px; }
+.sources__wrap, .terms__wrap { max-width: 800px; }
+.sources__h { padding-top: 22px; border-top: 1px solid var(--line); font-size: 13px; font-weight: 700; color: var(--ink-2); }
+.sources__list { margin-top: 6px; padding-left: 1.5em; font-size: 13px; line-height: 1.7; color: var(--mute); }
+.sources__list li { scroll-margin-top: 80px; }
+.sources__list li::marker { font-family: var(--num); }
+.sources__list a { color: var(--ink-2); text-decoration: underline; text-decoration-color: rgba(44, 24, 16, 0.3); text-underline-offset: 2px; }
+.sources__list li:target { background: rgba(27, 107, 99, 0.08); border-radius: 4px; }
+
+.terms { background: var(--paper-2); padding: 18px 0 22px; }
+.terms__box { scroll-margin-top: 12px; }
+.terms__sum {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 0; cursor: pointer; list-style: none;
+  font-size: 14px; font-weight: 700; color: var(--ink-2);
+}
+.terms__sum::-webkit-details-marker { display: none; }
+.terms__sum i { position: relative; width: 12px; height: 12px; flex: none; }
+.terms__sum i::before, .terms__sum i::after {
+  content: ''; position: absolute; left: 0; right: 0; top: 5px; height: 2px;
+  background: var(--ink-2); transition: transform 0.25s;
+}
+.terms__sum i::after { transform: rotate(90deg); }
+.terms__box[open] .terms__sum i::after { transform: rotate(0); }
+.terms__body { padding: 6px 0 14px; }
+.terms__intro { font-size: 15px; line-height: 1.75; color: var(--ink); }
+.terms__list { margin-top: 12px; padding-left: 1.5em; display: grid; gap: 8px; }
+.terms__list > li { padding-left: 4px; font-size: 14.5px; line-height: 1.75; color: var(--ink-2); }
+.terms__list > li::marker { font-family: var(--num); font-weight: 700; color: var(--teal); }
+.terms__list b { color: var(--ink); }
+.terms__list a { color: var(--teal); font-weight: 700; }
+.terms__list a[href^="https://wa.me/"] { white-space: nowrap; }
 
 /* ---------------------------------------------------------------
    Footer
@@ -925,22 +1231,11 @@ html:not(.js) .reel__ctrl, .reel:not(.is-loop) .reel__btn--play { display: none;
   .how { padding: 112px 0 104px; }
   .how__grid {
     display: grid; grid-template-columns: 380px minmax(0, 1fr); column-gap: 72px;
-    grid-template-areas: "head demo" "time time";
+    grid-template-areas: "head demo";
   }
   .how__head { grid-area: head; align-self: center; }
   .how__one { font-size: 1.5rem; }
   .how__demo { grid-area: demo; margin-top: 0; }
-  .time {
-    grid-area: time; margin-top: 88px; padding-top: 72px;
-    display: grid; grid-template-columns: 380px minmax(0, 1fr); column-gap: 72px;
-    grid-template-rows: auto auto auto auto 1fr;
-  }
-  .time > .h3 { grid-column: 1; grid-row: 1; }
-  .time__lead { grid-column: 1; grid-row: 2; }
-  .time__end { grid-column: 1; grid-row: 3; margin-top: 28px; }
-  .time__why { grid-column: 1; grid-row: 4; }
-  .time__pick { grid-column: 1; grid-row: 5; align-self: start; justify-self: start; }
-  .time__fig { grid-column: 2; grid-row: 1 / span 5; margin-top: 0; }
 
   .sea { padding: 112px 0 104px; }
   .sea__head { max-width: 760px; }
@@ -970,8 +1265,9 @@ html:not(.js) .reel__ctrl, .reel:not(.is-loop) .reel__btn--play { display: none;
   .experts { padding: 104px 0 96px; }
   .board { display: grid; grid-template-columns: 380px minmax(0, 1fr); column-gap: 72px; }
   .board__h, .board__sub { grid-column: 1; }
-  .board__h { align-self: end; font-size: 1.6rem; }
-  .board__h b { display: block; font-size: 4.5rem; margin: 0 0 6px; }
+  .board__h { align-self: end; font-size: 4.5rem; line-height: 1; }
+  .board__h b { display: block; font-size: 1.28em; margin-top: 2px; }
+  .board__sub { font-size: 1.35rem; }
   .faces { grid-column: 2; grid-row: 1 / span 3; margin-top: 0; }
   .credits { grid-column: 1 / -1; grid-template-columns: repeat(4, 1fr); margin-top: 48px; }
 
@@ -989,9 +1285,7 @@ html:not(.js) .reel__ctrl, .reel:not(.is-loop) .reel__btn--play { display: none;
   .close__copy { text-align: left; }
   .boxes--small { --w: 104px; margin-top: 40px; max-width: 480px; }
   .picker--card { margin-top: 0; padding: 26px 22px 22px; }
-  .terms { padding: 96px 0; }
-  .terms__card { padding: 36px 40px 40px; }
-  .faq { padding: 96px 0; }
+  .faq { padding: 96px 0 64px; }
 }
 
 @media (min-width: 900px) {
@@ -1000,7 +1294,7 @@ html:not(.js) .reel__ctrl, .reel:not(.is-loop) .reel__btn--play { display: none;
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .box, .gel__good, .ruler__pin, .stab__row i, .c-curve, .c-bar { transition: none !important; }
+  .box, .gel__good, .ruler__pin, .stab__row i { transition: none !important; }
   .m-route { animation: none; }
   .modes.is-auto button[aria-selected="true"]::after { animation: none; }
   /* Certifications: no motion — the real set wraps, the decorative copies go */

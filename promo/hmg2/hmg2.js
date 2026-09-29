@@ -14,6 +14,9 @@
  * 5. Certification row: pause on touch (hover is pure CSS).
  * 6. Small courtesies: hide the sticky bar over the bottom picker,
  *    one video at a time, pause a video when it scrolls away.
+ * 7. Guarantee terms: collapsed at the bottom; every #guarantee link
+ *    (and arriving with #guarantee in the URL) opens them and scrolls there.
+ * (The build-up chart in section 2b runs from its own file, t1.js.)
  */
 (function () {
   'use strict';
@@ -31,11 +34,10 @@
            plan: '完整療程 · 6樽', price: 'HK$3,000 · 每日 HK$16.7', nudge: '' },
     '3': { path: '3hmg', checkout: '3box', value: 1650, label: '購買試用裝 · HK$1,650',
            plan: '試用裝 · 3樽', price: 'HK$1,650 · 每日 HK$18.3',
-           nudge: '加 HK$1,350 升級至完整療程：多出的 3樽，每樽只需 HK$450。' },
+           nudge: '90日退款保證只適用於完整療程。加 HK$1,350 升級至完整療程：多出的 3樽，每樽只需 HK$450。' },
     '1': { path: '1hmg', checkout: '1box', value: 700, label: '購買 1樽 · HK$700',
            plan: '1樽 · 30日', price: 'HK$700 · 每日 HK$23.3',
-           // 1 bottle is 30 days, so the 90-day guarantee cannot apply; say so before purchase
-           nudge: '1樽不適用 90日退款保證。加 HK$2,300 升級至完整療程：多出的 5樽，每樽只需 HK$460。' }
+           nudge: '90日退款保證只適用於完整療程。加 HK$2,300 升級至完整療程：多出的 5樽，每樽只需 HK$460。' }
   };
 
   function applyPlan(key) {
@@ -521,4 +523,41 @@
       }, { threshold: 0.2 }).observe(v);
     }
   });
+
+  /* -----------------------------------------------------------------
+     7. Guarantee terms — a closed <details id="guarantee"> above the footer
+     ----------------------------------------------------------------- */
+  (function terms() {
+    var box = document.getElementById('guarantee');
+    if (!box) return;
+    var MARGIN = 12; // matches .terms__box { scroll-margin-top }
+    function openTerms() {
+      box.open = true;
+      // after the layout grows, bring the summary to the top of the screen
+      requestAnimationFrame(function () {
+        box.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+        // The page can shift a few px during a long smooth scroll (the details opening,
+        // the sticky bar's body padding, late layout). Once the scroll settles, land exactly.
+        var done = false, t = 0;
+        function settle() {
+          if (done) return;
+          done = true; clearTimeout(t);
+          window.removeEventListener('scrollend', settle);
+          var off = box.getBoundingClientRect().top - MARGIN;
+          if (Math.abs(off) > 3) window.scrollBy(0, off);
+        }
+        if ('onscrollend' in window) window.addEventListener('scrollend', settle);
+        t = setTimeout(settle, 1600); // browsers without scrollend
+      });
+    }
+    each(document.querySelectorAll('a[href="#guarantee"]'), function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (window.history && history.replaceState) history.replaceState(null, '', '#guarantee');
+        openTerms();
+      });
+    });
+    if (location.hash === '#guarantee') openTerms();
+    window.addEventListener('hashchange', function () { if (location.hash === '#guarantee') openTerms(); });
+  })();
 })();
