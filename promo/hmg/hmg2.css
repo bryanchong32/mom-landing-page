@@ -1340,6 +1340,9 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
 /* 「✓ 已購用家 · 購買日期」: a verified purchase (CRM), not a rating */
 .q__buyer { margin-top: 2px; font-size: 14px; font-weight: 700; line-height: 1.45; color: var(--teal-d); }
 .q__buyer i { font-style: normal; }
+/* The purchase date sits on its own line, so it never breaks mid-date at the larger size. */
+.q__buyer .q__sep { display: none; }
+.q__buyer .q__date { display: block; font-weight: 500; white-space: nowrap; }
 .q__msgs { margin-top: 14px; display: grid; gap: 6px; justify-items: start; }
 .q__msg {
   position: relative; max-width: 94%;
