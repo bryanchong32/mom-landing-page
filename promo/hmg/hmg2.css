@@ -1153,6 +1153,11 @@ a { color: inherit; }
 }
 .rv:not([open]) { display: none; }
 .rv::backdrop { background: rgba(22, 19, 17, 0.6); }
+/* opening and closing: a 200 ms fade with a slight scale from 0.98 (hmg2.js sets the classes) */
+.rv { transition: opacity 200ms var(--ease), transform 200ms var(--ease); }
+.rv.is-pre, .rv.is-out { opacity: 0; transform: scale(0.98); }
+.rv::backdrop { transition: opacity 200ms var(--ease); }
+.rv.is-pre::backdrop, .rv.is-out::backdrop { opacity: 0; }
 html.rv-lock, html.rv-lock body { overflow: hidden; }
 .rv__bar {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
@@ -1174,6 +1179,7 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
 .rv__img {
   position: absolute; left: 10px; top: 10px; width: calc(100% - 20px); height: calc(100% - 20px);
   max-width: none; object-fit: contain; cursor: zoom-in;
+  transform-origin: 0 0;   /* hmg2.js scales it from its corner: zoom, swipe */
 }
 /* zoomed: the report at its real size (2000px wide, its small print readable), panned natively */
 .rv.is-zoom .rv__stage { overflow: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
@@ -1700,7 +1706,7 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
   .box, .gel__good, .ruler__pin, .stab__row i { transition: none !important; }
   /* round 8: the upgrade note, the sticky bar and the press feedback are instant */
   .nudge, .nudge.is-open, .sticky, .plan, .buy, .sticky__buy, .m2-play, .t1-pick, .rv__step,
-  .sgs a, .nudge button { transition: none; }
+  .sgs a, .nudge button, .rv, .rv::backdrop { transition: none; }
   /* Certifications: no motion — the real set wraps, the decorative copies go */
   .loop { -webkit-mask: none; mask: none; }
   .loop__track { animation: none; width: auto; display: block; }

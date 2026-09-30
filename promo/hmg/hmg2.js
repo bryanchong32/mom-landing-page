@@ -969,12 +969,16 @@
 
   /* -----------------------------------------------------------------
      7. Report viewer — each SGS thumbnail (section 3a) opens the full
-        report in a <dialog>, fitted to the screen. Tap the report to see it
-        at its real size and pan around (a pinch zooms too); ‹ ›, the arrow
-        keys or a sideways swipe go to the next report. ✕, Esc or a tap
-        beside the report closes it; focus goes back to the thumbnail and
-        the page behind does not scroll. Without <dialog> support the link
-        simply opens the image in this tab.
+        report in a <dialog>, fitted to the screen; it opens and closes with
+        a short fade. Tap the report to see it at its real size and pan
+        around: it grows out of the tapped spot, then becomes a scrollable
+        page at the same place; a second tap shrinks it back (a pinch zooms
+        too). ‹ ›, the arrow keys or a sideways swipe go to the next report;
+        the report follows the finger and slides away or eases back. ✕, Esc
+        or a tap beside the report closes it; focus goes back to the
+        thumbnail and the page behind does not scroll. Reduced motion: all
+        of it instant, and the swipe works as a plain flick. Without
+        <dialog> support the link simply opens the image in this tab.
      ----------------------------------------------------------------- */
   (function viewer() {
     var dlg = document.getElementById('report-viewer');
@@ -987,9 +991,12 @@
     var count = dlg.querySelector('[data-rv-count]');
     var hint = dlg.querySelector('[data-rv-hint]');
     var AR = 2000 / 1616;                 // every report image has this shape (thumbnails too)
-    var cur = 0, opener = null, zoomed = false, token = 0;
+    var ZOOM_MS = 250, FADE_MS = 200, OUT_MS = 200, IN_MS = 260, BACK_MS = 220;
+    var cur = 0, opener = null, zoomed = false, token = 0, busy = false, closing = false;
+    var motionT = 0, closeT = 0;
 
     function thumbSrc(a) { var t = a.querySelector('img'); return t ? (t.currentSrc || t.src) : ''; }
+    function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
 
     // Where the report actually shows inside the image box (the box is letterboxed)
     function shown() {
@@ -998,20 +1005,80 @@
       return { left: r.left + (r.width - w) / 2, top: r.top + (r.height - h) / 2, width: w, height: h };
     }
 
-    function setZoom(on, fx, fy) {
-      zoomed = on;
-      dlg.classList.toggle('is-zoom', on);
-      hint.textContent = on ? '再點按一下，縮回原來大小' : '點按報告可放大';
-      if (on) {                           // keep the tapped spot in the middle of the screen
-        stage.scrollLeft = fx * img.offsetWidth - stage.clientWidth / 2;
-        stage.scrollTop = fy * img.offsetHeight - stage.clientHeight / 2;
-      } else { stage.scrollLeft = 0; stage.scrollTop = 0; }
+    // The image's transform, animated over ms with the page's --ease (or set at once)
+    function setT(t, ms) {
+      img.style.transition = ms && !reduced ? 'transform ' + ms + 'ms var(--ease)' : 'none';
+      img.style.transform = t || '';
+    }
+    function then(ms, fn) {
+      clearTimeout(motionT);
+      if (reduced || !ms) { fn(); return; }
+      motionT = setTimeout(fn, ms + 20);
+    }
+    // Stop whatever is moving and show the report as it rests
+    function still() { clearTimeout(motionT); setT('', 0); busy = false; }
+
+    // The transform that makes the fitted report (s, inside box b) cover rectangle z;
+    // the image's transform-origin is its top-left corner
+    function cover(z, s, b) {
+      var k = z.width / s.width;
+      return 'translate(' + (z.left - b.left - k * (s.left - b.left)).toFixed(2) + 'px,' +
+        (z.top - b.top - k * (s.top - b.top)).toFixed(2) + 'px) scale(' + k.toFixed(4) + ')';
+    }
+
+    function setHint() { hint.textContent = zoomed ? '再點按一下，縮回原來大小' : '點按報告可放大'; }
+    function unzoom() {                   // back to the fitted report, at once
+      zoomed = false;
+      dlg.classList.remove('is-zoom');
+      stage.scrollLeft = 0; stage.scrollTop = 0;
+      setHint();
+    }
+
+    // Zoom in: the fitted report grows out of the tapped spot (fx, fy: 0–1 across it; cx, cy:
+    // the tap on screen) until it is exactly where the zoomed, scrollable layout will show it,
+    // then that layout takes over with the scroll set to match, so nothing jumps. The tapped
+    // spot stays under the finger unless the report's edge is in the way.
+    function zoomIn(fx, fy, cx, cy) {
+      var s = shown(), b = img.getBoundingClientRect(), st = stage.getBoundingClientRect();
+      dlg.classList.add('is-zoom');       // measure the zoomed layout (not painted: same task)
+      var zw = img.offsetWidth, zh = img.offsetHeight, ml = img.offsetLeft;
+      var sx = clamp(ml + fx * zw - (cx - st.left), 0, Math.max(0, stage.scrollWidth - stage.clientWidth));
+      var sy = clamp(fy * zh - (cy - st.top), 0, Math.max(0, stage.scrollHeight - stage.clientHeight));
+      dlg.classList.remove('is-zoom');
+      var z = { left: st.left + ml - sx, top: st.top - sy, width: zw };
+      function land() {
+        setT('', 0);
+        zoomed = true;
+        dlg.classList.add('is-zoom');
+        stage.scrollLeft = sx; stage.scrollTop = sy;
+        setHint();
+        busy = false;
+      }
+      if (reduced) { land(); return; }
+      busy = true;
+      setT(cover(z, s, b), ZOOM_MS);
+      then(ZOOM_MS, land);
+    }
+
+    // Zoom out: the reverse. The fitted layout comes back at once, wearing the transform that
+    // shows the report exactly where it was on screen, then it eases down to the fitted size.
+    function zoomOut() {
+      var z = img.getBoundingClientRect();
+      unzoom();
+      if (reduced) return;
+      var s = shown(), b = img.getBoundingClientRect();
+      setT(cover(z, s, b), 0);
+      img.getBoundingClientRect();        // commit that frame before the transition starts
+      busy = true;
+      setT('', ZOOM_MS);
+      then(ZOOM_MS, still);
     }
 
     function show(i) {
       cur = (i + links.length) % links.length;
       var a = links[cur], my = ++token, full = a.href;
-      setZoom(false);
+      still();
+      unzoom();
       title.textContent = a.getAttribute('data-title');
       meta.textContent = '';                // each part (source · month · report number) stays whole
       a.getAttribute('data-meta').split(' · ').forEach(function (part, k) {
@@ -1031,11 +1098,41 @@
       pre.src = full;
     }
 
+    // A swipe that went far enough: the report slides out the way it was going and the
+    // next (dir 1) or previous (dir -1) report slides in from the other side
+    function slide(dir) {
+      var w = stage.clientWidth;
+      busy = true;
+      setT('translate3d(' + (-dir * w) + 'px,0,0)', OUT_MS);
+      then(OUT_MS, function () {
+        show(cur + dir);
+        busy = true;
+        setT('translate3d(' + (dir * w) + 'px,0,0)', 0);
+        img.getBoundingClientRect();
+        setT('', IN_MS);
+        then(IN_MS, still);
+      });
+    }
+    function springBack() { busy = true; setT('', BACK_MS); then(BACK_MS, still); }
+
     function open(i, from) {
+      clearTimeout(closeT); closing = false;
       opener = from;
       show(i);
       document.documentElement.classList.add('rv-lock');
+      dlg.classList.remove('is-out');
+      dlg.classList.add('is-pre');        // opens from a fade and 0.98 scale (none under reduced motion)
       dlg.showModal();
+      dlg.getBoundingClientRect();
+      dlg.classList.remove('is-pre');
+    }
+    // Close: fade out, then close the dialog (the close event does the rest)
+    function hide() {
+      if (!dlg.open || closing) return;
+      if (reduced) { dlg.close(); return; }
+      closing = true;
+      dlg.classList.add('is-out');
+      closeT = setTimeout(function () { dlg.close(); }, FADE_MS);
     }
 
     links.forEach(function (a, i) {
@@ -1047,11 +1144,16 @@
     });
 
     dlg.addEventListener('close', function () {
+      clearTimeout(closeT); closing = false;
+      dlg.classList.remove('is-out', 'is-pre');
       document.documentElement.classList.remove('rv-lock');
-      setZoom(false);
+      still();
+      unzoom();
       if (opener) { try { opener.focus({ preventScroll: true }); } catch (err) { opener.focus(); } }
     });
-    dlg.querySelector('[data-rv-close]').addEventListener('click', function () { dlg.close(); });
+    // Esc: the same fade as ✕ (if the browser will not let the page delay it, it closes at once)
+    dlg.addEventListener('cancel', function (e) { e.preventDefault(); hide(); });
+    dlg.querySelector('[data-rv-close]').addEventListener('click', hide);
     dlg.querySelector('[data-rv-prev]').addEventListener('click', function () { show(cur - 1); });
     dlg.querySelector('[data-rv-next]').addEventListener('click', function () { show(cur + 1); });
     dlg.addEventListener('keydown', function (e) {
@@ -1060,28 +1162,73 @@
     });
 
     // A tap on the report zooms in (or back out); a tap beside it closes the viewer
+    var swipedAt = -1e4;
     stage.addEventListener('click', function (e) {
-      if (zoomed) { setZoom(false); return; }
+      if (busy || now() - swipedAt < 400) return;   // mid-animation, or the tail of a swipe
+      if (zoomed) { zoomOut(); return; }
       var s = shown();
       var fx = (e.clientX - s.left) / s.width, fy = (e.clientY - s.top) / s.height;
-      if (fx < 0 || fx > 1 || fy < 0 || fy > 1) { dlg.close(); return; }
-      setZoom(true, fx, fy);
+      if (fx < 0 || fx > 1 || fy < 0 || fy > 1) { hide(); return; }
+      zoomIn(fx, fy, e.clientX, e.clientY);
     });
 
-    // A sideways swipe on the fitted report: next / previous. Not while zoomed (the finger
-    // is panning then), not with two fingers (a pinch), not while the page is pinched in.
-    var sx = 0, sy = 0, st = 0, multi = false;
+    // A sideways swipe on the fitted report: next / previous. After 10px of mostly sideways
+    // movement the report follows the finger; let go past a quarter of the width, or with a
+    // quick flick, and it slides on; otherwise it eases back. Not while zoomed (the finger is
+    // panning then), not with two fingers (a pinch), not while the page is pinched in.
+    // Vertical movement and taps are left alone.
+    var drag = null, multi = false;
+    function pinched() { return !!(window.visualViewport && window.visualViewport.scale > 1.05); }
     stage.addEventListener('touchstart', function (e) {
       multi = e.touches.length > 1;
-      sx = e.touches[0].clientX; sy = e.touches[0].clientY; st = now();
+      if (multi) { if (drag && drag.axis === 'x') springBack(); drag = null; return; }
+      var t = e.touches[0];
+      drag = { x0: t.clientX, y0: t.clientY, t0: now(), axis: '', base: 0, dx: 0, hist: [[now(), t.clientX]] };
     }, { passive: true });
-    stage.addEventListener('touchmove', function (e) { if (e.touches.length > 1) multi = true; }, { passive: true });
-    stage.addEventListener('touchend', function (e) {
-      if (multi || zoomed || e.touches.length) return;
-      if (window.visualViewport && window.visualViewport.scale > 1.05) return;
-      var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
-      if (Math.abs(dx) > 50 && Math.abs(dx) > 1.5 * Math.abs(dy) && now() - st < 800) show(cur + (dx < 0 ? 1 : -1));
+    stage.addEventListener('touchmove', function (e) {
+      if (e.touches.length > 1) { multi = true; if (drag && drag.axis === 'x') springBack(); drag = null; return; }
+      if (!drag || zoomed || busy || reduced || pinched()) return;
+      var t = e.touches[0], dx = t.clientX - drag.x0, dy = t.clientY - drag.y0;
+      if (!drag.axis) {
+        if (Math.abs(dx) >= 10 && Math.abs(dx) > Math.abs(dy)) { drag.axis = 'x'; drag.base = dx; }
+        else if (Math.abs(dy) >= 10) drag.axis = 'y';
+        else return;
+      }
+      if (drag.axis !== 'x') return;
+      drag.dx = dx - drag.base;           // follows from where it was picked up: no jump at 10px
+      setT('translate3d(' + drag.dx.toFixed(1) + 'px,0,0)', 0);
+      drag.hist.push([now(), t.clientX]);
+      if (drag.hist.length > 8) drag.hist.shift();
     }, { passive: true });
+    function release(e) {
+      var d = drag;
+      drag = null;
+      if (!d || multi || zoomed || busy || e.touches.length) return;
+      if (reduced || pinched()) {         // no follow: a plain flick, as before
+        if (reduced && !pinched() && e.changedTouches.length) {
+          var t = e.changedTouches[0], rx = t.clientX - d.x0, ry = t.clientY - d.y0;
+          if (Math.abs(rx) > 50 && Math.abs(rx) > 1.5 * Math.abs(ry) && now() - d.t0 < 800) show(cur + (rx < 0 ? 1 : -1));
+        }
+        return;
+      }
+      if (d.axis === 'y') return;
+      var end = e.changedTouches && e.changedTouches[0];
+      if (end) d.hist.push([now(), end.clientX]);
+      var h = d.hist, last = h[h.length - 1], first = h[0], k;
+      var fx = last[1] - d.x0, fy = end ? end.clientY - d.y0 : 0;   // the whole gesture, finger-wise
+      // a flick so quick that no move was seen: judged on its start and end alone
+      if (!d.axis && !(Math.abs(fx) >= 30 && Math.abs(fx) > 1.5 * Math.abs(fy))) return;
+      swipedAt = now();
+      // speed over the last ~100 ms of the gesture, in px per ms
+      for (k = h.length - 1; k >= 0; k--) { first = h[k]; if (last[0] - h[k][0] >= 100) break; }
+      var v = (last[1] - first[1]) / Math.max(16, last[0] - first[0]);
+      var far = Math.abs(fx) > 0.25 * stage.clientWidth;
+      var flick = Math.abs(v) > 0.5 && (v < 0) === (fx < 0) && Math.abs(fx) >= 30;
+      if (e.type === 'touchend' && (far || flick)) slide(fx < 0 ? 1 : -1);
+      else springBack();
+    }
+    stage.addEventListener('touchend', release, { passive: true });
+    stage.addEventListener('touchcancel', release, { passive: true });
   })();
 
 })();
