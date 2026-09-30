@@ -150,6 +150,13 @@ a { color: inherit; }
 }
 .hero__stop { margin-left: -0.32em; }
 .hero__sub { margin-top: 6px; font-size: 15px; color: rgba(250, 247, 242, 0.8); }
+/* three phrases, never broken inside one. Narrow phones (under 390px, where the line
+   no longer fits): the third phrase takes its own line, without a dangling 「·」 */
+.hero__ph { white-space: nowrap; }
+@media (max-width: 389px) {
+  .hero__sep { display: none; }
+  .hero__ph:last-child { display: block; }
+}
 
 /* The stage: teal above, cream below, the packaging wave between */
 .hero__stage {

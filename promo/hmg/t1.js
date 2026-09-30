@@ -5,8 +5,9 @@
  * Plays when the plan bars are on screen (pauses when the chart leaves), stops at
  * day 90 where the 3樽 course ends, holds there long enough to read the verdict,
  * then runs on to day 180: about 5.2 s end to end. Then it holds the finished
- * frame for 5 s and plays again (owner, 29 Sep: "let the animation loop after
- * 5 secs"); the hold only counts while the chart is on screen and the tab is visible.
+ * frame for 15 s and plays again (owner, 29 Sep: "let the animation loop";
+ * round 8 raised the hold from 5 s so the finished chart can be read); the hold
+ * only counts while the chart is on screen and the tab is visible.
  * Reduced motion or no IntersectionObserver: the finished chart, no motion, no loop.
  */
 (function () {
@@ -66,7 +67,7 @@
   }
 
   var elapsed = 0, raf = 0, last = 0, visible = false, done = false, lastDay = -1, g = null;
-  var LOOP_HOLD = 5000, loopT = 0;   // the finished frame stays up this long before the replay
+  var LOOP_HOLD = 15000, loopT = 0;  // the finished frame stays up this long before the replay
 
   // Layout is read here only (on start, resize, font load), never inside a frame.
   function box(el, ref) {

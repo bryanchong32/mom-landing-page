@@ -11,7 +11,8 @@
  * 2. Reveal-on-view for the few animated figures.
  * 3. Section 2 animation: 鈣質搭地鐵，三樣逐一加上 (ported from motion-lab/m2v2).
  * 4. Endless rows: the customer messages (1b) and the health records (4b)
- *    each drift as an endless, swipeable row (no buttons, owner 29 Sep).
+ *    each run as an endless, swipeable row (no buttons, owner 29 Sep): each
+ *    card holds still, then the row glides on to the next (round 8).
  * 5. Certification row: pause on touch (hover is pure CSS).
  * 6. Small courtesies: hide the sticky bar over the bottom picker,
  *    one video at a time, pause a video when it scrolls away.
@@ -63,6 +64,12 @@
     });
 
     each(document.querySelectorAll('[data-boxes]'), function (b) { b.setAttribute('data-n', key); });
+
+    // The guarantee covers the 6-bottle course only, so the line right above the buy
+    // button claims it only then; 「已售出 50,000+ 瓶」 stays, so the line keeps its height
+    each(document.querySelectorAll('.trustline'), function (t) {
+      each(t.querySelectorAll('a, .trustline__dot'), function (el) { el.hidden = key !== '6'; });
+    });
 
     var sp = document.querySelector('[data-sticky-plan]');
     var sr = document.querySelector('[data-sticky-price]');
@@ -616,19 +623,57 @@
 
   /* -----------------------------------------------------------------
      4. Endless rows — every [data-reel]: the customer messages (section 1b,
-        right under the plans) and the health-record slips (4b). Each row
-        drifts slowly and stays swipeable. It starts on its first card (for
-        the messages, a 已購用家 one) and only starts drifting once half of
-        it is on screen, so the reader meets that card first.
-        Layout: [copy][real cards][copy]; the copies are aria-hidden + inert. The drift is a transform on the track (smooth
-        sub-pixel motion); the moment a visitor touches, hovers, focuses
-        or presses a button, the drift is folded into the real scroll
-        position so native swiping takes over from exactly where it was.
-        Crossing a copy boundary shifts the scroll by one set width, which
-        shows identical content: no visible jump.
+        right under the plans) and the health-record slips (4b). Hold, then
+        glide (round 8): each card sits still for 6 s, then the row glides
+        in 0.45 s (the page's --ease curve, no bounce) until the next card's
+        left edge is where this one's was, and holds again. Cards may differ
+        in width, so every glide is measured to land on a card edge. The row
+        starts on its first card (for the messages, a 已購用家 one) and only
+        starts counting once half of it is on screen, so the reader meets
+        that card first.
+        Layout: [copy][real cards][copy…]; the copies are aria-hidden + inert.
+        A glide is a transform on the track (smooth sub-pixel motion). When
+        it ends, or the moment a visitor touches, hovers, focuses or presses a
+        button, it is folded into the real scroll position, so native swiping
+        takes over from exactly where it was. Crossing a copy boundary shifts
+        the scroll by one set width, which shows identical content: no
+        visible jump. After a swipe the row may rest between two cards; the
+        next glide goes on to the nearest card edge ahead.
         prefers-reduced-motion (or no IntersectionObserver): no copies,
-        no drift — a plain row that snaps card by card.
+        no motion — a plain row that snaps card by card.
      ----------------------------------------------------------------- */
+  // The page's --ease curve, cubic-bezier(0.2, 0.75, 0.2, 1), for the glide (the
+  // same maths browsers use for CSS: Newton's method, bisection as the fallback)
+  function bezier(x1, y1, x2, y2) {
+    var cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
+    var cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+    function sx(t) { return ((ax * t + bx) * t + cx) * t; }
+    function sy(t) { return ((ay * t + by) * t + cy) * t; }
+    function dsx(t) { return (3 * ax * t + 2 * bx) * t + cx; }
+    return function (x) {
+      if (x <= 0) return 0;
+      if (x >= 1) return 1;
+      var t = x, i, e, d;
+      for (i = 0; i < 8; i++) {
+        e = sx(t) - x;
+        if (Math.abs(e) < 1e-6) return sy(t);
+        d = dsx(t);
+        if (Math.abs(d) < 1e-6) break;
+        t -= e / d;
+      }
+      var lo = 0, hi = 1;
+      t = x;
+      for (i = 0; i < 30; i++) {
+        e = sx(t) - x;
+        if (Math.abs(e) < 1e-6) break;
+        if (e < 0) lo = t; else hi = t;
+        t = (lo + hi) / 2;
+      }
+      return sy(t);
+    };
+  }
+  var glideEase = bezier(0.2, 0.75, 0.2, 1);
+
   each(document.querySelectorAll('[data-reel]'), function reel(root) {
     var view = root.querySelector('[data-reel-view]');
     var track = root.querySelector('[data-reel-track]');
@@ -636,22 +681,30 @@
     var n = originals.length;
     if (!n) return;
 
-    var SPEED = 26;          // px per second: slow enough to read along
-    var AFTER_SWIPE = 2500;  // ms of rest after a swipe
+    var HOLD = 6000;         // ms each card stays still: long enough to read it
+    var GLIDE = 450;         // ms to glide on to the next card
+    var AFTER_SWIPE = 2500;  // ms of rest after a swipe, before the usual hold
     var AFTER_TAP = 7000;    // ms of rest after a tap: someone is reading that card
 
     var loop = !reduced && hasIO && !!window.requestAnimationFrame;
-    var setW = 0, tx = 0, holdUntil = 0;
+    var setW = 0, tx = 0, holdUntil = 0, glide = null;
     var hovering = false, focused = false, touching = false, visible = false;
 
-    function hold(ms) { holdUntil = Math.max(holdUntil, now() + ms); }
+    // No glide before this rest is over and a full hold has followed it
+    function rest(ms) { holdUntil = Math.max(holdUntil, now() + ms + HOLD); }
 
-    // Fold the drift into the real scroll position (so native scrolling continues from here)
+    function place(x) {
+      tx = x;
+      track.style.transform = x ? 'translate3d(' + (-x).toFixed(2) + 'px,0,0)' : '';
+    }
+    // Fold the glide into the real scroll position (native scrolling continues from here);
+    // past the real set, step back one set width (identical content: no visible jump)
     function commit() {
+      glide = null;
       if (!tx) return;
       var target = view.scrollLeft + tx;
-      tx = 0;
-      track.style.transform = '';
+      if (setW && target >= setW * 2) target -= setW;
+      place(0);
       view.scrollLeft = target;
     }
     // Keep the scroll position inside the middle band; content there is identical one set away
@@ -679,52 +732,78 @@
     track.appendChild(copySet());
     root.classList.add('is-loop');
 
-    function measure() { setW = originals[0].offsetLeft - track.children[0].offsetLeft; }
-    // Enough copies after the real set to fill the screen from any point in the middle band
-    // (a short set, like the four record slips on a wide desktop, needs more than one)
+    // Where each card sits, as the scroll position that puts its left edge where the
+    // first real card starts (scrollLeft = setW). Measured, so cards may differ in width.
+    function edges() {
+      var kids = track.children, x0 = kids[0].getBoundingClientRect().left, out = [], i;
+      for (i = 0; i < kids.length; i++) out.push(kids[i].getBoundingClientRect().left - x0);
+      return out;
+    }
+    var widest = 0, lastW = 0;
+    function measure() {
+      setW = originals[0].offsetLeft - track.children[0].offsetLeft;
+      widest = 0;
+      for (var i = 0; i < n; i++) {
+        var next = i + 1 < n ? originals[i + 1].offsetLeft : originals[0].offsetLeft + setW;
+        widest = Math.max(widest, next - originals[i].offsetLeft);
+      }
+      lastW = view.clientWidth;
+    }
+    // Enough copies after the real set to fill the screen from any point in the middle
+    // band, plus one card for a glide that is under way (a short set, like the four
+    // record slips on a wide desktop, needs more than one copy)
     function fill() {
       var after = track.children.length / n - 2;
-      while (setW && after * setW < view.clientWidth) { track.appendChild(copySet()); after++; }
+      while (setW && after * setW < view.clientWidth + widest) { track.appendChild(copySet()); after++; }
     }
     measure(); fill();
     view.scrollLeft = setW; // first real card where the row starts
 
     function running() {
-      return visible && !hovering && !focused && !touching && !document.hidden && now() >= holdUntil;
+      return visible && !hovering && !focused && !touching && !document.hidden;
     }
 
-    var raf = 0, last = 0;
-    function frame(t) {
-      raf = requestAnimationFrame(frame);
-      var dt = last ? Math.min(0.1, (t - last) / 1000) : 0;
-      last = t;
-      if (!running()) { if (tx) commit(); return; }
-      tx += SPEED * dt;
-      if (view.scrollLeft + tx >= setW * 2) { // crossed into the trailing copy: step back one set
-        var target = view.scrollLeft + tx - setW;
-        tx = 0; track.style.transform = '';
-        view.scrollLeft = target;
-        return;
-      }
-      track.style.transform = 'translate3d(' + (-tx).toFixed(2) + 'px,0,0)';
+    // The next glide: from wherever the row is, on to the nearest card edge ahead
+    function beginGlide() {
+      var pos = view.scrollLeft + tx, e = edges(), i;
+      for (i = 0; i < e.length; i++) if (e[i] > pos + 1) break;
+      if (i < e.length) glide = { t0: now(), from: tx, d: e[i] - pos };
     }
-    function start() { if (!raf) { last = 0; raf = requestAnimationFrame(frame); } }
+
+    var raf = 0;
+    function frame() {
+      raf = requestAnimationFrame(frame);
+      if (!running()) { if (glide || tx) commit(); return; }
+      var t = now();
+      if (!glide) {
+        if (t < holdUntil) return;
+        beginGlide();
+        if (!glide) { holdUntil = t + HOLD; return; }
+      }
+      var u = (t - glide.t0) / GLIDE;
+      if (u >= 1) { place(glide.from + glide.d); commit(); holdUntil = t + HOLD; return; }
+      place(glide.from + glide.d * glideEase(u));
+    }
+    function start() { if (!raf) raf = requestAnimationFrame(frame); }
     function stop() { if (raf) cancelAnimationFrame(raf); raf = 0; commit(); }
 
     var met = false;
     new IntersectionObserver(function (entries) {
       var e = entries[entries.length - 1];
       if (!e.isIntersecting) { visible = false; stop(); return; }
-      if (e.intersectionRatio < 0.5) return;               // keeps drifting while it leaves
+      if (e.intersectionRatio < 0.5) return;               // keeps going while it leaves
       if (!met) { met = true; commit(); measure(); view.scrollLeft = setW; }   // first look: the first card
+      if (!visible) rest(0);                               // back on screen: a full hold first
       visible = true; start();
     }, { threshold: [0, 0.5] }).observe(view);
+    // Back from another tab: a full hold before the next glide
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) rest(0); });
 
     // Hover pauses, for a real mouse only: phones fire emulated mouse events on a tap
     // and would otherwise leave the row "hovered" (paused) until the next tap elsewhere.
     function isMouse(e) { return !e.pointerType || e.pointerType === 'mouse'; }
     view.addEventListener('pointerenter', function (e) { if (isMouse(e)) { hovering = true; commit(); } });
-    view.addEventListener('pointerleave', function (e) { if (isMouse(e)) hovering = false; });
+    view.addEventListener('pointerleave', function (e) { if (isMouse(e) && hovering) { hovering = false; rest(0); } });
 
     // Touch: pause while the finger is down; a tap (little movement) rests longer
     var tStart = null, moved = false;
@@ -737,37 +816,40 @@
       var p = e.touches[0];
       if (Math.abs(p.clientX - tStart.x) > 8 || Math.abs(p.clientY - tStart.y) > 8) moved = true;
     }, { passive: true });
-    function touchEnd() { touching = false; tStart = null; hold(moved ? AFTER_SWIPE : AFTER_TAP); }
+    function touchEnd() { touching = false; tStart = null; rest(moved ? AFTER_SWIPE : AFTER_TAP); }
     view.addEventListener('touchend', touchEnd, { passive: true });
     view.addEventListener('touchcancel', touchEnd, { passive: true });
 
     // Mouse click on a card = reading it
-    view.addEventListener('pointerdown', function (e) { met = true; if (isMouse(e)) { commit(); hold(AFTER_TAP); } });
+    view.addEventListener('pointerdown', function (e) { met = true; if (isMouse(e)) { commit(); rest(AFTER_TAP); } });
     // Keyboard focus pauses until focus leaves the row. Focus from a tap or click
     // (the row is focusable) is not :focus-visible and must not pause it for good.
     function keyboardFocus(el) { try { return el.matches(':focus-visible'); } catch (err) { return true; } }
     view.addEventListener('focusin', function (e) { if (keyboardFocus(e.target)) { focused = true; commit(); } });
-    view.addEventListener('focusout', function () { if (focused) { focused = false; hold(AFTER_SWIPE); } });
+    view.addEventListener('focusout', function () { if (focused) { focused = false; rest(AFTER_SWIPE); } });
     // Trackpad / wheel scrolling
-    view.addEventListener('wheel', function () { met = true; commit(); hold(AFTER_SWIPE); }, { passive: true });
+    view.addEventListener('wheel', function () { met = true; commit(); rest(AFTER_SWIPE); }, { passive: true });
 
-    // After any scroll settles (swipe momentum, buttons), keep inside the middle band
+    // After any scroll settles (swipe momentum, a glide folded in), keep inside the middle band
     var settle = 0;
     view.addEventListener('scroll', function () {
       clearTimeout(settle);
-      settle = setTimeout(function () { if (!touching) recentre(); }, 160);
+      settle = setTimeout(function () { if (!touching && !tx) recentre(); }, 160);
     }, { passive: true });
 
-    // Card widths change at breakpoints: keep the same card in view
+    // Card widths change at breakpoints: keep the same card in view. Height-only resizes
+    // (a phone's toolbar showing or hiding) change nothing here.
     var rt = 0;
     window.addEventListener('resize', function () {
       clearTimeout(rt);
       rt = setTimeout(function () {
+        if (view.clientWidth === lastW) return;
         commit();
-        var oldW = setW, oldStep = oldW / n;
-        var idx = oldStep ? Math.round((view.scrollLeft - oldW) / oldStep) : 0;
+        var e = edges(), pos = view.scrollLeft, k = 0, i;
+        for (i = 1; i < e.length; i++) if (Math.abs(e[i] - pos) < Math.abs(e[k] - pos)) k = i;
         measure(); fill();
-        view.scrollLeft = setW + (((idx % n) + n) % n) * (setW / n);
+        view.scrollLeft = edges()[k];
+        recentre();
       }, 150);
     });
   });
