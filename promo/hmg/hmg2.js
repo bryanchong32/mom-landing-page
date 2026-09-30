@@ -27,6 +27,10 @@
   function each(list, fn) { Array.prototype.forEach.call(list, fn); }
   function now() { return (window.performance && performance.now) ? performance.now() : Date.now(); }
 
+  // iOS (Safari and in-app browsers) applies :active, the press feedback in hmg2.css, only
+  // once the page listens for touchstart; this empty passive listener is all it needs
+  document.addEventListener('touchstart', function () {}, { passive: true });
+
   /* -----------------------------------------------------------------
      1. Plan picker
      ----------------------------------------------------------------- */
@@ -41,7 +45,7 @@
            nudge: '90日退款保證只適用於完整療程。加 HK$2,300 升級至完整療程：多出的 5樽，每樽只需 HK$460。' }
   };
 
-  function applyPlan(key) {
+  function applyPlan(key, snapAll) {
     var p = PLANS[key];
     if (!p) return;
 
@@ -76,17 +80,33 @@
     if (sp) sp.textContent = p.plan;
     if (sr) sr.textContent = p.price;
 
-    each(document.querySelectorAll('[data-nudge]'), function (n) {
-      n.textContent = '';
-      if (!p.nudge) { n.hidden = true; return; }
-      n.appendChild(document.createTextNode(p.nudge + ' '));
-      var up = document.createElement('button');
-      up.type = 'button';
-      up.textContent = '改選完整療程';
-      up.addEventListener('click', function () { applyPlan('6'); });
-      n.appendChild(up);
-      n.hidden = false;
+    // The upgrade note opens and folds with a CSS transition (.is-open); while it folds
+    // away it keeps its last words, so it never collapses from empty. A note the reader
+    // cannot see (or every note, with snapAll) changes at once instead; if one sits above
+    // the screen, the page is scrolled by the height it gained or lost, so what is on
+    // screen stays put (iOS Safari has no scroll anchoring to do that by itself).
+    var notes = document.querySelectorAll('[data-nudge]'), vh = window.innerHeight;
+    var snap = [], above = false, ref = null, refTop = 0;
+    each(notes, function (n) {
+      var r = n.getBoundingClientRect();
+      if (snapAll || r.bottom <= 0 || r.top >= vh) { snap.push(n); n.classList.add('is-snap'); }
+      if (r.bottom <= 0) above = true;
     });
+    if (above && document.elementFromPoint) {
+      ref = document.elementFromPoint(window.innerWidth / 2, vh / 2);
+      if (ref) refTop = ref.getBoundingClientRect().top;
+    }
+    each(notes, function (n) {
+      if (p.nudge) n.querySelector('[data-nudge-text]').textContent = p.nudge;
+      n.classList.toggle('is-open', !!p.nudge);
+    });
+    if (snap.length) {
+      if (ref) {
+        var d = ref.getBoundingClientRect().top - refTop;
+        if (Math.abs(d) >= 1) instantly(function () { window.scrollBy(0, d); });
+      } else void document.body.offsetHeight;          // apply the change before transitions return
+      snap.forEach(function (n) { n.classList.remove('is-snap'); });
+    }
   }
 
   each(document.querySelectorAll('[data-plans]'), function (fs) {
@@ -94,8 +114,46 @@
       if (e.target && e.target.type === 'radio') applyPlan(e.target.value);
     });
   });
+  // 「改選完整療程」: back to the course; the note folds away under the button, so focus
+  // moves to the 6-bottle choice it just made (a keyboard user keeps their place)
+  each(document.querySelectorAll('[data-nudge-up]'), function (btn) {
+    btn.addEventListener('click', function () {
+      applyPlan('6');
+      var picker = btn.closest ? btn.closest('.picker') : null;
+      var six = picker && picker.querySelector('input[value="6"]');
+      if (six) { try { six.focus({ preventScroll: true }); } catch (err) { six.focus(); } }
+    });
+  });
+
+  // Scroll without the page's smooth scrolling (html { scroll-behavior: smooth })
+  function instantly(fn) {
+    var html = document.documentElement, was = html.style.scrollBehavior;
+    html.style.scrollBehavior = 'auto';
+    try { fn(); } finally { html.style.scrollBehavior = was; }
+  }
+
+  // 「選擇完整療程 · 6樽 ↓」 (data-pick + href="#pricing"): picks the plan, then jumps straight
+  // to the bottom picker, about 6,000px down, instead of streaking the whole page past;
+  // one teal ring on the chosen tile shows where it landed (no ring under reduced motion)
   each(document.querySelectorAll('[data-pick]'), function (a) {
-    a.addEventListener('click', function () { applyPlan(a.getAttribute('data-pick')); });
+    a.addEventListener('click', function (e) {
+      var key = a.getAttribute('data-pick');
+      var href = a.getAttribute('href') || '';
+      var target = href.charAt(0) === '#' ? document.getElementById(href.slice(1)) : null;
+      applyPlan(key, !!target);                           // jumping: land on a settled picker (notes change at once)
+      if (!target) return;
+      e.preventDefault();
+      instantly(function () { target.scrollIntoView(); });
+      var radio = target.querySelector('[data-plans] input[value="' + key + '"]');
+      if (radio) { try { radio.focus({ preventScroll: true }); } catch (err) { /* focus is a courtesy */ } }
+      var tile = radio && radio.closest ? radio.closest('.plan') : null;
+      if (tile && !reduced) {
+        tile.classList.remove('is-ring');
+        void tile.offsetWidth;                            // restart the ring on a second tap
+        tile.classList.add('is-ring');
+        tile.addEventListener('animationend', function () { tile.classList.remove('is-ring'); }, { once: true });
+      }
+    });
   });
   // Sync the initial state (also covers a browser restoring a different radio on back/forward)
   var initial = document.querySelector('[data-plans] input[type="radio"]:checked');
@@ -875,6 +933,27 @@
       sticky.classList.toggle('is-quiet', entries[0].isIntersecting);
     }, { threshold: 0.15 }).observe(endPicker);
   }
+  // FAQ: the question you tap stays under your finger. main.js keeps one answer open at a
+  // time, so opening a question closes the answer above it and everything below jumps up.
+  // Note where the tapped question was (the click comes before the <details> toggles);
+  // when its toggle event arrives, main.js's capture listener (registered earlier) has
+  // already closed the other answer, so scroll by the difference in the same task, before
+  // anything is painted.
+  var faqList = document.querySelector('.faq__list');
+  if (faqList) {
+    var faqTap = null;
+    faqList.addEventListener('click', function (e) {
+      var sum = e.target.closest ? e.target.closest('summary') : null;
+      faqTap = sum && faqList.contains(sum) ? { item: sum.parentNode, sum: sum, top: sum.getBoundingClientRect().top } : null;
+    });
+    faqList.addEventListener('toggle', function (e) {
+      if (!faqTap || e.target !== faqTap.item) return;
+      var tap = faqTap, d = tap.sum.getBoundingClientRect().top - tap.top;
+      faqTap = null;
+      if (Math.abs(d) >= 1) instantly(function () { window.scrollBy(0, d); });
+    }, true);
+  }
+
   var videos = document.querySelectorAll('.talk video');
   each(videos, function (v) {
     // one voice at a time

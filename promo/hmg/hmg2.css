@@ -58,7 +58,10 @@ img, svg, video { display: block; max-width: 100%; }
 p, li, dd { text-wrap: pretty; }
 button { font: inherit; }
 a { color: inherit; }
-:focus-visible { outline: 2px solid var(--teal-l); outline-offset: 3px; }
+/* focus ring: dark teal on the light sections (8:1 on cream); the light teal stays only
+   where the background is dark or coloured (campaign bar, videos, footer, report viewer) */
+:focus-visible { outline: 2px solid var(--teal-d); outline-offset: 3px; }
+.cbar :focus-visible, .talks :focus-visible, .foot :focus-visible, .rv :focus-visible { outline-color: var(--teal-l); }
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
@@ -88,7 +91,7 @@ a { color: inherit; }
    Campaign bar (promo/promo.js decides; hidden unless a real campaign)
    --------------------------------------------------------------- */
 .cbar { background: var(--buy); color: #fff; font-size: 14px; }
-.cbar[hidden], .cbar__cta[hidden], .cnote[hidden], .nudge[hidden] { display: none !important; }
+.cbar[hidden], .cbar__cta[hidden], .cnote[hidden] { display: none !important; }
 .cbar__in {
   max-width: 1120px; margin-inline: auto; padding: 10px var(--gut);
   display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
@@ -133,9 +136,11 @@ a { color: inherit; }
   font-size: clamp(1.4rem, 6.4vw, 2.05rem);
   line-height: 1.12; letter-spacing: -0.02em; color: #fff;
 }
+/* the doses: 13px in a light cream (4.96:1 on the teal). width: 0 so a caption never sets
+   its column's width: the gaps around the "+" signs stay even, the caption runs on under them */
 .formula__i small {
-  font-family: var(--num); font-weight: 500; font-size: 11.5px;
-  color: var(--kraft-l); margin-top: 3px; white-space: nowrap;
+  font-family: var(--num); font-weight: 500; font-size: 13px;
+  color: #EFE3CC; margin-top: 3px; white-space: nowrap; width: 0;
 }
 .formula__plus {
   font-family: var(--num); font-weight: 500; font-size: clamp(1.1rem, 5vw, 1.6rem);
@@ -221,7 +226,7 @@ a { color: inherit; }
   border: 1px solid var(--kraft-m);
   border-radius: 12px;
   cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 100ms ease-out;
   -webkit-tap-highlight-color: transparent;
 }
 .plan--6 { padding-block: 13px 12px; }
@@ -241,10 +246,20 @@ a { color: inherit; }
 }
 .plan.is-on .plan__dot, .plan:has(input:checked) .plan__dot { border-color: var(--teal); }
 .plan.is-on .plan__dot::after, .plan:has(input:checked) .plan__dot::after { transform: scale(1); }
-.plan:has(input:focus-visible) { outline: 2px solid var(--teal-l); outline-offset: 2px; }
+.plan:has(input:focus-visible) { outline: 2px solid var(--teal-d); outline-offset: 2px; }
 .plan__what b { display: block; font-family: var(--serif); font-weight: 700; font-size: 1.3rem; line-height: 1.2; }
 .plan--6 .plan__what b { font-size: 1.45rem; }
-.plan__what small, .plan__cost small { display: block; font-size: 12.5px; line-height: 1.45; }
+/* the facts that sell the course: 15px, 14px on phones under 375px */
+.plan__what small, .plan__cost small { display: block; font-size: 15px; line-height: 1.45; }
+@media (max-width: 374px) { .plan__what small, .plan__cost small { font-size: 14px; } }
+.plan__save { color: var(--teal); font-weight: 700; white-space: nowrap; }
+/* The name column is a size container (its font size = the small line's, so em below means
+   "at that text size"). When 「6樽 · 180日 · 慳 HK$1,200」 (12.07em) or 「3樽 · 90日 · 慳 HK$450」
+   (10.9em) no longer fits on one line, the saving takes a line of its own: no dangling 「·」 */
+.plan__what { container-type: inline-size; font-size: 15px; }
+@media (max-width: 374px) { .plan__what { font-size: 14px; } }
+@container (max-width: 12.1em) { .plan--6 .plan__sep { display: none; } .plan--6 .plan__save { display: block; } }
+@container (max-width: 11em) { .plan--3 .plan__sep { display: none; } .plan--3 .plan__save { display: block; } }
 .plan__what small { color: var(--ink-2); font-family: var(--num); }
 .plan__cost { text-align: right; }
 .plan__cost b {
@@ -257,18 +272,36 @@ a { color: inherit; }
   position: absolute; top: -10px; right: 12px;
   padding: 0 9px; border-radius: 999px;
   background: var(--teal); color: #fff;
-  font-size: 11.5px; font-weight: 700; line-height: 19px; letter-spacing: 0.02em;
+  font-size: 13px; font-weight: 700; line-height: 20px; letter-spacing: 0.02em;
   white-space: nowrap; pointer-events: none;
 }
 .plan__mark i { font-style: normal; margin-right: 1px; }
 
+/* The upgrade note under the plans (試用裝 / 1樽). It opens with a 220 ms height + fade (one
+   grid row going 0fr → 1fr), so the buy button slides down in view instead of jumping 90px in
+   one frame; closing folds it away the same way. Hidden (visibility) once folded. */
 .nudge {
-  margin-top: 10px; padding: 9px 12px; border-radius: 10px;
+  display: grid; grid-template-rows: 0fr; opacity: 0; visibility: hidden;
+  transition: grid-template-rows 220ms var(--ease), opacity 220ms var(--ease), visibility 0s 220ms;
+}
+.nudge.is-open {
+  grid-template-rows: 1fr; opacity: 1; visibility: visible;
+  transition: grid-template-rows 220ms var(--ease), opacity 220ms var(--ease), visibility 0s;
+}
+.nudge.is-snap { transition: none; }   /* off screen, or after the 6樽 jump: at once (hmg2.js) */
+.nudge__in { min-height: 0; overflow: hidden; }
+.nudge__box {
+  margin-top: 10px; padding: 9px 12px 12px; border-radius: 10px;
   background: #F7EBE2; color: var(--buy-h); font-size: 13.5px; line-height: 1.55;
 }
+/* 「改選完整療程」: a full-width button like 「選擇完整療程 · 6樽」 (.t1-pick) */
 .nudge button {
-  background: none; border: 0; padding: 0; margin-left: 2px; cursor: pointer;
-  color: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 2px;
+  position: relative;
+  display: flex; align-items: center; justify-content: center; width: 100%; min-height: 44px;
+  margin-top: 10px; padding: 0 16px;
+  border: 2px solid var(--teal); border-radius: 999px; background: var(--card); color: var(--teal-d);
+  font-size: 16px; font-weight: 700; line-height: 1.3; cursor: pointer;
+  transition: background-color 0.2s, transform 100ms ease-out;
 }
 
 .buy {
@@ -277,10 +310,13 @@ a { color: inherit; }
   background: var(--buy); color: #fff; text-decoration: none;
   border-radius: 12px; font-size: 17px; font-weight: 700; letter-spacing: 0.02em;
   box-shadow: 0 8px 20px rgba(181, 80, 31, 0.28);
-  transition: background-color 0.2s, transform 0.1s;
+  transition: background-color 0.2s, transform 100ms ease-out;
+  position: relative;   /* its own edge wins over the guarantee link's grown tap area above */
 }
-.buy:hover { background: var(--buy-h); }
-.buy:active { transform: translateY(1px); }
+@media (hover: hover) {
+  .buy:hover { background: var(--buy-h); }
+  .nudge button:hover { background: rgba(27, 107, 99, 0.08); }
+}
 .buy svg {
   width: 18px; height: 18px; flex: none;
   fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
@@ -291,8 +327,10 @@ a { color: inherit; }
   margin-top: 12px; text-align: center; white-space: nowrap;
   font-size: 13.5px; line-height: 1.4; color: var(--ink-2);
 }
-.trustline a { color: var(--teal-d); font-weight: 700; text-decoration: none; }
-.trustline a:hover { text-decoration: underline; text-underline-offset: 3px; }
+/* vertical padding on the inline link grows its tap area to 44px without moving the line
+   (as .t1-cite a); where it overlaps a plan tile or the buy button, those keep their taps */
+.trustline a { color: var(--teal-d); font-weight: 700; text-decoration: none; padding-block: 13px; }
+@media (hover: hover) { .trustline a:hover { text-decoration: underline; text-underline-offset: 3px; } }
 .trustline i { font-style: normal; }
 .trustline__dot { margin: 0 6px; color: var(--kraft); }
 .trustline + .buy { margin-top: 8px; }
@@ -310,7 +348,7 @@ a { color: inherit; }
 .pay--visa img { height: 12px; }
 .pay--alipay img { height: 14px; }
 .pay--payme img, .pay--alipay-hk img { height: 20px; }
-.hero__fine { margin-top: 10px; text-align: center; font-size: 12.5px; color: var(--mute); }
+.hero__fine { margin-top: 10px; text-align: center; font-size: 14px; color: var(--mute); }
 .sf { display: inline-block; width: 16px; height: 16px; margin-right: 5px; vertical-align: -3px; border-radius: 50%; }
 .sf--cover { width: 22px; height: 22px; margin: 0; vertical-align: 0; }
 
@@ -373,11 +411,11 @@ a { color: inherit; }
   background: var(--m2-tabs); border: 1px solid var(--m2-line); border-radius: 12px;
 }
 .m2-steps button {
-  position: relative; overflow: hidden; min-height: 38px; padding: 3px 12px 5px 10px;
+  position: relative; overflow: hidden; min-height: 44px; padding: 3px 12px 5px 10px;
   display: flex; align-items: center; justify-content: flex-start; gap: 7px;
   border: 0; border-radius: 9px; background: transparent; cursor: pointer; white-space: nowrap; text-align: left;
   color: var(--m2-ink-2); font-size: 15px; font-weight: 500; line-height: 1.25;
-  transition: background-color .2s, color .2s;
+  transition: background-color .2s, color .2s, transform 100ms ease-out;
 }
 .m2-steps button[aria-selected="true"] {
   background: var(--m2-card); color: var(--m2-ink); font-weight: 700; box-shadow: 0 1px 3px rgba(44, 24, 16, .12);
@@ -398,8 +436,9 @@ a { color: inherit; }
   background: var(--m2-ink); transform: scaleX(0); transform-origin: left;
 }
 .m2-play {
-  grid-area: 2 / 2; justify-self: end; width: 48px; height: 32px; display: grid; place-items: center; padding: 0; cursor: pointer;
+  grid-area: 2 / 2; justify-self: end; width: 48px; min-height: 44px; display: grid; place-items: center; padding: 0; cursor: pointer;
   border: 1px solid var(--m2-line); border-radius: 10px; background: var(--m2-tabs); color: var(--m2-ink);
+  transition: transform 100ms ease-out;
 }
 .m2-play[hidden] { display: none; }
 .m2-play svg { width: 16px; height: 16px; fill: currentColor; }
@@ -564,7 +603,7 @@ a { color: inherit; }
 }
 @media (max-width: 379px) {
   .m2-status { padding: 10px 12px; }
-  .m2-steps button { min-height: 36px; padding: 3px 10px 5px 9px; gap: 6px; font-size: 14px; }
+  .m2-steps button { padding: 3px 10px 5px 9px; gap: 6px; font-size: 14px; }
   .m2-dot { width: 9px; height: 9px; }
 }
 @media (max-width: 369px) {
@@ -590,7 +629,6 @@ a { color: inherit; }
   .m2 { max-width: 560px; margin-inline: 0; padding: 16px 16px 20px; }
   .m2-top { column-gap: 12px; }
   .m2-status { padding: 14px 18px; font-size: 19px; }
-  .m2-steps button { min-height: 40px; }
 }
 @media (min-width: 1024px) {
   .m2 { margin-top: 0; justify-self: end; width: 100%; }
@@ -770,7 +808,7 @@ a { color: inherit; }
 .t1-mk, .t1-dot { position: absolute; border-radius: 50%; }
 .t1-mk {
   z-index: 2; transform: translate(-50%, -50%);
-  transition: opacity 0.2s, transform 0.5s cubic-bezier(0.3, 1.6, 0.5, 1);
+  transition: opacity 0.2s, transform 0.5s var(--t1-ease);
 }
 .t1-mk--3 {
   left: 50%; top: var(--t1-y3); width: 19px; height: 19px;
@@ -877,7 +915,7 @@ a { color: inherit; }
 .t1-replay[hidden] { display: none; }
 .t1-replay.t1-wait { visibility: hidden; }  /* its place is kept while the chart plays */
 .t1-replay svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.t1-replay:hover { background: rgba(44, 24, 16, 0.05); }
+@media (hover: hover) { .t1-replay:hover { background: rgba(44, 24, 16, 0.05); } }
 
 .t1-pick {
   display: inline-flex; align-items: center; gap: 8px; margin-top: 22px;
@@ -885,9 +923,9 @@ a { color: inherit; }
   border: 2px solid var(--t1-teal); border-radius: 999px;
   color: var(--t1-teal-d); background: rgba(27, 107, 99, 0.04);
   font-size: 16px; font-weight: 700; text-decoration: none;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, transform 100ms ease-out;
 }
-.t1-pick:hover { background: rgba(27, 107, 99, 0.1); }
+@media (hover: hover) { .t1-pick:hover { background: rgba(27, 107, 99, 0.1); } }
 .t1-pick svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ---- Animation states. No JS: the finished chart shows as is. ---- */
@@ -1010,7 +1048,7 @@ a { color: inherit; }
 .fish { list-style: none; padding: 0; margin-top: 12px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .fish li { padding: 9px 10px; border-radius: 10px; background: var(--card); box-shadow: 0 0 0 1px var(--line); }
 .fish b { display: block; font-size: 15px; line-height: 1.4; }
-.fish small { display: block; font-size: 12px; line-height: 1.45; color: var(--mute); }
+.fish small { display: block; font-size: 14px; line-height: 1.45; color: var(--mute); }
 
 /* The closing proof of 3a, after the chain: IFOS, then the four SGS reports.
    A white card, so it reads as the evidence for the three steps above it. */
@@ -1029,6 +1067,7 @@ a { color: inherit; }
 .sgs a {
   display: block; text-decoration: none; text-align: center; font-size: 13px; font-weight: 500; color: var(--ink-2);
   -webkit-tap-highlight-color: transparent;
+  transition: transform 100ms ease-out;
 }
 /* Each thumbnail shows the first report page (the SGS letterhead), not the banner */
 .sgs__crop {
@@ -1050,7 +1089,6 @@ a { color: inherit; }
 @media (hover: hover) {
   .sgs a:hover .sgs__crop { transform: translateY(-2px); box-shadow: 0 0 0 1px var(--teal-l), 0 8px 18px rgba(28, 25, 23, 0.12); }
 }
-.sgs a:active .sgs__crop { transform: scale(0.97); }
 
 /* TOTOX ruler: 0–30, GOED limit at 26 */
 .ruler { margin-top: 20px; padding-top: 34px; }
@@ -1081,7 +1119,7 @@ a { color: inherit; }
 .js .ruler:not(.in) .ruler__pin { left: 88%; }
 .ruler__pin i { transition: opacity 0.4s 1.2s; }
 .js .ruler:not(.in) .ruler__pin i { opacity: 0; transition: none; }
-.ruler__ends { display: flex; justify-content: space-between; margin-top: 10px; font-size: 12px; color: var(--mute); }
+.ruler__ends { display: flex; justify-content: space-between; margin-top: 10px; font-size: 14px; color: var(--mute); }
 
 .stab { margin-top: 22px; padding-top: 18px; border-top: 1px dashed var(--line); }
 .stab__k { font-size: 14px; color: var(--ink-2); }
@@ -1129,7 +1167,7 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
   border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 999px; background: rgba(255, 255, 255, 0.12);
   color: #fff; font-size: 15px; font-weight: 700; cursor: pointer;
 }
-.rv__close:hover { background: rgba(255, 255, 255, 0.2); }
+@media (hover: hover) { .rv__close:hover { background: rgba(255, 255, 255, 0.2); } }
 /* fitted: the image box fills the stage and the report sits inside it (contain), so the
    thumbnail shown first and the full report that replaces it take exactly the same place */
 .rv__stage { position: relative; overflow: hidden; }
@@ -1150,6 +1188,7 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
 .rv__step {
   flex: none; width: 48px; height: 44px; display: grid; place-items: center; padding: 0; cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 12px; background: rgba(255, 255, 255, 0.08); color: #fff;
+  transition: transform 100ms ease-out;
 }
 .rv__step svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 .rv__hint { text-align: center; line-height: 1.4; }
@@ -1223,7 +1262,7 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
   box-shadow: 0 0 0 1px var(--line), 0 6px 16px rgba(28, 25, 23, 0.06);
 }
 .cert__logo img { width: auto; height: auto; max-width: 100%; max-height: 61px; }
-.cert__name { display: block; margin-top: 6px; text-align: center; font-size: 12px; font-weight: 500; line-height: 1.4; color: var(--ink-2); }
+.cert__name { display: block; margin-top: 6px; text-align: center; font-size: 14px; font-weight: 500; line-height: 1.4; color: var(--ink-2); }
 .loop.is-paused .loop__track { animation-play-state: paused; }
 /* hover pause only where a real pointer hovers; on phones a tap would leave it stuck paused */
 @media (hover: hover) { .loop:hover .loop__track { animation-play-state: paused; } }
@@ -1252,7 +1291,7 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
   display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px;
 }
 .credits b { display: block; font: 600 13px/1.35 var(--num); color: var(--ink); }
-.credits span { display: block; margin-top: 2px; font-size: 12px; line-height: 1.45; color: var(--mute); }
+.credits span { display: block; margin-top: 2px; font-size: 14px; line-height: 1.45; color: var(--mute); }
 
 /* ---------------------------------------------------------------
    1b. Proof, first: customers' own words, an endless row (right under
@@ -1293,7 +1332,7 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
 .q__who { line-height: 1.3; }
 .q__who b { font-size: 16px; }
 /* 「✓ 已購用家 · 購買日期」: a verified purchase (CRM), not a rating */
-.q__buyer { margin-top: 2px; font-size: 12.5px; font-weight: 700; line-height: 1.45; color: var(--teal-d); }
+.q__buyer { margin-top: 2px; font-size: 14px; font-weight: 700; line-height: 1.45; color: var(--teal-d); }
 .q__buyer i { font-style: normal; }
 .q__msgs { margin-top: 14px; display: grid; gap: 6px; justify-items: start; }
 .q__msg {
@@ -1335,15 +1374,15 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
 }
 .rec__pair { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 4px 12px; margin-top: 14px; }
 .rec__pair p { display: flex; flex-direction: column; }
-.rec__pair small { font-size: 12px; color: var(--mute); }
+.rec__pair small { font-size: 14px; color: var(--mute); }
 .rec__pair b { font: 700 1.3rem/1.25 var(--num); color: var(--ink-2); font-variant-numeric: tabular-nums; }
 .rec__after b { font-size: 1.75rem; color: var(--teal); }
 .rec__arrow { padding-bottom: 5px; font-size: 1.2rem; color: var(--kraft); }
-.rec__unit { margin-top: 2px; font-size: 12px; color: var(--mute); }
+.rec__unit { margin-top: 2px; font-size: 14px; color: var(--mute); }
 .rec__desc { margin-top: 12px; padding-top: 12px; border-top: 1px dashed rgba(44, 24, 16, 0.22); font-size: 14px; line-height: 1.7; }
-.rec__note { margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(44, 24, 16, 0.22); font-size: 11.5px; line-height: 1.55; color: var(--mute); }
+.rec__note { margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(44, 24, 16, 0.22); font-size: 13px; line-height: 1.55; color: var(--mute); }
 
-.voices__legal { margin-top: 16px; text-align: center; font-size: 12.5px; color: var(--mute); }
+.voices__legal { margin-top: 16px; text-align: center; font-size: 13px; color: var(--mute); }
 
 .rec__time {
   align-self: flex-start; padding: 2px 10px; border-radius: 999px;
@@ -1351,13 +1390,15 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
 }
 .rec__pair { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 4px 10px; margin-top: 16px; }
 .rec__pair p { display: flex; flex-direction: column; }
-.rec__pair small { font-size: 12px; color: var(--mute); }
+.rec__pair small { font-size: 14px; color: var(--mute); }
 .rec__pair b { font: 700 1.3rem/1.25 var(--num); color: var(--ink-2); }
 .rec__after b { font-size: 1.75rem; color: var(--teal); }
 .rec__arrow { padding-bottom: 5px; font-size: 1.2rem; color: var(--kraft); }
-.rec__unit { margin-top: 2px; font-size: 12px; color: var(--mute); }
+.rec__unit { margin-top: 2px; font-size: 14px; color: var(--mute); }
 .rec__desc { margin-top: 14px; font-size: 14px; line-height: 1.7; }
-.rec__note { margin-top: auto; padding-top: 14px; font-size: 11.5px; line-height: 1.55; color: var(--mute); }
+.rec__note { margin-top: auto; padding-top: 14px; font-size: 13px; line-height: 1.55; color: var(--mute); }
+/* the font has no italic: a slanted CJK disclaimer reads as a glitch */
+.rec__note em { font-style: normal; }
 
 /* ---------------------------------------------------------------
    4b. Proof: personal health records — an endless row, the same
@@ -1365,6 +1406,8 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
    --------------------------------------------------------------- */
 .records { background: var(--paper-2); padding: 64px 0 52px; }
 .reel--records .reel__track { align-items: stretch; }
+/* the message cards share one height too: no empty band under a short message (the bubbles stay at the top) */
+.voices .reel__track { align-items: stretch; }
 
 /* ---------------------------------------------------------------
    4c. Proof: expert videos
@@ -1394,13 +1437,19 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
 }
 .picker--card .plan { background: var(--paper); }
 .picker--card .plan.is-on, .picker--card .plan:has(input:checked) { background: var(--card); }
+/* the smallest phones (under 340px): the card borrows 8px of each gutter and the buy buttons
+   trim their side padding, so 「購買完整療程 · HK$3,000」 stays on one line */
+@media (max-width: 339px) {
+  .picker--card { margin-inline: -8px; padding-inline: 12px; }
+  .buy { padding-inline: 12px; }
+}
 .cover { list-style: none; padding: 0; margin-top: 20px; display: grid; gap: 12px; }
 .cover li { display: grid; grid-template-columns: 22px 1fr; gap: 12px; align-items: start; }
 .cover svg {
   width: 22px; height: 22px; margin-top: 1px;
   fill: none; stroke: var(--teal); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
 }
-.cover p { font-size: 13px; line-height: 1.5; color: var(--mute); }
+.cover p { font-size: 14px; line-height: 1.5; color: var(--mute); }
 .cover b { display: block; font-size: 14px; color: var(--ink); }
 .cover a { color: inherit; text-decoration: underline; text-decoration-color: rgba(44, 24, 16, 0.3); text-underline-offset: 2px; }
 .picker--card .pay { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
@@ -1439,7 +1488,9 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
 
 /* Footnote markers (FAQ) → the one source list at the bottom */
 .cite { font: 600 11px var(--num); line-height: 0; vertical-align: super; margin-left: 1px; }
-.cite a { color: var(--teal); text-decoration: none; padding: 8px 2px; }
+/* a bigger tap area for the small numbers, same layout: vertical padding never moves an inline
+   line; 4px side padding with -2px margins takes the same 2px a side as before */
+.cite a { color: var(--teal); text-decoration: none; padding: 16px 4px; margin: 0 -2px; }
 
 /* ---------------------------------------------------------------
    Sources + collapsed guarantee terms — the fine print at the bottom
@@ -1479,7 +1530,11 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
   border-top: 1px solid var(--line);
   box-shadow: 0 -6px 20px rgba(28, 25, 23, 0.08);
+  transition: transform 250ms var(--ease);
 }
+/* main.js switches it from display: none to flex; it rises from the bottom edge instead of
+   appearing in one frame (browsers without @starting-style: it simply appears) */
+@starting-style { .sticky { transform: translateY(100%); } }
 .sticky.is-quiet { display: none !important; }
 .sticky__info { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.35; }
 .sticky__info b { font-size: 15px; }
@@ -1487,6 +1542,22 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
 .sticky__buy {
   flex: none; padding: 12px 28px; border-radius: 10px;
   background: var(--buy); color: #fff; font-weight: 700; font-size: 16px; text-decoration: none;
+  transition: transform 100ms ease-out;
+}
+
+/* ---------------------------------------------------------------
+   Press feedback (round 8): the main controls shrink a touch while pressed, on touch-down.
+   iOS applies :active only because hmg2.js registers an empty passive touchstart listener.
+   --------------------------------------------------------------- */
+.plan:active, .buy:active, .sticky__buy:active, .m2-steps button:active, .m2-play:active,
+.t1-pick:active, .rv__step:active, .sgs a:active, .nudge button:active { transform: scale(0.97); }
+
+/* 「選擇完整療程 · 6樽 ↓」 lands on the bottom picker: one teal ring pulses out of the 6-bottle
+   tile, so the eye finds where it arrived (hmg2.js; not under reduced motion) */
+.plan.is-ring { animation: plan-ring 600ms var(--ease) 1; }
+@keyframes plan-ring {
+  from { box-shadow: inset 0 0 0 1px var(--teal), 0 6px 18px rgba(27, 107, 99, 0.12), 0 0 0 0 rgba(27, 107, 99, 0.55); }
+  to { box-shadow: inset 0 0 0 1px var(--teal), 0 6px 18px rgba(27, 107, 99, 0.12), 0 0 0 14px rgba(27, 107, 99, 0); }
 }
 
 /* ---------------------------------------------------------------
@@ -1532,7 +1603,6 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
   .hero .wrap { padding: 0; max-width: none; margin: 0; }
   .hero__band { grid-area: copy; padding: 24px 0 0; align-self: end; }
   .hero__copy { text-align: left; }
-  .formula__i small { font-size: 13px; }
   .hero__one { font-size: 6rem; }
   .hero__sub { font-size: 17px; }
   .hero__stage { grid-area: stage; background: none; padding-top: 28px; }
@@ -1592,7 +1662,6 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
   .loop { --cert-w: 134px; --cert-gap: 16px; --loop-s: 46s; max-width: 1600px; margin-inline: auto; }
   .cert__logo { height: 112px; padding: 14px; }
   .cert__logo img { max-height: 77px; }
-  .cert__name { font-size: 13px; }
 
   .experts { padding: 104px 0 96px; }
   .board { display: grid; grid-template-columns: 380px minmax(0, 1fr); column-gap: 72px; }
@@ -1629,6 +1698,9 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .box, .gel__good, .ruler__pin, .stab__row i { transition: none !important; }
+  /* round 8: the upgrade note, the sticky bar and the press feedback are instant */
+  .nudge, .nudge.is-open, .sticky, .plan, .buy, .sticky__buy, .m2-play, .t1-pick, .rv__step,
+  .sgs a, .nudge button { transition: none; }
   /* Certifications: no motion — the real set wraps, the decorative copies go */
   .loop { -webkit-mask: none; mask: none; }
   .loop__track { animation: none; width: auto; display: block; }
