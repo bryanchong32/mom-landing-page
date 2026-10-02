@@ -433,15 +433,29 @@ a { color: inherit; }
 .m2-steps button[aria-selected="true"] {
   background: var(--m2-card); color: var(--m2-ink); font-weight: 700; box-shadow: 0 1px 3px rgba(44, 24, 16, .12);
 }
-/* each nutrient's colour; filled once it has been added */
-.m2-dot { flex: none; width: 10px; height: 10px; border-radius: 50%; border: 2px solid; transition: background-color .3s; }
-.m2-dot--none { border-color: var(--m2-off); }   /* 沒有補充: grey, the graphic's "not added" colour */
-.m2-dot--o3 { border-color: var(--m2-teal); }
-.m2-dot--d3 { border-color: var(--m2-gold); }
-.m2-dot--k2 { border-color: var(--m2-kraft); }
-.m2-steps .is-done .m2-dot--o3 { background: var(--m2-teal); }
-.m2-steps .is-done .m2-dot--d3 { background: var(--m2-gold); }
-.m2-steps .is-done .m2-dot--k2 { background: var(--m2-kraft); }
+/* 沒有補充: a neutral grey ring, centred in the same 14px slot as the icons below */
+.m2-steps { --m2-ic: 14px; }
+.m2-dot {
+  flex: none; width: 10px; height: 10px; margin-inline: calc((var(--m2-ic) - 10px) / 2);
+  border-radius: 50%; border: 2px solid var(--m2-off);
+}
+/* Omega-3 / D3 / K2 (owner, round 9): a red cross while that one is not in yet, a green tick
+   once it is (hmg2.js toggles .is-done per beat: 0 ✗✗✗, 1 ✓✗✗, 2 ✓✓✗, 3 ✓✓✓). Green for all
+   three, because gold and kraft read under 3:1 on the panel. Cross #B91C1C on its faint disc
+   4.2:1, green disc 3.8:1 on the panel. The two swap with a 180ms fade and scale. */
+.m2-ic { flex: none; display: grid; width: var(--m2-ic); height: var(--m2-ic); }
+.m2-ic svg {
+  grid-area: 1 / 1; width: 100%; height: 100%;
+  transition: opacity 180ms var(--m2-ease), transform 180ms var(--m2-ease);
+}
+.m2-ic path { fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.m2-ic__no circle { fill: rgba(185, 28, 28, 0.1); }
+.m2-ic__no path { stroke: #B91C1C; stroke-width: 2.5; }
+.m2-ic__ok circle { fill: #15803D; }
+.m2-ic__ok path { stroke: #fff; stroke-width: 2; }
+.m2-ic__ok { opacity: 0; transform: scale(0.6); }
+.m2-steps .is-done .m2-ic__ok { opacity: 1; transform: none; }
+.m2-steps .is-done .m2-ic__no { opacity: 0; transform: scale(0.6); }
 .m2-nw { white-space: nowrap; }
 /* how far this beat has played: ink, because teal means Omega-3 in this graphic */
 .m2-prog {
@@ -617,7 +631,8 @@ a { color: inherit; }
 @media (max-width: 379px) {
   .m2-status { padding: 10px 12px; }
   .m2-steps button { padding: 3px 10px 5px 9px; gap: 6px; font-size: 14px; }
-  .m2-dot { width: 9px; height: 9px; }
+  .m2-steps { --m2-ic: 13px; }
+  .m2-dot { width: 9px; height: 9px; margin-inline: calc((var(--m2-ic) - 9px) / 2); }
 }
 @media (max-width: 369px) {
   .m2-status { font-size: 16px; }
@@ -633,7 +648,7 @@ a { color: inherit; }
   .m2-status { grid-area: 2 / 1; min-height: 6.4em; }
   .m2-steps { flex: 1 1 auto; min-width: 0; flex-direction: row; gap: 3px; }
   .m2-steps button { flex: 1 1 auto; justify-content: center; min-height: 44px; padding: 4px 2px 7px; }
-  .m2-dot { display: none; }   /* the chips in the picture carry the colours */
+  .m2-dot, .m2-ic { display: none; }   /* the chips in the picture carry the colours */
   .m2-play { width: 40px; height: auto; }
   .m2-fig { margin-top: 16px; }
 }
@@ -648,7 +663,7 @@ a { color: inherit; }
 }
 @media (prefers-reduced-motion: reduce) {
   .m2-flap, .m2-tag, .m2-chip, .m2-chip__t, .m2-sub, .m2-ring, .m2-exit,
-  .m2-lining, .m2-flow, .m2-fill, .m2-slot, .m2-head, .m2-dot,
+  .m2-lining, .m2-flow, .m2-fill, .m2-slot, .m2-head, .m2-ic svg,
   .m2-bone.is-full .m2-fill, .m2-bone.is-full .m2-slot,
   .m2-steps button, .m2-status, .m2-status::after { transition: none; }
   .m2-call.is-new .m2-pill { animation: none; }
