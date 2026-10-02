@@ -39,11 +39,11 @@
            plan: '完整療程 · 6樽', price: 'HK$3,000 · 每日 HK$16.7', nudge: '' },
     '3': { path: '3hmg', checkout: '3box', value: 1650, label: '購買試用裝 · HK$1,650',
            plan: '試用裝 · 3樽', price: 'HK$1,650 · 每日 HK$18.3',
-           nudge: '加 HK$1,350 多 3 樽（每樽只需 HK$450），升級完整療程，即享 90日退款保證。' },
+           nudge: '加 HK$1,350 多 3 樽|（每樽只需 HK$450），|升級完整療程，|即享 90日退款保證。' },
     // 1樽: the note explains the build-up time (no symptoms, no effects) and links to the chart
     '1': { path: '1hmg', checkout: '1box', value: 700, label: '購買 1樽 · HK$700',
            plan: '1樽 · 30日', price: 'HK$700 · 每日 HK$23.3', why: true,
-           nudge: 'Omega-3 一般需要 4–6 個月，才在體內累積到穩定水平，所以建議選擇 3樽或 6樽配套。' }
+           nudge: 'Omega-3 一般需要 4–6 個月，|才在體內累積到穩定水平，|所以建議選擇 3樽或 6樽配套。' }
   };
 
   function applyPlan(key, snapAll) {
@@ -99,7 +99,12 @@
     }
     each(notes, function (n) {
       if (p.nudge) {                                     // folding away (6樽), the link stays with its words
-        n.querySelector('[data-nudge-text]').textContent = p.nudge;
+        // one span per phrase (split at |): lines break between phrases, never inside a word like 穩定水平
+        var txt = n.querySelector('[data-nudge-text]');
+        txt.textContent = '';
+        p.nudge.split('|').forEach(function (s) {
+          var ph = document.createElement('span'); ph.className = 'nudge__ph'; ph.textContent = s; txt.appendChild(ph);
+        });
         var why = n.querySelector('[data-nudge-why]');
         if (why) why.hidden = !p.why;
       }

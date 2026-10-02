@@ -290,6 +290,7 @@ a { color: inherit; }
 }
 .nudge.is-snap { transition: none; }   /* off screen, or after the 6樽 jump: at once (hmg2.js) */
 .nudge__in { min-height: 0; overflow: hidden; }
+.nudge__ph { display: inline-block; }   /* a phrase moves to the next line whole (hmg2.js) */
 .nudge__box {
   margin-top: 10px; padding: 9px 12px 12px; border-radius: 10px;
   background: #F7EBE2; color: var(--buy-h); font-size: 13.5px; line-height: 1.55;
