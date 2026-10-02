@@ -1457,6 +1457,11 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
   border: 1px dashed rgba(44, 24, 16, 0.2); border-radius: 12px;
   font-size: 12.5px; line-height: 1.5; color: var(--ink-2);
 }
+/* a photo the customer sent in the chat (Regina W.'s blood-pressure monitor), shown like a
+   WhatsApp picture message under her words; cropped to the monitor, nothing personal in it */
+.q__pic { margin: 0; padding: 4px; max-width: 62%; background: #F5EDE0; border-radius: 6px 16px 16px 16px; }
+.q__pic img { display: block; width: 100%; height: auto; border-radius: 4px 12px 12px 12px; }
+.q__evt span { display: inline-block; }   /* breaks between the two phrases, not inside 平時 */
 .q__ev svg { flex: none; width: 18px; height: 18px; fill: none; stroke: var(--kraft); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 
 /* A reading slip: perforated top, the period stamped, before → after as a readout */
