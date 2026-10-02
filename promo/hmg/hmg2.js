@@ -66,8 +66,6 @@
       a.setAttribute('data-value', String(p.value));
       var label = a.querySelector('[data-buy-label]');
       if (label) label.textContent = p.label;
-      var planLine = a.querySelector('[data-pick-plan]');          // the mid-page 「即刻購買」 buttons
-      if (planLine) planLine.textContent = p.plan + ' · ' + p.price.split(' · ')[0];
     });
 
     each(document.querySelectorAll('[data-boxes]'), function (b) { b.setAttribute('data-n', key); });

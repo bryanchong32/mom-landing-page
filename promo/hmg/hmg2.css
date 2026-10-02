@@ -948,9 +948,10 @@ a { color: inherit; }
 @media (hover: hover) { .t1-replay:hover { background: rgba(44, 24, 16, 0.05); } }
 
 /* 「即刻購買」 — the mid-page buy buttons (after the chart, the SGS reports and the
-   certificates): straight to checkout for the plan chosen above (a[data-buy], so the plan
-   switch and the ad tags apply), with that plan named on a second line (hmg2.js
-   [data-pick-plan]). Ember like every buy button, white text (5.1:1). */
+   certificates): always the 6-bottle course, whatever is picked above (owner, 2 Oct: the
+   page persuades towards the biggest package as you scroll; 基本配套 / 1樽 stay in the top
+   and bottom pickers). Not data-buy, so the plan switch leaves them alone; main.js still adds
+   the ad tags (a[data-checkout]). Ember like every buy button, white text (5.1:1). */
 .pick {
   display: inline-flex; flex-direction: column; align-items: center; gap: 2px; margin-top: 22px;
   min-height: 56px; padding: 8px 30px;
@@ -1389,7 +1390,9 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
 .voices[data-avatar="silhouette"] .q__ini { display: none; }
 .voices[data-avatar="silhouette"] .q__person { display: block; }
 .q__id { min-width: 0; }
-.q__who { display: flex; align-items: center; gap: 5px; line-height: 1.3; }
+.q__who { display: flex; flex-wrap: wrap; align-items: center; column-gap: 6px; line-height: 1.3; }
+/* the seal and "Verified" move as one piece: a long name pushes both to the next line together */
+.q__v { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
 .q__who b { font-size: 16px; }
 /* 「已購用家」 then the package: a verified purchase (CRM), not a rating. The badge has four
    looks, chosen by data-badge on section.voices; neon is the base, the others override it.
@@ -1421,7 +1424,13 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
 /* verified (owner's pick): the green seal, then "Verified" in green, no pill (5.0:1) */
 .voices[data-badge="verified"] .q__badge { padding: 0; background: none; color: #15803D; gap: 4px; }
 .voices[data-badge="verified"] .q__tick { display: none; }
-.voices[data-badge="verified"] .q__bseal { display: block; }
+.q__vtext { display: none; }
+/* verified sits on the name line (owner, 2 Oct): the seal, then "Verified"; the line under the
+   name keeps only the package */
+.voices[data-badge="verified"] .q__seal { display: block; }
+.voices[data-badge="verified"] .q__vtext { display: inline; font-size: 14px; font-weight: 700; color: #15803D; margin-left: -1px; }
+.voices[data-badge="verified"] .q__badge { display: none; }
+.voices[data-badge="verified"] .q__buyer .q__pkg { margin-top: 2px; }
 .q__msgs { margin-top: 14px; display: grid; gap: 6px; justify-items: start; }
 .q__msg {
   position: relative; max-width: 94%;
