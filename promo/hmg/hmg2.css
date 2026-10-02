@@ -294,15 +294,27 @@ a { color: inherit; }
   margin-top: 10px; padding: 9px 12px 12px; border-radius: 10px;
   background: #F7EBE2; color: var(--buy-h); font-size: 13.5px; line-height: 1.55;
 }
-/* 「改選完整療程」: a full-width button like 「選擇完整療程 · 6樽」 (.t1-pick) */
+/* 「改選完整療程」: a full-width ember OUTLINE pill, so the filled buy button under the note
+   stays the one filled button in this block. Border var(--buy) (4.3:1, over the 3:1 a border
+   needs); the words in the darker ember var(--buy-h), the note's own text colour (5.6:1),
+   because var(--buy) words on the note's peach would read at 4.3:1, under 4.5 */
 .nudge button {
   position: relative;
   display: flex; align-items: center; justify-content: center; width: 100%; min-height: 44px;
   margin-top: 10px; padding: 0 16px;
-  border: 2px solid var(--teal); border-radius: 999px; background: var(--card); color: var(--teal-d);
+  border: 2px solid var(--buy); border-radius: 999px; background: transparent; color: var(--buy-h);
   font-size: 16px; font-weight: 700; line-height: 1.3; cursor: pointer;
-  transition: background-color 0.2s, transform 100ms ease-out;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 100ms ease-out;
 }
+/* 「為何要 4–6 個月？ ↓」 (1樽 only): a plain text link to the build-up chart, 44px tall */
+.nudge__why {
+  display: flex; align-items: center; justify-content: center; gap: 4px; min-height: 44px;
+  margin-top: 4px; margin-bottom: -6px;
+  color: var(--teal-d); font-size: 15px; font-weight: 700; line-height: 1.3;
+  text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
+}
+.nudge__why[hidden] { display: none; }
+.nudge__why svg { width: 15px; height: 15px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 
 .buy {
   display: flex; align-items: center; justify-content: center; gap: 10px;
@@ -315,7 +327,8 @@ a { color: inherit; }
 }
 @media (hover: hover) {
   .buy:hover { background: var(--buy-h); }
-  .nudge button:hover { background: rgba(27, 107, 99, 0.08); }
+  .nudge button:hover { background: rgba(181, 80, 31, 0.06); border-color: var(--buy-h); color: var(--buy-h); }
+  .nudge__why:hover { text-decoration-thickness: 2px; }
 }
 .buy svg {
   width: 18px; height: 18px; flex: none;
@@ -718,6 +731,7 @@ a { color: inherit; }
   text-wrap: balance;
   word-break: keep-all;   /* break only at spaces, punctuation and the <wbr> */
 }
+.t1-h:focus { outline: none; }   /* focused by the 1樽 note's link (hmg2.js), for screen readers */
 .t1-nw { white-space: nowrap; }
 .t1-lead { margin-top: 10px; font-size: 16px; line-height: 1.7; color: var(--t1-ink2); word-break: keep-all; }
 .t1-lead b { display: inline-block; color: var(--t1-ink); font-weight: 700; }
@@ -917,16 +931,22 @@ a { color: inherit; }
 .t1-replay svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 @media (hover: hover) { .t1-replay:hover { background: rgba(44, 24, 16, 0.05); } }
 
-.t1-pick {
+/* 「選擇完整療程 · 6樽 ↓」 — the mid-page buy CTA (after this chart, the SGS reports and the
+   certificates): ember like every buy button, white text (5.1:1). It picks 6 and jumps to the
+   bottom picker (hmg2.js [data-pick]). The border stays, in the fill colour, so the size is
+   the same as the round-8 outline pill. */
+.pick {
   display: inline-flex; align-items: center; gap: 8px; margin-top: 22px;
   min-height: 50px; padding: 0 22px;
-  border: 2px solid var(--t1-teal); border-radius: 999px;
-  color: var(--t1-teal-d); background: rgba(27, 107, 99, 0.04);
+  border: 2px solid var(--buy); border-radius: 999px;
+  color: #fff; background: var(--buy);
   font-size: 16px; font-weight: 700; text-decoration: none;
-  transition: background-color 0.2s, transform 100ms ease-out;
+  transition: background-color 0.2s, border-color 0.2s, transform 100ms ease-out;
 }
-@media (hover: hover) { .t1-pick:hover { background: rgba(27, 107, 99, 0.1); } }
-.t1-pick svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+@media (hover: hover) { .pick:hover { background: var(--buy-h); border-color: var(--buy-h); } }
+.pick svg { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.pick--sea { margin-top: 28px; }
+.pick--dose { margin-top: 30px; }
 
 /* ---- Animation states. No JS: the finished chart shows as is. ---- */
 .js .t1-chart:not(.t1-done) .t1-cv { clip-path: inset(0 100% 0 0); }
@@ -1559,7 +1579,7 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
    iOS applies :active only because hmg2.js registers an empty passive touchstart listener.
    --------------------------------------------------------------- */
 .plan:active, .buy:active, .sticky__buy:active, .m2-steps button:active, .m2-play:active,
-.t1-pick:active, .rv__step:active, .sgs a:active, .nudge button:active { transform: scale(0.97); }
+.pick:active, .rv__step:active, .sgs a:active, .nudge button:active { transform: scale(0.97); }
 
 /* 「選擇完整療程 · 6樽 ↓」 lands on the bottom picker: one teal ring pulses out of the 6-bottle
    tile, so the eye finds where it arrived (hmg2.js; not under reduced motion) */
@@ -1708,7 +1728,7 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
   html { scroll-behavior: auto; }
   .box, .gel__good, .ruler__pin, .stab__row i { transition: none !important; }
   /* round 8: the upgrade note, the sticky bar and the press feedback are instant */
-  .nudge, .nudge.is-open, .sticky, .plan, .buy, .sticky__buy, .m2-play, .t1-pick, .rv__step,
+  .nudge, .nudge.is-open, .sticky, .plan, .buy, .sticky__buy, .m2-play, .pick, .rv__step,
   .sgs a, .nudge button, .rv, .rv::backdrop { transition: none; }
   /* Certifications: no motion — the real set wraps, the decorative copies go */
   .loop { -webkit-mask: none; mask: none; }

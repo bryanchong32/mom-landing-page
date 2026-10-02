@@ -59,7 +59,7 @@
 
   <link rel="preload" as="image" href="/images/homega-box-front-300w.webp">
   <link rel="stylesheet" href="/css/design-tokens.css">
-  <link rel="stylesheet" href="/promo/hmg/hmg2.css?v=9">
+  <link rel="stylesheet" href="/promo/hmg/hmg2.css?v=10">
 </head>
 <body>
 
@@ -143,9 +143,9 @@
               <span class="plan__cost"><b>HK$700</b><small>每日 HK$23.3</small></span>
             </label>
           </fieldset>
-          <div class="nudge" data-nudge><div class="nudge__in"><div class="nudge__box"><p data-nudge-text></p><button type="button" data-nudge-up>改選完整療程</button></div></div></div>
+          <div class="nudge" data-nudge><div class="nudge__in"><div class="nudge__box"><p data-nudge-text></p><button type="button" data-nudge-up data-cta="nudge-upgrade">改選完整療程</button><a class="nudge__why" href="#timing" data-nudge-why data-cta="nudge-why" hidden>為何要 4–6 個月？<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v11M5 11l5 5 5-5"/></svg></a></div></div></div>
           <p class="trustline"><a href="/policies/money-back-guarantee/" target="_blank" rel="noopener"><i aria-hidden="true">✓</i> 90日退款保證</a><span class="trustline__dot" aria-hidden="true">·</span>已售出 50,000+ 瓶</p>
-          <a class="buy hero__cta" data-buy href="https://store.tigroxglobal.com/hk/zh-TW/express/6hmg" target="_blank" rel="noopener" data-checkout="6box" data-value="3000" data-product="Homega"><span data-buy-label>購買完整療程 · HK$3,000</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></a>
+          <a class="buy hero__cta" data-buy data-cta="hero" href="https://store.tigroxglobal.com/hk/zh-TW/express/6hmg" target="_blank" rel="noopener" data-checkout="6box" data-value="3000" data-product="Homega"><span data-buy-label>購買完整療程 · HK$3,000</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></a>
           <ul class="pay" aria-label="付款方式">
             <li class="pay--visa"><img src="/promo/hmg/pay-visa.webp" width="203" height="66" alt="Visa"></li>
             <li class="pay--mastercard"><img src="/promo/hmg/pay-mastercard.webp" width="107" height="66" alt="Mastercard"></li>
@@ -421,7 +421,7 @@
           <figure class="m2-fig" id="m2-fig" role="tabpanel" aria-labelledby="m2-tab-0" data-beat="0">
             <svg class="m2-svg" viewBox="0 0 360 380" role="img" aria-labelledby="m2-svg-t m2-svg-d">
               <title id="m2-svg-t">示意動畫：鈣質搭地鐵去骨骼站，三種成分逐一加上</title>
-              <desc id="m2-svg-d">把血管比作地鐵，鈣質是乘客。沒有補充時，行車較慢，能入閘的鈣質不多，骨骼圖顏色淺、有空位。加上 Omega-3，支持血液流動，行車暢順。加上 D3，決定吸收多少鈣：入閘的鈣質多了，但沒有 K2 指路，有些鈣質坐過了站，留在車上。加上 K2，決定鈣去哪裡：有 K2 指路，鈣質都在骨骼站下車，填滿骨骼圖的空位。Homega 一粒三合一。</desc>
+              <desc id="m2-svg-d">把血管比作地鐵，鈣質是乘客。沒有補充時，行車較慢，能入閘的鈣質不多，骨骼圖顏色淺、有空位。加上 Omega-3，支持血液流動，行車暢順。加上 D3，決定吸收多少鈣：入閘的鈣質多了，但沒有 K2 指路，有些鈣質冇落車，坐過站，留在車上。加上 K2，決定鈣去哪裡：有 K2 指路，鈣質都在骨骼站下車，填滿骨骼圖的空位。Homega 一粒三合一。</desc>
               <defs>
                 <linearGradient id="m2-vessel" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0" class="m2-s1"/><stop offset=".5" class="m2-s2"/><stop offset="1" class="m2-s1"/>
@@ -623,8 +623,8 @@
                 </g>
                 <g class="m2-tagpos m2-tagpos--past" transform="translate(224 0)">
                   <g class="m2-tag m2-tag--past">
-                    <rect x="-42" y="108" width="84" height="24" rx="12"/><path d="M-6 131.5h12l-6 6z"/>
-                    <text y="125.8" text-anchor="middle">坐過了站</text>
+                    <rect x="-66" y="108" width="132" height="24" rx="12"/><path d="M-6 131.5h12l-6 6z"/>
+                    <text y="125.8" text-anchor="middle">冇落車，坐過站</text>
                   </g>
                 </g>
               </g>
@@ -720,7 +720,7 @@
           </figcaption>
         </figure>
 
-        <a class="t1-pick" href="#pricing" data-pick="6">選擇完整療程 · 6樽<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v11M5 11l5 5 5-5"/></svg></a>
+        <a class="pick t1-pick" href="#pricing" data-pick="6" data-cta="chart">選擇完整療程 · 6樽<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v11M5 11l5 5 5-5"/></svg></a>
       </div>
     </section>
 
@@ -815,6 +815,9 @@
         </div>
 
         <p class="sea__oil">魚油原料：OmegaVie® 4020 TG QS5 · 法國 POLARIS</p>
+
+        <!-- Mid-page CTA after the reports: same as the chart one (hmg2.js [data-pick]) -->
+        <a class="pick pick--sea" href="#pricing" data-pick="6" data-cta="after-sgs">選擇完整療程 · 6樽<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v11M5 11l5 5 5-5"/></svg></a>
       </div>
     </section>
 
@@ -883,6 +886,11 @@
             </ul>
           </div>
         </div>
+      </div>
+
+      <!-- Mid-page CTA after the certificates: same as the chart one (hmg2.js [data-pick]) -->
+      <div class="wrap">
+        <a class="pick pick--dose" href="#pricing" data-pick="6" data-cta="after-dose">選擇完整療程 · 6樽<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v11M5 11l5 5 5-5"/></svg></a>
       </div>
     </section>
 
@@ -1052,9 +1060,9 @@
               <span class="plan__cost"><b>HK$700</b><small>每日 HK$23.3</small></span>
             </label>
           </fieldset>
-          <div class="nudge" data-nudge><div class="nudge__in"><div class="nudge__box"><p data-nudge-text></p><button type="button" data-nudge-up>改選完整療程</button></div></div></div>
+          <div class="nudge" data-nudge><div class="nudge__in"><div class="nudge__box"><p data-nudge-text></p><button type="button" data-nudge-up data-cta="nudge-upgrade">改選完整療程</button><a class="nudge__why" href="#timing" data-nudge-why data-cta="nudge-why" hidden>為何要 4–6 個月？<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v11M5 11l5 5 5-5"/></svg></a></div></div></div>
           <p class="trustline"><a href="/policies/money-back-guarantee/" target="_blank" rel="noopener"><i aria-hidden="true">✓</i> 90日退款保證</a><span class="trustline__dot" aria-hidden="true">·</span>已售出 50,000+ 瓶</p>
-          <a class="buy" data-buy href="https://store.tigroxglobal.com/hk/zh-TW/express/6hmg" target="_blank" rel="noopener" data-checkout="6box" data-value="3000" data-product="Homega"><span data-buy-label>購買完整療程 · HK$3,000</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></a>
+          <a class="buy" data-buy data-cta="close" href="https://store.tigroxglobal.com/hk/zh-TW/express/6hmg" target="_blank" rel="noopener" data-checkout="6box" data-value="3000" data-product="Homega"><span data-buy-label>購買完整療程 · HK$3,000</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></a>
 
           <ul class="cover">
             <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-3.5 7-9.5V5.5L12 3 5 5.5v6c0 6 7 9.5 7 9.5Z"/><path d="m9 12 2 2 4-4"/></svg><p><b>官方授權正品</b>Tigrox Global 官方網店</p></li>
@@ -1291,12 +1299,12 @@
   <!-- Sticky buy bar (phones). js/main.js shows it once the hero button scrolls away. -->
   <div id="sticky-mobile-cta" class="sticky" aria-hidden="true" role="complementary" aria-label="快速購買" style="display: none;">
     <p class="sticky__info"><b data-sticky-plan>完整療程 · 6樽</b><span data-sticky-price>HK$3,000 · 每日 HK$16.7</span></p>
-    <a class="sticky__buy" data-buy href="https://store.tigroxglobal.com/hk/zh-TW/express/6hmg" target="_blank" rel="noopener" data-checkout="6box" data-value="3000" data-product="Homega">購買</a>
+    <a class="sticky__buy" data-buy data-cta="sticky" href="https://store.tigroxglobal.com/hk/zh-TW/express/6hmg" target="_blank" rel="noopener" data-checkout="6box" data-value="3000" data-product="Homega">購買</a>
   </div>
 
   <script src="/js/main.js?v=3"></script>
   <script src="/promo/promo.js?v=3"></script>
-  <script src="/promo/hmg/hmg2.js?v=8"></script>
+  <script src="/promo/hmg/hmg2.js?v=10"></script>
   <script src="/promo/hmg/t1.js?v=8"></script>
 </body>
 </html>

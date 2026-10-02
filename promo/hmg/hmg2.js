@@ -39,10 +39,11 @@
            plan: '完整療程 · 6樽', price: 'HK$3,000 · 每日 HK$16.7', nudge: '' },
     '3': { path: '3hmg', checkout: '3box', value: 1650, label: '購買試用裝 · HK$1,650',
            plan: '試用裝 · 3樽', price: 'HK$1,650 · 每日 HK$18.3',
-           nudge: '90日退款保證只適用於完整療程。加 HK$1,350 升級至完整療程：多出的 3樽，每樽只需 HK$450。' },
+           nudge: '加 HK$1,350 多 3 樽（每樽只需 HK$450），升級完整療程，即享 90日退款保證。' },
+    // 1樽: the note explains the build-up time (no symptoms, no effects) and links to the chart
     '1': { path: '1hmg', checkout: '1box', value: 700, label: '購買 1樽 · HK$700',
-           plan: '1樽 · 30日', price: 'HK$700 · 每日 HK$23.3',
-           nudge: '90日退款保證只適用於完整療程。加 HK$2,300 升級至完整療程：多出的 5樽，每樽只需 HK$460。' }
+           plan: '1樽 · 30日', price: 'HK$700 · 每日 HK$23.3', why: true,
+           nudge: 'Omega-3 一般需要 4–6 個月，才在體內累積到穩定水平，所以建議選擇 3樽或 6樽配套。' }
   };
 
   function applyPlan(key, snapAll) {
@@ -97,7 +98,11 @@
       if (ref) refTop = ref.getBoundingClientRect().top;
     }
     each(notes, function (n) {
-      if (p.nudge) n.querySelector('[data-nudge-text]').textContent = p.nudge;
+      if (p.nudge) {                                     // folding away (6樽), the link stays with its words
+        n.querySelector('[data-nudge-text]').textContent = p.nudge;
+        var why = n.querySelector('[data-nudge-why]');
+        if (why) why.hidden = !p.why;
+      }
       n.classList.toggle('is-open', !!p.nudge);
     });
     if (snap.length) {
@@ -122,6 +127,22 @@
       var picker = btn.closest ? btn.closest('.picker') : null;
       var six = picker && picker.querySelector('input[value="6"]');
       if (six) { try { six.focus({ preventScroll: true }); } catch (err) { six.focus(); } }
+    });
+  });
+  // 「為何要 4–6 個月？」 (1樽 only, href="#timing"): straight to the build-up chart, the same
+  // instant jump as the 6樽 one; focus goes to the chart's heading, so a screen reader reads it next
+  each(document.querySelectorAll('[data-nudge-why]'), function (a) {
+    a.addEventListener('click', function (e) {
+      var href = a.getAttribute('href') || '';
+      var target = href.charAt(0) === '#' ? document.getElementById(href.slice(1)) : null;
+      if (!target) return;
+      e.preventDefault();
+      instantly(function () { target.scrollIntoView(); });
+      var h = target.querySelector('h2, h3');
+      if (h) {
+        if (!h.hasAttribute('tabindex')) h.setAttribute('tabindex', '-1');
+        try { h.focus({ preventScroll: true }); } catch (err) { /* focus is a courtesy */ }
+      }
     });
   });
 
@@ -210,7 +231,7 @@
     var BEATS = [
       { o3: 0, d3: 0, k2: 0, add: '',   head: '沒有補充：',    text: '行車較慢，能入閘的鈣質也不多。' },
       { o3: 1, d3: 0, k2: 0, add: 'o3', head: '加上 Omega-3：', text: '支持血液流動，行車暢順。' },
-      { o3: 1, d3: 1, k2: 0, add: 'd3', head: '加上 D3：',     text: '入閘的鈣質多了，但沒有\u00a0K2\u00a0指路，有些坐過了站。' },
+      { o3: 1, d3: 1, k2: 0, add: 'd3', head: '加上 D3：',     text: '入閘的鈣質多了，但沒有\u00a0K2\u00a0指路，有些冇落車，坐過站。' },
       { o3: 1, d3: 1, k2: 1, add: 'k2', head: '加上 K2：',     text: '有\u00a0K2\u00a0指路，鈣質都在骨骼站下車。' }
     ];
     var NUT = ['o3', 'd3', 'k2'];
@@ -248,6 +269,9 @@
     var tagGate = q('.m2-tag--gate'), tagSlow = q('.m2-tag--slow'), tagFast = q('.m2-tag--fast'), tagPast = q('.m2-tag--past');
     var posSlow = q('.m2-tagpos--slow'), posFast = q('.m2-tagpos--fast'), posPast = q('.m2-tagpos--past');
     var TAGS = [tagGate, tagSlow, tagFast, tagPast];
+    // how close a riding bubble's centre may come to the picture's sides (half its width + 4)
+    function edge(tg) { return +tg.querySelector('rect').getAttribute('width') / 2 + 4; }
+    var RIDE_IN = edge(tagSlow), PAST_IN = edge(tagPast);
     var progs = tabs.map(function (b) { return b.querySelector('.m2-prog'); });
 
     function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
@@ -533,7 +557,7 @@
 
       // one bubble at a time: the gates, then the ride, then the stop
       cls(tagGate, 'is-on', !m.d3 && !p.pre && t > p.a0 + p.gap + 0.55 && t < p.depart + 0.4);
-      var rideX = Math.max(46, Math.min(314, tx + MID)).toFixed(1);
+      var rideX = Math.max(RIDE_IN, Math.min(360 - RIDE_IN, tx + MID)).toFixed(1);
       var slowOn = !m.o3 && t > p.depart + 0.45 && t < p.arrive + 0.3;
       if (slowOn) attr(posSlow, 'transform', 'translate(' + rideX + ' 0)');
       cls(tagSlow, 'is-on', slowOn);
@@ -543,7 +567,7 @@
       // the missed stop: the bubble belongs to the train with the two still aboard, so it
       // leaves the picture with them and is gone once the train is
       var pastOn = p.past > 0 && t >= p.leave - 0.2 && t < p.gone;
-      if (pastOn) attr(posPast, 'transform', 'translate(' + Math.max(46, tx + MID).toFixed(1) + ' 0)');
+      if (pastOn) attr(posPast, 'transform', 'translate(' + Math.max(PAST_IN, tx + MID).toFixed(1) + ' 0)');
       cls(tagPast, 'is-on', pastOn);
 
       for (k = 0; k < tabs.length; k++) {
@@ -597,7 +621,7 @@
       cls(bone, 'is-full', !!s.full); cls(head, 'is-on', !!s.full);
       setGates(m.d3, false, false);
       var pos = s.tag === tagSlow ? posSlow : s.tag === tagFast ? posFast : s.tag === tagPast ? posPast : null;
-      if (pos) attr(pos, 'transform', 'translate(' + Math.min(314, s.train + MID) + ' 0)');
+      if (pos) attr(pos, 'transform', 'translate(' + Math.min(360 - edge(s.tag), s.train + MID) + ' 0)');
       TAGS.forEach(function (tg) { cls(tg, 'is-on', tg === s.tag); });
       NUT.forEach(function (n) { cls(calls[n], 'is-live', false); });
       progs.forEach(function (pr) { pr.style.transform = 'scaleX(0)'; });
