@@ -39,11 +39,11 @@
            plan: '完整療程 · 6樽', price: 'HK$3,000 · 每日 HK$16.7', nudge: '' },
     '3': { path: '3hmg', checkout: '3box', value: 1650, label: '購買基本配套 · HK$1,650',
            plan: '基本配套 · 3樽', price: 'HK$1,650 · 每日 HK$18.3',
-           nudge: '加 HK$1,350 多 3 樽|（每樽只需 HK$450），|升級完整療程，|即享 90日退款保證。' },
-    // 1樽: the note explains the build-up time (no symptoms, no effects) and links to the chart
+           nudge: '加 HK$1,350 多 3 樽，|6樽完整療程即享 90日退款保證。' },
+    // 1樽: names the symptoms (the owner's call, 2 Oct, risk accepted) and links to the 4–6 month chart
     '1': { path: '1hmg', checkout: '1box', value: 700, label: '購買 1樽 · HK$700',
            plan: '1樽 · 30日', price: 'HK$700 · 每日 HK$23.3', why: true,
-           nudge: 'Omega-3 一般需要 4–6 個月，|才在體內累積到穩定水平，|所以建議選擇 3樽或 6樽配套。' }
+           nudge: '1樽只夠 30 日。|想改善三高、手腳麻痺，|建議選擇 3樽或 6樽配套。' }
   };
 
   function applyPlan(key, snapAll) {
@@ -66,6 +66,8 @@
       a.setAttribute('data-value', String(p.value));
       var label = a.querySelector('[data-buy-label]');
       if (label) label.textContent = p.label;
+      var planLine = a.querySelector('[data-pick-plan]');          // the mid-page 「即刻購買」 buttons
+      if (planLine) planLine.textContent = p.plan + ' · ' + p.price.split(' · ')[0];
     });
 
     each(document.querySelectorAll('[data-boxes]'), function (b) { b.setAttribute('data-n', key); });

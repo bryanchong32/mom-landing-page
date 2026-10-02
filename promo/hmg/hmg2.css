@@ -947,19 +947,21 @@ a { color: inherit; }
 .t1-replay svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 @media (hover: hover) { .t1-replay:hover { background: rgba(44, 24, 16, 0.05); } }
 
-/* 「選擇完整療程 · 6樽 ↓」 — the mid-page buy CTA (after this chart, the SGS reports and the
-   certificates): ember like every buy button, white text (5.1:1). It picks 6 and jumps to the
-   bottom picker (hmg2.js [data-pick]). The border stays, in the fill colour, so the size is
-   the same as the round-8 outline pill. */
+/* 「即刻購買」 — the mid-page buy buttons (after the chart, the SGS reports and the
+   certificates): straight to checkout for the plan chosen above (a[data-buy], so the plan
+   switch and the ad tags apply), with that plan named on a second line (hmg2.js
+   [data-pick-plan]). Ember like every buy button, white text (5.1:1). */
 .pick {
-  display: inline-flex; align-items: center; gap: 8px; margin-top: 22px;
-  min-height: 50px; padding: 0 22px;
+  display: inline-flex; flex-direction: column; align-items: center; gap: 2px; margin-top: 22px;
+  min-height: 56px; padding: 8px 30px;
   border: 2px solid var(--buy); border-radius: 999px;
   color: #fff; background: var(--buy);
-  font-size: 16px; font-weight: 700; text-decoration: none;
+  font-size: 17px; font-weight: 700; text-decoration: none; line-height: 1.3;
   transition: background-color 0.2s, border-color 0.2s, transform 100ms ease-out;
 }
 @media (hover: hover) { .pick:hover { background: var(--buy-h); border-color: var(--buy-h); } }
+.pick__main { display: inline-flex; align-items: center; gap: 8px; }
+.pick__plan { font-size: 13px; font-weight: 500; opacity: 0.92; white-space: nowrap; }
 .pick svg { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .pick--sea { margin-top: 28px; }
 .pick--dose { margin-top: 30px; }
