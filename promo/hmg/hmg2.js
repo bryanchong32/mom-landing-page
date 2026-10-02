@@ -37,8 +37,8 @@
   var PLANS = {
     '6': { path: '6hmg', checkout: '6box', value: 3000, label: '購買完整療程 · HK$3,000',
            plan: '完整療程 · 6樽', price: 'HK$3,000 · 每日 HK$16.7', nudge: '' },
-    '3': { path: '3hmg', checkout: '3box', value: 1650, label: '購買試用裝 · HK$1,650',
-           plan: '試用裝 · 3樽', price: 'HK$1,650 · 每日 HK$18.3',
+    '3': { path: '3hmg', checkout: '3box', value: 1650, label: '購買基本配套 · HK$1,650',
+           plan: '基本配套 · 3樽', price: 'HK$1,650 · 每日 HK$18.3',
            nudge: '加 HK$1,350 多 3 樽|（每樽只需 HK$450），|升級完整療程，|即享 90日退款保證。' },
     // 1樽: the note explains the build-up time (no symptoms, no effects) and links to the chart
     '1': { path: '1hmg', checkout: '1box', value: 700, label: '購買 1樽 · HK$700',

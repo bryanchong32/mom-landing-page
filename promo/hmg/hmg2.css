@@ -277,7 +277,7 @@ a { color: inherit; }
 }
 .plan__mark i { font-style: normal; margin-right: 1px; }
 
-/* The upgrade note under the plans (試用裝 / 1樽). It opens with a 220 ms height + fade (one
+/* The upgrade note under the plans (基本配套 / 1樽). It opens with a 220 ms height + fade (one
    grid row going 0fr → 1fr), so the buy button slides down in view instead of jumping 90px in
    one frame; closing folds it away the same way. Hidden (visibility) once folded. */
 .nudge {
@@ -1415,6 +1415,11 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
 .voices[data-badge="seal"] .q__seal { display: block; }
 .voices[data-badge="seal"] .q__badge { padding: 0; background: none; color: #15803D; }
 .voices[data-badge="seal"] .q__tick { display: none; }
+.q__bseal { display: none; flex: none; width: 16px; height: 16px; }
+/* verified (owner's pick): the green seal, then "Verified" in green, no pill (5.0:1) */
+.voices[data-badge="verified"] .q__badge { padding: 0; background: none; color: #15803D; gap: 4px; }
+.voices[data-badge="verified"] .q__tick { display: none; }
+.voices[data-badge="verified"] .q__bseal { display: block; }
 .q__msgs { margin-top: 14px; display: grid; gap: 6px; justify-items: start; }
 .q__msg {
   position: relative; max-width: 94%;
