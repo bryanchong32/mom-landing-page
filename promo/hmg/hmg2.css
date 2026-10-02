@@ -1388,6 +1388,13 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
 .q__person { display: none; width: 100%; height: 100%; }
 .voices[data-avatar="silhouette"] .q__av { background: #DFE5E7; box-shadow: none; }
 .voices[data-avatar="silhouette"] .q__ini { display: none; }
+/* photo (owner's pick, 2 Oct): WhatsApp-profile-style pictures, illustrative, made up (no real
+   person); the note 「相片僅作示意」 sits in the legal line right under the cards */
+.q__photo { display: none; width: 100%; height: 100%; object-fit: cover; }
+.voices[data-avatar="photo"] .q__photo { display: block; }
+.voices[data-avatar="photo"] .q__ini, .voices[data-avatar="photo"] .q__person { display: none; }
+.voices[data-avatar="photo"] .q__av { background: #E6E1DA; box-shadow: none; }
+.voices__legal span { display: inline-block; }   /* the legal line breaks between sentences, not inside 藥品 */
 .voices[data-avatar="silhouette"] .q__person { display: block; }
 .q__id { min-width: 0; }
 .q__who { display: flex; flex-wrap: wrap; align-items: center; column-gap: 6px; line-height: 1.3; }
