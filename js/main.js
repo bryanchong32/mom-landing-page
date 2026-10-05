@@ -292,14 +292,27 @@
       var product = a.getAttribute('data-product') || 'Homega';
       var variant = a.getAttribute('data-checkout');
       var value = Number(a.getAttribute('data-value')) || 0;
+      // data-cta names the button on pages with several of them (hero, chart, sticky...),
+      // so the reports can tell which one led to the store. Pages without it send
+      // exactly what they always did: no cta key at all, not an empty one.
+      var cta = a.getAttribute('data-cta');
       if (window.fbq) {
-        window.fbq('track', 'InitiateCheckout', { content_name: product + ' ' + variant, currency: 'HKD', value: value });
+        var fbData = { content_name: product + ' ' + variant, currency: 'HKD', value: value };
+        if (cta) fbData.cta = cta;
+        window.fbq('track', 'InitiateCheckout', fbData);
       }
       if (window.gtag) {
-        window.gtag('event', 'begin_checkout', {
+        var gaParams = {
           currency: 'HKD', value: value,
           items: [{ item_name: product, item_variant: variant }]
-        });
+        };
+        if (cta) gaParams.cta = cta;
+        window.gtag('event', 'begin_checkout', gaParams);
+      }
+      // Microsoft Clarity isn't on the site yet. Its tag defines window.clarity, so once
+      // it is added these button events start flowing; until then this does nothing.
+      if (cta && typeof window.clarity === 'function') {
+        window.clarity('event', 'buy_' + cta);
       }
     });
   });
