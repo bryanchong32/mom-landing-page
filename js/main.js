@@ -296,10 +296,13 @@
       // so the reports can tell which one led to the store. Pages without it send
       // exactly what they always did: no cta key at all, not an empty one.
       var cta = a.getAttribute('data-cta');
+      // The Wellous store now loads this same pixel and reports its own InitiateCheckout
+      // (and Purchase) once the checkout opens, so this tap goes out under a custom name.
+      // Sending InitiateCheckout from here too would count every checkout twice.
       if (window.fbq) {
         var fbData = { content_name: product + ' ' + variant, currency: 'HKD', value: value };
         if (cta) fbData.cta = cta;
-        window.fbq('track', 'InitiateCheckout', fbData);
+        window.fbq('trackCustom', 'BuyTap', fbData);
       }
       if (window.gtag) {
         var gaParams = {
