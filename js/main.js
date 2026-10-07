@@ -312,8 +312,8 @@
         if (cta) gaParams.cta = cta;
         window.gtag('event', 'begin_checkout', gaParams);
       }
-      // Microsoft Clarity isn't on the site yet. Its tag defines window.clarity, so once
-      // it is added these button events start flowing; until then this does nothing.
+      // Microsoft Clarity's tag (on every marketing page) defines window.clarity; pages
+      // without it skip this.
       if (cta && typeof window.clarity === 'function') {
         window.clarity('event', 'buy_' + cta);
       }
