@@ -1019,7 +1019,8 @@
     var meta = dlg.querySelector('[data-rv-meta]');
     var count = dlg.querySelector('[data-rv-count]');
     var hint = dlg.querySelector('[data-rv-hint]');
-    var AR = 2000 / 1616;                 // every report image has this shape (thumbnails too)
+    var AR = 2000 / 1616;                 // the SGS reports' shape (thumbnails too); a link with
+                                          // data-w/data-h (the portrait IFOS certificate) sets its own
     var ZOOM_MS = 250, FADE_MS = 200, OUT_MS = 200, IN_MS = 260, BACK_MS = 220;
     var cur = 0, opener = null, zoomed = false, token = 0, busy = false, closing = false;
     var motionT = 0, closeT = 0;
@@ -1108,6 +1109,10 @@
       var a = links[cur], my = ++token, full = a.href;
       still();
       unzoom();
+      var w = +a.getAttribute('data-w') || 2000, h = +a.getAttribute('data-h') || 1616;
+      AR = w / h;
+      img.setAttribute('width', w); img.setAttribute('height', h);
+      dlg.style.setProperty('--rv-w', w + 'px');   // zoomed = the image at its own size
       title.textContent = a.getAttribute('data-title');
       meta.textContent = '';                // each part (source · month · report number) stays whole
       a.getAttribute('data-meta').split(' · ').forEach(function (part, k) {
@@ -1115,7 +1120,7 @@
         var sp = document.createElement('span'); sp.textContent = part; meta.appendChild(sp);
       });
       count.textContent = (cur + 1) + ' / ' + links.length;
-      img.alt = 'SGS 測試報告：' + a.getAttribute('data-title');
+      img.alt = a.getAttribute('data-alt') || 'SGS 測試報告：' + a.getAttribute('data-title');
       // the thumbnail (already loaded) shows at once; the full report takes its place when ready
       img.src = thumbSrc(a) || full;
       var pre = new Image();

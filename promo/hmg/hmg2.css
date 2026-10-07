@@ -1099,6 +1099,17 @@ a { color: inherit; }
 .proof__ifos { margin-top: 6px; }
 .proof .fact__small { margin-top: 4px; }
 .proof__b { margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--line); }
+/* The IFOS certificate: one portrait card under the IFOS line, same look as the SGS cards */
+.ifos-cert {
+  display: inline-grid; gap: 5px; width: 112px; margin-top: 12px; text-align: center; text-decoration: none;
+  font-size: 13px; font-weight: 500; color: var(--ink-2); -webkit-tap-highlight-color: transparent;
+  transition: transform 100ms ease-out;
+}
+.ifos-cert__img {
+  display: block; position: relative; overflow: hidden; aspect-ratio: 3 / 4; border-radius: 4px; background: #fff;
+  box-shadow: 0 0 0 1px var(--line), 0 4px 10px rgba(28, 25, 23, 0.08); transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+}
+.ifos-cert__img img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
 .proof__sgs { font-size: 15px; font-weight: 700; line-height: 1.5; color: var(--ink); }
 .proof__sgs small { display: block; font-size: 13px; font-weight: 400; color: var(--mute); }
 
@@ -1126,7 +1137,7 @@ a { color: inherit; }
 }
 .sgs__zoom svg { width: 14px; height: 14px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; }
 @media (hover: hover) {
-  .sgs a:hover .sgs__crop { transform: translateY(-2px); box-shadow: 0 0 0 1px var(--teal-l), 0 8px 18px rgba(28, 25, 23, 0.12); }
+  .sgs a:hover .sgs__crop, .ifos-cert:hover .ifos-cert__img { transform: translateY(-2px); box-shadow: 0 0 0 1px var(--teal-l), 0 8px 18px rgba(28, 25, 23, 0.12); }
 }
 
 /* TOTOX ruler: 0–30, GOED limit at 26 */
@@ -1223,7 +1234,7 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
 /* zoomed: the report at its real size (2000px wide, its small print readable), panned natively */
 .rv.is-zoom .rv__stage { overflow: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
 .rv.is-zoom .rv__img {
-  position: static; display: block; width: 2000px; height: auto; margin: 0 auto;
+  position: static; display: block; width: var(--rv-w, 2000px); height: auto; margin: 0 auto;
   object-fit: fill; cursor: zoom-out;
 }
 .rv__nav {
@@ -1659,7 +1670,7 @@ html.rv-lock, html.rv-lock body { overflow: hidden; }
    iOS applies :active only because hmg2.js registers an empty passive touchstart listener.
    --------------------------------------------------------------- */
 .plan:active, .buy:active, .sticky__buy:active, .m2-steps button:active, .m2-play:active,
-.pick:active, .rv__step:active, .sgs a:active, .nudge button:active { transform: scale(0.97); }
+.pick:active, .rv__step:active, .sgs a:active, .ifos-cert:active, .nudge button:active { transform: scale(0.97); }
 
 /* 「選擇完整療程 · 6樽 ↓」 lands on the bottom picker: one teal ring pulses out of the 6-bottle
    tile, so the eye finds where it arrived (hmg2.js; not under reduced motion) */
