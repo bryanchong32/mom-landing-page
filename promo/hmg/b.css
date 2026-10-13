@@ -1,0 +1,134 @@
+/* =================================================================
+   Homega sales page, version B (/promo/hmg/ when nginx picks b) — its own blocks.
+   Loaded after hmg2.css; reuses its tokens and components (plans, buy, quote card,
+   FAQ, sections). Nothing here touches version A: every rule is scoped to a
+   class only b.html uses (bh, bq, bwhy, bmore).
+   Phones first; the buy button must sit on the first screen at 375×812.
+   ================================================================= */
+
+/* ---------------------------------------------------------------
+   B1. The offer
+   --------------------------------------------------------------- */
+.bh { background: linear-gradient(var(--teal) 0 132px, var(--paper) 132px); padding: 12px 0 24px; }
+.bh__in { display: grid; gap: 12px; }
+.bh__copy { color: var(--paper); }
+.bh__eye { font-size: 13.5px; font-weight: 700; letter-spacing: 0.08em; color: rgba(250, 247, 242, 0.82); }
+.bh__h1 {
+  margin-top: 4px;
+  font-family: var(--serif); font-weight: 700; font-feature-settings: "palt";
+  font-size: clamp(1.5rem, 7vw, 2.4rem); line-height: 1.24; letter-spacing: 0.01em; color: #fff;
+}
+.bh__l { display: block; white-space: nowrap; }
+.bh__proof { margin-top: 6px; font-size: 14px; line-height: 1.4; color: rgba(250, 247, 242, 0.9); }
+.bh__tick { color: #C8F7A4; font-weight: 700; }
+.bh__proof a { color: #fff; font-weight: 700; text-underline-offset: 3px; padding-block: 12px; }
+
+/* the one quote: version A's card, smaller; no section padding or background */
+.voices.bh__voice { background: none; padding: 0; margin-top: 14px; color: var(--ink); }
+.bh__voice .card--quote { padding: 11px 13px 12px; border-radius: 16px; }
+.bh__voice .q__av { width: 36px; height: 36px; }
+.bh__voice .q__who b { font-size: 15px; }
+.bh__voice .q__buyer { margin-top: 1px; font-size: 13px; }
+.bh__voice .q__buyer .q__pkg { margin-top: 1px; }
+.bh__voice .q__msgs { margin-top: 8px; }
+.bh__voice .q__msg { font-size: 15px; line-height: 1.5; }
+.voices__legal.bh__legal { margin-top: 5px; font-size: 12px; line-height: 1.4; }
+
+/* the box lineup, small, and the compact picker */
+.bh__buy { width: 100%; }
+.boxes.bh__boxes { --w: 34px; --step: calc(var(--w) * 0.62); height: calc(var(--w) * 1.7 + 12px); max-width: 260px; }
+.bh__boxes .box { bottom: 6px; filter: drop-shadow(0 5px 6px rgba(28, 25, 23, 0.18)); }
+.bh__plans { gap: 12px; margin-top: 4px; }
+.bh__plans .plan { padding: 8px 14px; min-height: 46px; }
+.bh__plans .plan__what { container-type: normal; }
+.bh__plans .plan__what b { display: inline; font-size: 1.12rem; }
+.bh__plans .plan--6 .plan__what b { font-size: 1.12rem; }
+.bh__plans .plan__what small { display: inline; margin-left: 8px; font-size: 14px; }
+.bh__plans .plan__cost b { font-size: 1.08rem; }
+.bh__plans .plan__mark { top: -9px; line-height: 18px; font-size: 12px; }
+
+/* upgrade line (3樽 only; hmg2.js toggles [data-plan-only]): a quiet text button */
+.bh__up {
+  display: block; width: 100%; min-height: 44px; margin-top: 4px; padding: 6px 4px;
+  border: 0; background: none; cursor: pointer;
+  color: var(--buy-h); font-size: 14px; font-weight: 700; line-height: 1.45; text-align: center;
+  text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
+}
+.bh__up[hidden] { display: none; }
+.bh__ph { display: inline-block; }   /* the line breaks between phrases, never inside one */
+.bh__up + .buy { margin-top: 2px; }
+.bh__buy .buy { min-height: 52px; }
+.bh__fine { margin-top: 8px; text-align: center; font-size: 13px; color: var(--mute); }
+.bh__buy .pay { margin-top: 8px; }
+
+@media (max-width: 374px) {
+  .bh__plans .plan__what small { margin-left: 5px; font-size: 13px; }
+}
+
+@media (min-width: 900px) {
+  .bh { background: linear-gradient(var(--teal) 0 220px, var(--paper) 220px); padding: 36px 0 48px; }
+  .bh__in { grid-template-columns: 1fr minmax(360px, 440px); gap: 48px; align-items: start; }
+  .bh__copy { padding-top: 8px; }
+  .voices.bh__voice { margin-top: 40px; max-width: 460px; }
+  .bh__buy { background: var(--card); border-radius: 18px; padding: 18px 20px 20px; box-shadow: 0 10px 30px rgba(44, 24, 16, 0.1); }
+  .boxes.bh__boxes { --w: 52px; }
+}
+
+/* ---------------------------------------------------------------
+   Expanders (B2 records, B4): <details>, closed by default
+   --------------------------------------------------------------- */
+.bmore > summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  min-height: 52px; cursor: pointer; list-style: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.bmore > summary::-webkit-details-marker { display: none; }
+.bmore__t { flex: 1; font-size: 16px; font-weight: 500; line-height: 1.55; color: var(--ink); }
+.bmore__go { flex: none; color: var(--teal-d); font-size: 15px; font-weight: 700; white-space: nowrap; }
+.bmore[open] > summary .bmore__go { opacity: 0.7; }
+@media (hover: hover) { .bmore > summary:hover .bmore__go { text-decoration: underline; text-underline-offset: 3px; } }
+
+.bmore--records { margin-top: 10px; }
+.bmore--records > summary { justify-content: center; }
+.bmore--records .records { margin-top: 8px; }
+
+/* ---------------------------------------------------------------
+   B3. Four questions, answers always open
+   --------------------------------------------------------------- */
+.bq { background: var(--card); padding: 56px 0 40px; }
+.bq__wrap { max-width: 800px; }
+.bq__list { list-style: none; padding: 0; margin: 0; }
+.bq__list:first-of-type { margin-top: 20px; }
+.bq__item { padding: 18px 0; border-bottom: 1px solid var(--line); }
+.bq__item:first-child { border-top: 1px solid var(--line); }
+.bq__chart + .bq__wrap .bq__item:first-child { border-top: 0; }
+.bq__q { font-size: 17px; font-weight: 700; line-height: 1.45; color: var(--ink); }
+.bq__a { margin-top: 6px; font-size: 15.5px; line-height: 1.75; color: var(--ink-2); }
+.bq__a .cite a { color: var(--teal); }
+.bq__up {
+  display: flex; align-items: center; justify-content: center; min-height: 44px; margin-top: 12px; padding: 0 20px;
+  border: 2px solid var(--buy); border-radius: 999px; background: transparent; color: var(--buy-h);
+  font-size: 15px; font-weight: 700; cursor: pointer;
+}
+@media (hover: hover) { .bq__up:hover { background: rgba(181, 80, 31, 0.06); } }
+.bq__more {
+  display: inline-flex; align-items: center; min-height: 44px; margin-top: 4px;
+  color: var(--teal-d); font-size: 15px; font-weight: 700; text-underline-offset: 3px;
+}
+/* the build-up chart (t1.js, unchanged) sits under answer 1, without its own section look */
+.t1.bq__chart { padding: 0 0 8px; background: none; border-bottom: 1px solid var(--line); }
+.bq__chart .t1-in { max-width: 800px; }
+.bq__chart .t1-fig { margin-top: 0; }
+
+/* ---------------------------------------------------------------
+   B4. 為何選擇 Homega？
+   --------------------------------------------------------------- */
+.bwhy { padding: 56px 0 24px; }
+.bwhy__list { margin-top: 16px; }
+.bwhy .bmore { border-top: 1px solid var(--line); }
+.bwhy .bmore:last-child { border-bottom: 1px solid var(--line); }
+.bwhy .bmore > summary { padding-block: 14px; }
+.bwhy .bmore[open] > summary { padding-bottom: 14px; }
+.bq .h2 { font-size: clamp(1.5rem, 6.2vw, 2.4rem); }
+.bmore__go:only-child { margin-right: auto; }
+.bmore--records .bmore__go { margin-inline: auto; }

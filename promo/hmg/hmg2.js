@@ -76,6 +76,11 @@
       each(t.querySelectorAll('a, .trustline__dot'), function (el) { el.hidden = key !== '6'; });
     });
 
+    // Lines meant for one plan only (version B's upgrade line under its picker)
+    each(document.querySelectorAll('[data-plan-only]'), function (el) {
+      el.hidden = el.getAttribute('data-plan-only') !== key;
+    });
+
     var sp = document.querySelector('[data-sticky-plan]');
     var sr = document.querySelector('[data-sticky-price]');
     if (sp) sp.textContent = p.plan;
@@ -148,6 +153,15 @@
         if (!h.hasAttribute('tabindex')) h.setAttribute('tabindex', '-1');
         try { h.focus({ preventScroll: true }); } catch (err) { /* focus is a courtesy */ }
       }
+    });
+  });
+
+  // A link to a closed FAQ answer (version B's 「完整安全須知 ›」, data-opens="<details id>"):
+  // open it first, so the jump lands on the answer, not on a folded question
+  each(document.querySelectorAll('a[data-opens]'), function (a) {
+    a.addEventListener('click', function () {
+      var d = document.getElementById(a.getAttribute('data-opens'));
+      if (d && !d.open) d.open = true;
     });
   });
 
@@ -879,7 +893,9 @@
       var e = entries[entries.length - 1];
       if (!e.isIntersecting) { visible = false; stop(); return; }
       if (e.intersectionRatio < 0.5) return;               // keeps going while it leaves
-      if (!met) { met = true; commit(); measure(); view.scrollLeft = setW; }   // first look: the first card
+      // first look: the first card (measure + fill again: a row that started folded away,
+      // inside version B's 「了解更多」, measured nothing at load)
+      if (!met) { met = true; commit(); measure(); fill(); view.scrollLeft = setW; }
       if (!visible) rest(0);                               // back on screen: a full hold first
       visible = true; start();
     }, { threshold: [0, 0.5] }).observe(view);
