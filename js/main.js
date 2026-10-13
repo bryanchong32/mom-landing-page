@@ -266,6 +266,12 @@
      Tags are kept for the browser tab session, so a visitor who lands on
      one page and buys from another still carries them.
      ----------------------------------------------------------------- */
+  // A/B test version of /promo/hmg/ (nginx serves a or b at one URL; the page says which
+  // in <meta name="hmg-variant">). Pages without that meta (the brand site) get '' and
+  // every line below behaves exactly as it did before the test.
+  var hmgMeta = document.querySelector('meta[name="hmg-variant"]');
+  var hmgVariant = hmgMeta && /^[ab]$/.test(hmgMeta.getAttribute('content')) ? hmgMeta.getAttribute('content') : '';
+
   var TAG_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid'];
   var adTags = {};
   var incoming = new URLSearchParams(window.location.search);
@@ -285,6 +291,9 @@
       Object.keys(adTags).forEach(function (k) {
         if (!url.searchParams.has(k)) url.searchParams.set(k, adTags[k]);
       });
+      // The store records utm_medium on each order: paid_a / paid_b (direct_a when no
+      // tag came in) count the orders per version. The other tags stay as they came.
+      if (hmgVariant) url.searchParams.set('utm_medium', (adTags.utm_medium || 'direct') + '_' + hmgVariant);
       a.href = url.toString();
     } catch (e) { /* leave the link untouched */ }
 
@@ -302,6 +311,7 @@
       if (window.fbq) {
         var fbData = { content_name: product + ' ' + variant, currency: 'HKD', value: value };
         if (cta) fbData.cta = cta;
+        if (hmgVariant) fbData.variant = hmgVariant;
         window.fbq('trackCustom', 'BuyTap', fbData);
       }
       if (window.gtag) {
@@ -310,6 +320,7 @@
           items: [{ item_name: product, item_variant: variant }]
         };
         if (cta) gaParams.cta = cta;
+        if (hmgVariant) gaParams.hmg_variant = hmgVariant;
         window.gtag('event', 'begin_checkout', gaParams);
       }
       // Microsoft Clarity's tag (on every marketing page) defines window.clarity; pages
@@ -319,4 +330,54 @@
       }
     });
   });
+
+  /* -----------------------------------------------------------------
+     6. A/B test (/promo/hmg/ only, hmgVariant set): the version goes to Clarity
+     once, and a few engagement events go to GA4 and Clarity under the same
+     names on both versions. GA4 also has the version on every event through
+     the page's gtag('config', …, { hmg_variant }) in <head>.
+     ----------------------------------------------------------------- */
+  if (hmgVariant) {
+    if (typeof window.clarity === 'function') window.clarity('set', 'hmg_variant', hmgVariant);
+
+    var hmgEvent = function (name, params) {
+      params.hmg_variant = hmgVariant;
+      if (window.gtag) window.gtag('event', name, params);
+      if (typeof window.clarity === 'function') window.clarity('event', name);
+    };
+
+    // <details> fire toggle (it does not bubble, so listen while it travels down)
+    document.addEventListener('toggle', function (e) {
+      var d = e.target;
+      if (!d || !d.open || !d.classList) return;
+      if (d.classList.contains('faq__item')) {
+        var q = d.querySelector('summary');
+        hmgEvent('faq_open', { faq: (q ? q.textContent : '').trim().slice(0, 30) });
+      } else if (d.classList.contains('bmore')) {
+        hmgEvent('more_open', { block: d.getAttribute('data-more') || '' });
+      }
+    }, true);
+
+    // the SGS / IFOS report viewer opens from these links
+    Array.prototype.forEach.call(document.querySelectorAll('a[data-report]'), function (a) {
+      a.addEventListener('click', function () {
+        var file = (a.getAttribute('href') || '').split('?')[0].split('/').pop();
+        hmgEvent('report_open', { report: a.id || file });
+      });
+    });
+
+    // the two expert videos: the first play of each
+    Array.prototype.forEach.call(document.querySelectorAll('video'), function (v) {
+      var src = v.querySelector('source');
+      var file = (src ? src.getAttribute('src') : v.getAttribute('src')) || '';
+      var name = /arlene/.test(file) ? 'arlene' : /dr-alan/.test(file) ? 'dr-alan' : '';
+      if (!name) return;
+      var played = false;
+      v.addEventListener('play', function () {
+        if (played) return;
+        played = true;
+        hmgEvent('video_play', { video: name });
+      });
+    });
+  }
 })();
