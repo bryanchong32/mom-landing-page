@@ -100,18 +100,11 @@ html[data-offer="d11"] .plan .d11-was {
   color: var(--color-text-muted);
   text-decoration: line-through; text-decoration-color: rgba(122, 10, 16, 0.6);
 }
-html[data-offer="d11"] .plan__save { color: var(--d11-red); }
-/* 「雙11再減 HK$222」 is longer than 「慳 HK$1,200」: it takes a line of its own sooner than the
-   saving did (hmg2.css's container rule: the name column is the container, em = the small
-   line's size; measured in Chrome: 「6樽 · 180日 · 雙11再減 HK$222」 14.09em, the 3樽 line 13.08em) */
-@container (max-width: 14.2em) {
-  html[data-offer="d11"] .plan--6 .plan__sep { display: none; }
-  html[data-offer="d11"] .plan--6 .plan__save { display: block; }
-}
-@container (max-width: 13.2em) {
-  html[data-offer="d11"] .plan--3 .plan__sep { display: none; }
-  html[data-offer="d11"] .plan--3 .plan__save { display: block; }
-}
+/* Bryan 19 Oct: while 雙11 is on, the red stamp (雙11減$222 / $111) carries the saving, so the
+   慳 line and the dot before it step aside on the two stamped packs (a second "減" line read
+   like an extra discount). Normal mode keeps 慳 as before. */
+html[data-offer="d11"] [data-d11-off] .plan__sep,
+html[data-offer="d11"] [data-d11-off] .plan__save { display: none; }
 html[data-offer="d11"] .d11-from {
   margin-left: 8px; padding: 0 7px; border-radius: 999px;
   background: #FDECEC; color: var(--d11-red);
@@ -254,7 +247,7 @@ html[data-offer="d11"] [data-d11-off] .pricing-card__amount {
 html[data-offer="d11"] [data-d11-off] .pricing-card__currency { color: var(--d11-red); font-weight: 700; }
 html[data-offer="d11"] [data-d11-off] .pricing-card__original-price { color: var(--color-text-muted); }
 html[data-offer="d11"] [data-d11-off] .pricing-card__original-price s { text-decoration-color: rgba(122, 10, 16, 0.6); }
-html[data-offer="d11"] [data-d11-off] .pricing-card__savings { color: var(--d11-red); }
+html[data-offer="d11"] [data-d11-off] .pricing-card__savings { display: none; }   /* the stamp carries the saving */
 
 /* gold ticket with notches + the 減$ stamp right under the price */
 html[data-offer="d11"] [data-d11-off].pricing-card {
