@@ -36,7 +36,8 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-GYFB8NWCDH');
+    // price_mode: d11 while nginx marks the page data-offer="d11" (the 雙11 prices show), else normal
+    gtag('config', 'G-GYFB8NWCDH', { price_mode: document.documentElement.getAttribute('data-offer') === 'd11' ? 'd11' : 'normal' });
   </script>
 
   <!-- Meta Pixel -->
@@ -1339,6 +1340,6 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=5"></script>
+  <script src="js/main.js?v=7"></script>
 </body>
 </html>

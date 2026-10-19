@@ -272,6 +272,17 @@
   var hmgMeta = document.querySelector('meta[name="hmg-variant"]');
   var hmgVariant = hmgMeta && /^[ab]$/.test(hmgMeta.getAttribute('content')) ? hmgMeta.getAttribute('content') : '';
 
+  // 雙11 (Double 11) sale: nginx adds data-offer="d11" to <html> while it runs (css/d11.css shows
+  // the 雙11 prices from it). Here it only sets the tracked basket value (data-d11-value on the
+  // 3/6 pack links becomes their data-value) and tags the measurements price_mode d11 / normal.
+  var priceMode = document.documentElement.getAttribute('data-offer') === 'd11' ? 'd11' : 'normal';
+  if (priceMode === 'd11') {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-d11-value]'), function (el) {
+      el.setAttribute('data-value', el.getAttribute('data-d11-value'));
+    });
+  }
+  if (typeof window.clarity === 'function') window.clarity('set', 'price_mode', priceMode);
+
   var TAG_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid'];
   var adTags = {};
   var incoming = new URLSearchParams(window.location.search);
@@ -312,6 +323,7 @@
         var fbData = { content_name: product + ' ' + variant, currency: 'HKD', value: value };
         if (cta) fbData.cta = cta;
         if (hmgVariant) fbData.variant = hmgVariant;
+        fbData.price_mode = priceMode;
         window.fbq('trackCustom', 'BuyTap', fbData);
       }
       if (window.gtag) {
@@ -321,6 +333,7 @@
         };
         if (cta) gaParams.cta = cta;
         if (hmgVariant) gaParams.hmg_variant = hmgVariant;
+        gaParams.price_mode = priceMode;
         window.gtag('event', 'begin_checkout', gaParams);
       }
       // Microsoft Clarity's tag (on every marketing page) defines window.clarity; pages
