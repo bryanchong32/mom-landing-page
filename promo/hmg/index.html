@@ -58,6 +58,8 @@
   </script>
 
   <script>document.documentElement.className += ' js';</script>
+  <!-- 雙11 sale treatment: off unless js/d11.js switches it on (css/d11.css is all scoped under html.d11) -->
+  <script src="/js/d11.js?v=1"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -70,6 +72,7 @@
   <link rel="preload" as="image" href="/images/homega-box-front-300w.webp">
   <link rel="stylesheet" href="/css/design-tokens.css">
   <link rel="stylesheet" href="/promo/hmg/hmg2.css?v=20">
+  <link rel="stylesheet" href="/css/d11.css?v=1">
 </head>
 <body>
 
@@ -83,6 +86,9 @@
       <a class="cbar__cta" data-campaign="cta" href="#pricing" hidden></a>
     </div>
   </div>
+
+  <!-- 雙11 sale treatment (css/d11.css, js/d11.js): every .d11-* piece stays [hidden] unless the sale is on -->
+  <p class="d11-bar d11-bar--promo" hidden><b class="d11-gold">雙11優惠</b><span class="d11-dia">一年一次</span></p>
 
   <!-- The brand marks only: no links in the header (owner, 29 Sep). The footer keeps its links. -->
   <header class="top">
@@ -103,6 +109,10 @@
     <section class="hero" aria-labelledby="hero-h">
       <div class="hero__band">
         <div class="wrap hero__copy">
+          <div class="d11-hero" hidden>
+            <p class="d11-hero__mark"><b class="d11-gold">雙11</b><span class="d11-dia">一年一次</span></p>
+            <p class="d11-plaque"><span class="d11-plaque__k">6樽完整療程</span><span class="d11-plaque__tag">雙11價</span><b class="d11-plaque__p"><small>HK$</small>2,778</b><s class="d11-plaque__was">平時 HK$3,000</s></p>
+          </div>
           <h1 id="hero-h" class="hero__h1">
             <span class="formula" aria-label="Omega-3 加 K2 加 D3">
               <span class="formula__i"><b>Omega-3</b><small>EPA+DHA 468mg</small></span>
@@ -131,25 +141,29 @@
 
       <div class="wrap hero__buy">
         <div class="picker">
+          <div class="d11-coupon" hidden>
+            <p class="d11-coupon__stub"><b>雙11</b><span>專享</span></p>
+            <p class="d11-coupon__body"><b>結帳自動減價</b><span>6樽減 HK$222 · 3樽減 HK$111</span></p>
+          </div>
           <fieldset class="plans" data-plans>
             <legend class="sr-only">選擇方案</legend>
-            <label class="plan plan--6">
+            <label class="plan plan--6" data-d11-off="222">
               <input type="radio" name="plan-top" value="6">
               <span class="plan__dot" aria-hidden="true"></span>
-              <span class="plan__what"><b>完整療程</b><small>6樽 · 180日<span class="plan__sep"> · </span><span class="plan__save">慳 HK$1,200</span></small></span>
-              <span class="plan__cost"><b>HK$3,000</b><small>每日 HK$16.7</small></span>
+              <span class="plan__what"><b>完整療程</b><small>6樽 · 180日<span class="plan__sep"> · </span><span class="plan__save" data-d11="慳 HK$1,422">慳 HK$1,200</span></small></span>
+              <span class="plan__cost"><s class="d11-was" hidden>平時 HK$3,000</s><b data-d11="HK$2,778">HK$3,000</b><small data-d11="每日 HK$15.4">每日 HK$16.7</small></span>
               <span class="plan__mark"><i aria-hidden="true">✓</i> 90日退款保證</span>
             </label>
-            <label class="plan plan--3">
+            <label class="plan plan--3" data-d11-off="111">
               <input type="radio" name="plan-top" value="3" checked>
               <span class="plan__dot" aria-hidden="true"></span>
-              <span class="plan__what"><b>基本配套</b><small>3樽 · 90日<span class="plan__sep"> · </span><span class="plan__save">慳 HK$450</span></small></span>
-              <span class="plan__cost"><b>HK$1,650</b><small>每日 HK$18.3</small></span>
+              <span class="plan__what"><b>基本配套</b><small>3樽 · 90日<span class="plan__sep"> · </span><span class="plan__save" data-d11="慳 HK$561">慳 HK$450</span></small></span>
+              <span class="plan__cost"><s class="d11-was" hidden>平時 HK$1,650</s><b data-d11="HK$1,539">HK$1,650</b><small data-d11="每日 HK$17.1">每日 HK$18.3</small></span>
             </label>
             <label class="plan plan--1">
               <input type="radio" name="plan-top" value="1">
               <span class="plan__dot" aria-hidden="true"></span>
-              <span class="plan__what"><b>1樽</b><small>30日</small></span>
+              <span class="plan__what"><b>1樽</b><small>30日<span class="d11-from" hidden>3樽起享雙11價</span></small></span>
               <span class="plan__cost"><b>HK$700</b><small>每日 HK$23.3</small></span>
             </label>
           </fieldset>
@@ -756,7 +770,7 @@
           </figcaption>
         </figure>
 
-        <a class="pick t1-pick" href="https://store.tigroxglobal.com/hk/zh-TW/express/6hmg" target="_blank" rel="noopener" data-checkout="6box" data-value="3000" data-product="Homega" data-cta="chart"><span class="pick__main">即刻購買<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></span><span class="pick__plan">完整療程 · 6樽 · HK$3,000</span></a>
+        <a class="pick t1-pick" href="https://store.tigroxglobal.com/hk/zh-TW/express/6hmg" target="_blank" rel="noopener" data-checkout="6box" data-value="3000" data-d11-value="2778" data-product="Homega" data-cta="chart"><span class="pick__main">即刻購買<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></span><span class="pick__plan" data-d11="完整療程 · 6樽 · HK$2,778">完整療程 · 6樽 · HK$3,000</span></a>
       </div>
     </section>
 
@@ -857,7 +871,7 @@
         <p class="sea__oil">魚油原料：OmegaVie® 4020 TG QS5 · 法國 POLARIS</p>
 
         <!-- Mid-page CTA after the reports: same as the chart one (hmg2.js [data-pick]) -->
-        <a class="pick pick--sea" href="https://store.tigroxglobal.com/hk/zh-TW/express/6hmg" target="_blank" rel="noopener" data-checkout="6box" data-value="3000" data-product="Homega" data-cta="after-sgs"><span class="pick__main">即刻購買<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></span><span class="pick__plan">完整療程 · 6樽 · HK$3,000</span></a>
+        <a class="pick pick--sea" href="https://store.tigroxglobal.com/hk/zh-TW/express/6hmg" target="_blank" rel="noopener" data-checkout="6box" data-value="3000" data-d11-value="2778" data-product="Homega" data-cta="after-sgs"><span class="pick__main">即刻購買<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></span><span class="pick__plan" data-d11="完整療程 · 6樽 · HK$2,778">完整療程 · 6樽 · HK$3,000</span></a>
       </div>
     </section>
 
@@ -930,7 +944,7 @@
 
       <!-- Mid-page CTA after the certificates: same as the chart one (hmg2.js [data-pick]) -->
       <div class="wrap">
-        <a class="pick pick--dose" href="https://store.tigroxglobal.com/hk/zh-TW/express/6hmg" target="_blank" rel="noopener" data-checkout="6box" data-value="3000" data-product="Homega" data-cta="after-dose"><span class="pick__main">即刻購買<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></span><span class="pick__plan">完整療程 · 6樽 · HK$3,000</span></a>
+        <a class="pick pick--dose" href="https://store.tigroxglobal.com/hk/zh-TW/express/6hmg" target="_blank" rel="noopener" data-checkout="6box" data-value="3000" data-d11-value="2778" data-product="Homega" data-cta="after-dose"><span class="pick__main">即刻購買<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5"/></svg></span><span class="pick__plan" data-d11="完整療程 · 6樽 · HK$2,778">完整療程 · 6樽 · HK$3,000</span></a>
       </div>
     </section>
 
@@ -1080,23 +1094,23 @@
           </div>
           <fieldset class="plans" data-plans>
             <legend class="sr-only">選擇方案</legend>
-            <label class="plan plan--6">
+            <label class="plan plan--6" data-d11-off="222">
               <input type="radio" name="plan-end" value="6">
               <span class="plan__dot" aria-hidden="true"></span>
-              <span class="plan__what"><b>完整療程</b><small>6樽 · 180日<span class="plan__sep"> · </span><span class="plan__save">慳 HK$1,200</span></small></span>
-              <span class="plan__cost"><b>HK$3,000</b><small>每日 HK$16.7</small></span>
+              <span class="plan__what"><b>完整療程</b><small>6樽 · 180日<span class="plan__sep"> · </span><span class="plan__save" data-d11="慳 HK$1,422">慳 HK$1,200</span></small></span>
+              <span class="plan__cost"><s class="d11-was" hidden>平時 HK$3,000</s><b data-d11="HK$2,778">HK$3,000</b><small data-d11="每日 HK$15.4">每日 HK$16.7</small></span>
               <span class="plan__mark"><i aria-hidden="true">✓</i> 90日退款保證</span>
             </label>
-            <label class="plan plan--3">
+            <label class="plan plan--3" data-d11-off="111">
               <input type="radio" name="plan-end" value="3" checked>
               <span class="plan__dot" aria-hidden="true"></span>
-              <span class="plan__what"><b>基本配套</b><small>3樽 · 90日<span class="plan__sep"> · </span><span class="plan__save">慳 HK$450</span></small></span>
-              <span class="plan__cost"><b>HK$1,650</b><small>每日 HK$18.3</small></span>
+              <span class="plan__what"><b>基本配套</b><small>3樽 · 90日<span class="plan__sep"> · </span><span class="plan__save" data-d11="慳 HK$561">慳 HK$450</span></small></span>
+              <span class="plan__cost"><s class="d11-was" hidden>平時 HK$1,650</s><b data-d11="HK$1,539">HK$1,650</b><small data-d11="每日 HK$17.1">每日 HK$18.3</small></span>
             </label>
             <label class="plan plan--1">
               <input type="radio" name="plan-end" value="1">
               <span class="plan__dot" aria-hidden="true"></span>
-              <span class="plan__what"><b>1樽</b><small>30日</small></span>
+              <span class="plan__what"><b>1樽</b><small>30日<span class="d11-from" hidden>3樽起享雙11價</span></small></span>
               <span class="plan__cost"><b>HK$700</b><small>每日 HK$23.3</small></span>
             </label>
           </fieldset>
@@ -1150,7 +1164,7 @@
             <summary><span>為何建議完整療程（6樽）？</span><i aria-hidden="true"></i></summary>
             <div class="faq__a">
               <p>Omega-3 在紅血球細胞膜一般需要 4–6 個月才達到穩定水平<sup class="cite"><a href="#ref-2">2</a>,<a href="#ref-3">3</a></sup>，維他命 D 的血液水平約需 5 個月<sup class="cite"><a href="#ref-4">4</a></sup>。基本配套的 90 日結束時，這些水平一般仍在上升；完整療程的 180 日涵蓋整個累積期，之後繼續保持。個別情況因人而異。</p>
-              <p>完整療程亦是每日成本最低的方案（每日 HK$16.7），而 <a href="/policies/money-back-guarantee/" target="_blank" rel="noopener">90日退款保證</a>只適用於完整療程。</p>
+              <p>完整療程亦是每日成本最低的方案（每日 <span data-d11="HK$15.4">HK$16.7</span>），而 <a href="/policies/money-back-guarantee/" target="_blank" rel="noopener">90日退款保證</a>只適用於完整療程。</p>
             </div>
           </details>
           <details class="faq__item">
@@ -1250,7 +1264,7 @@
           <details class="faq__item">
             <summary><span>90日退款保證怎樣運作？</span><i aria-hidden="true"></i></summary>
             <div class="faq__a">
-              <p>實際上只適用於完整療程。經官方網店購買，按建議每日 2 粒連續服用 90 日（即 3 樽），並透過客服 WhatsApp 記錄服用情況：第 1 日、其後每星期最少一次，以及第 90 日。如果你覺得沒有分別，請於首張訂單送達後 120 日內提出申請，交回未開封（原封）的產品，我們會按訂單每樽價格退款：完整療程餘下未開封的 3 樽，可獲退款 HK$1,500。獲批後 30 個工作天內，以原付款方式退款。</p>
+              <p>實際上只適用於完整療程。經官方網店購買，按建議每日 2 粒連續服用 90 日（即 3 樽），並透過客服 WhatsApp 記錄服用情況：第 1 日、其後每星期最少一次，以及第 90 日。如果你覺得沒有分別，請於首張訂單送達後 120 日內提出申請，交回未開封（原封）的產品，我們會按訂單每樽價格退款：完整療程餘下未開封的 3 樽，可獲退款 <span data-d11="HK$1,389">HK$1,500</span>。獲批後 30 個工作天內，以原付款方式退款。</p>
               <p>已開封或已服用的產品不設退款；基本配套的 3 樽會在 90 日內服用完畢，因此不適用。<a class="nw" href="/policies/money-back-guarantee/" target="_blank" rel="noopener">查看完整條款</a></p>
             </div>
           </details>
@@ -1344,7 +1358,7 @@
 
   <script src="/js/main.js?v=6"></script>
   <script src="/promo/promo.js?v=3"></script>
-  <script src="/promo/hmg/hmg2.js?v=16"></script>
+  <script src="/promo/hmg/hmg2.js?v=17"></script>
   <script src="/promo/hmg/t1.js?v=8"></script>
 </body>
 </html>

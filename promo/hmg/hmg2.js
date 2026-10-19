@@ -45,6 +45,12 @@
            plan: '1樽 · 30日', price: 'HK$700 · 每日 HK$23.3', why: true,
            nudge: '1樽只夠 30 日。|想改善三高、手腳麻痺，|建議選擇 3樽或 6樽配套。' }
   };
+  // 雙11: /js/d11.js (in <head>) sets window.D11 only while the sale is on; its prices
+  // replace these, so every buy button, the sticky bar and the upgrade note follow
+  var d11 = window.D11 && window.D11.plans;
+  if (d11) Object.keys(d11).forEach(function (k) {
+    if (PLANS[k]) Object.keys(d11[k]).forEach(function (f) { PLANS[k][f] = d11[k][f]; });
+  });
 
   function applyPlan(key, snapAll) {
     var p = PLANS[key];

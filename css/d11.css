@@ -1,0 +1,552 @@
+/* =================================================================
+   雙11 (Double 11) sale treatment: /promo/hmg/ (versions A and B) and the brand pages.
+   DESIGN MOCK, three looks of the same numbers:
+     look 1  紅色主場   the first screen turns crimson: big gold 雙11, 6樽 price plaque
+     look 2  節日框      teal/kraft stays; red-gold banner, 雙11價 corner ribbons, sparkles
+     look 3  優惠券      a red coupon strip above the plans; the 3/6 packs become gold tickets
+   Brand pages (every look): a slim red-gold top bar + that look's price-card treatment.
+
+   Switch: js/d11.js adds  html.d11 + html.d11-look1|2|3  (mock: ?d11=1&look=N).
+   EVERY rule below is scoped under html.d11; every 雙11-only element is [hidden] in the
+   HTML, so with the switch off this file changes nothing on screen.
+   Visual language = the campaign's flyers: crimson #D0101A → #8E0A12, metallic gold
+   #FFE9A8 → amber #E8A93C with bronze #A0521A, deep red #7A0A10 for small dark text.
+   ================================================================= */
+
+html.d11 {
+  --d11-red: #D0101A;
+  --d11-red-d: #8E0A12;
+  --d11-band: #B80C15;          /* where the crimson ground meets the boxes and the wave */
+  --d11-ink: #7A0A10;
+  --d11-gold: #FFE9A8;
+  --d11-amber: #E8A93C;
+  --d11-bronze: #A0521A;
+  --d11-line: #DDB060;          /* gold card edges */
+  --d11-heavy: 'Noto Sans TC', 'Noto Sans HK', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  --d11-num: Inter, 'Noto Sans TC', -apple-system, sans-serif;
+  --d11-notch-bg: var(--color-bg-primary);   /* look 3: what shows through a ticket's notches */
+  --d11-sparkle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 28'%3E%3Cg fill='%23F5BE4A' stroke='%23A0521A' stroke-width='.8' stroke-linejoin='round'%3E%3Cpath d='M12 4c.9 6.6 5.4 11.1 12 12-6.6.9-11.1 5.4-12 12-.9-6.6-5.4-11.1-12-12 6.6-.9 11.1-5.4 12-12z'/%3E%3Cpath d='M27 0c.4 2.6 2.4 4.6 5 5-2.6.4-4.6 2.4-5 5-.4-2.6-2.4-4.6-5-5 2.6-.4 4.6-2.4 5-5z'/%3E%3C/g%3E%3C/svg%3E");
+  --d11-star: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke-linejoin='round'%3E%3Cpolygon points='50,3 61.8,37.6 98,37.6 68.7,59 79.9,94 50,72.5 20.1,94 31.3,59 2,37.6 38.2,37.6' stroke='%23FFE9A8' stroke-width='2.6'/%3E%3Cpolygon points='50,10.8 59.9,39.9 90.3,39.9 65.7,57.9 75.1,87.3 50,69.2 24.9,87.3 34.3,57.9 9.7,39.9 40.1,39.9' stroke='%23E8A93C' stroke-width='1.2'/%3E%3C/svg%3E");
+}
+
+/* ---------------------------------------------------------------
+   Atoms
+   --------------------------------------------------------------- */
+/* Gold headline: heavy sans, slanted, a solid gold face over a stepped bronze extrusion
+   (no gradient text; the depth is all text-shadow, in em so it scales with the size) */
+html.d11 .d11-gold {
+  display: inline-block; white-space: nowrap;
+  font-family: var(--d11-heavy); font-weight: 900; font-style: normal;
+  color: var(--d11-gold);
+  letter-spacing: 0.01em;
+  transform: skewX(-9deg);
+  text-shadow:
+    0 -0.012em 0 #FFF8DE,
+    0 0.02em 0 #F4CB6C,
+    0 0.04em 0 var(--d11-amber),
+    0 0.06em 0 #C47A28,
+    0 0.08em 0 var(--d11-bronze),
+    0 0.1em 0 #7E3C10,
+    0 0.16em 0.2em rgba(70, 0, 8, 0.55);
+}
+/* ◆ text ◆ */
+html.d11 .d11-dia { display: inline-flex; align-items: center; gap: 0.55em; white-space: nowrap; }
+html.d11 .d11-dia::before,
+html.d11 .d11-dia::after {
+  content: ''; flex: none; width: 0.42em; height: 0.42em;
+  background: var(--d11-gold); transform: rotate(45deg);
+  box-shadow: 0 0 0 1px rgba(160, 82, 26, 0.35);
+}
+
+/* Show the 雙11-only pieces (all [hidden] in the HTML) */
+html.d11 .d11-was { display: block; }
+html.d11 .d11-from { display: inline-block; }
+html.d11 .d11-bar--brand { display: flex; }
+html.d11-look1 .d11-hero { display: flex; }
+html.d11-look2 .d11-bar--promo { display: flex; }
+html.d11-look3 .d11-coupon { display: grid; }
+
+/* ---------------------------------------------------------------
+   Top bar: look 2's banner on /promo/hmg/, every look's slim bar on the brand pages
+   --------------------------------------------------------------- */
+html.d11 .d11-bar {
+  position: relative; margin: 0;
+  align-items: center; justify-content: center; flex-wrap: wrap; gap: 2px 14px;
+  min-height: 40px; padding: 5px 16px 6px;
+  background:
+    radial-gradient(60% 140% at 50% 0%, rgba(255, 120, 90, 0.35), transparent 70%),
+    linear-gradient(90deg, var(--d11-red-d) 0%, var(--d11-red) 28%, var(--d11-red) 72%, var(--d11-red-d) 100%);
+  box-shadow: inset 0 -1px 0 rgba(255, 233, 168, 0.6), inset 0 1px 0 rgba(255, 233, 168, 0.22);
+  color: #FFF1CF; text-align: center; line-height: 1.3;
+}
+html.d11 .d11-bar .d11-gold { font-size: 21px; line-height: 1.2; }
+html.d11 .d11-bar .d11-dia { font-size: 14.5px; font-weight: 700; letter-spacing: 0.14em; color: var(--d11-gold); }
+/* a sparkle at each end of the banner */
+html.d11 .d11-bar--promo::before,
+html.d11 .d11-bar--promo::after {
+  content: ''; position: absolute; top: 50%; width: 22px; height: 19px; margin-top: -10px;
+  background: var(--d11-sparkle) center / contain no-repeat;
+}
+html.d11 .d11-bar--promo::before { left: 14px; }
+html.d11 .d11-bar--promo::after { right: 14px; transform: scaleX(-1); }
+@media (max-width: 359px) {
+  html.d11 .d11-bar--promo::before, html.d11 .d11-bar--promo::after { display: none; }
+}
+
+/* brand pages: slimmer, one line */
+html.d11 .d11-bar--brand { min-height: 38px; font-size: 14px; font-weight: 600; letter-spacing: 0.04em; gap: 0 10px; }
+html.d11 .d11-bar--brand .d11-gold { font-size: 17px; letter-spacing: 0.04em; }
+html.d11 .d11-bar__sep { color: var(--d11-gold); opacity: 0.8; }
+/* look 1: the bar is the deep end of the crimson; look 3: a coupon's perforated bottom edge */
+html.d11-look1 .d11-bar--brand { background: linear-gradient(180deg, #A50C14, var(--d11-red-d)); }
+html.d11-look3 .d11-bar--brand {
+  padding-bottom: 10px;
+  -webkit-mask: radial-gradient(circle 4px at 50% 100%, #0000 97%, #000) 0 0 / 12px 100% repeat-x;
+          mask: radial-gradient(circle 4px at 50% 100%, #0000 97%, #000) 0 0 / 12px 100% repeat-x;
+}
+
+/* =================================================================
+   /promo/hmg/ — common to every look
+   ================================================================= */
+/* The two 雙11 packs: big heavy red numerals, 平時 small and struck through above them.
+   1樽 keeps its ink price; its small line gets 「3樽起享雙11價」. */
+html.d11 [data-d11-off] .plan__cost b { color: var(--d11-red); font-size: 1.3rem; }
+html.d11 .plan .d11-was {
+  font-family: var(--d11-num); font-size: 12.5px; font-weight: 500; line-height: 1.25;
+  color: var(--color-text-muted);
+  text-decoration: line-through; text-decoration-color: rgba(122, 10, 16, 0.6);
+}
+html.d11 .plan__save { color: var(--d11-red); }
+html.d11 .d11-from {
+  margin-left: 8px; padding: 0 7px; border-radius: 999px;
+  background: #FDECEC; color: var(--d11-red);
+  font-family: var(--font-body); font-size: 12.5px; font-weight: 700; line-height: 20px;
+  vertical-align: 1px; white-space: nowrap;
+}
+html.d11 .bh__plans [data-d11-off] .plan__mark { right: auto; left: 46px; }
+/* version B's compact tiles: the struck line stays small, so the buy button keeps its place
+   on the first screen */
+html.d11 .bh__plans [data-d11-off] .plan__cost b { font-size: 1.2rem; line-height: 1.2; }
+html.d11 .bh__plans .plan .d11-was { font-size: 11.5px; line-height: 1.15; }
+html.d11 .bh__plans .d11-from { margin-left: 6px; font-size: 12px; }
+
+/* ---------------------------------------------------------------
+   Look 1 — 紅色主場 (red takeover)
+   --------------------------------------------------------------- */
+html.d11-look1 .top { background: var(--d11-red-d); }
+html.d11-look1 .hero__band {
+  background:
+    radial-gradient(70% 55% at 24% 12%, rgba(255, 170, 110, 0.28), transparent 70%),
+    linear-gradient(180deg, var(--d11-red-d) 0%, #C3101A 34%, var(--d11-band) 100%);
+}
+html.d11-look1 .hero__stage { background: linear-gradient(var(--d11-band) 0 56%, var(--paper) 56%); }
+html.d11-look1 .hero__wave { fill: var(--d11-band); }
+html.d11-look1 .formula__plus { color: var(--d11-gold); }
+html.d11-look1 .formula__i small { color: #FFE3C2; }
+html.d11-look1 .hero__sub { color: rgba(255, 241, 214, 0.86); }
+
+/* the lockup: 雙11 (gold star outline + light rays behind) | the 6樽 price plaque */
+html.d11-look1 .d11-hero {
+  position: relative; isolation: isolate;
+  align-items: center; justify-content: space-between; gap: 12px;
+  padding: 16px 0 14px; margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 233, 168, 0.3);
+  text-align: left;
+}
+/* light rays, gutter to gutter (never wider than the screen) */
+html.d11-look1 .d11-hero::before {
+  content: ''; position: absolute; z-index: -2; top: -10px; bottom: -6px;
+  left: calc(-1 * var(--gut, 20px)); right: calc(-1 * var(--gut, 20px));
+  background: repeating-conic-gradient(from 0deg at 26% 50%, rgba(255, 233, 168, 0.17) 0deg 5deg, transparent 5deg 15deg);
+  -webkit-mask: radial-gradient(closest-side at 26% 50%, #000 15%, transparent 100%);
+          mask: radial-gradient(closest-side at 26% 50%, #000 15%, transparent 100%);
+  pointer-events: none;
+}
+html.d11-look1 .d11-hero__mark {
+  position: relative; margin: 0; flex: none;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 14px;
+  font-size: clamp(60px, 19vw, 84px); line-height: 1;
+}
+html.d11-look1 .d11-hero__mark .d11-gold { line-height: 0.95; padding-left: 0.04em; }
+/* the star sits behind 「雙11」 (about 2.1em wide) */
+html.d11-look1 .d11-hero__mark::before {
+  content: ''; position: absolute; z-index: -1;
+  left: 0.38em; top: -0.3em; width: 1.45em; height: 1.45em;
+  background: var(--d11-star) center / contain no-repeat;
+  transform: rotate(-10deg); opacity: 0.9;
+}
+html.d11-look1 .d11-hero__mark .d11-dia {
+  font-size: 15px; font-weight: 700; letter-spacing: 0.22em; color: var(--d11-gold); padding-left: 2px;
+}
+
+/* the plaque: a gold price tag, a slight tilt, red numerals */
+html.d11-look1 .d11-plaque {
+  flex: none; margin: 0;
+  display: grid; justify-items: start; gap: 3px;
+  padding: 10px 14px 11px 13px; border-radius: 12px;
+  background: linear-gradient(158deg, #FFF7D6 0%, var(--d11-gold) 42%, #F4CB6C 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65), 0 0 0 1px #C4862F, 0 12px 24px rgba(60, 0, 8, 0.38);
+  color: var(--d11-ink); line-height: 1.2;
+  transform: rotate(2.5deg);
+}
+html.d11-look1 .d11-plaque__k { font-size: 13.5px; font-weight: 700; }
+html.d11-look1 .d11-plaque__tag {
+  padding: 0 7px; border-radius: 4px; background: var(--d11-red); color: var(--d11-gold);
+  font-size: 12px; font-weight: 700; line-height: 19px; letter-spacing: 0.06em;
+}
+html.d11-look1 .d11-plaque__p {
+  font-family: var(--d11-num); font-weight: 700; font-size: 31px; line-height: 1.05;
+  color: var(--d11-red); letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+}
+html.d11-look1 .d11-plaque__p small { font-size: 0.5em; margin-right: 2px; letter-spacing: 0; }
+html.d11-look1 .d11-plaque__was {
+  font-family: var(--d11-num); font-size: 12.5px; font-weight: 500;
+  color: rgba(122, 10, 16, 0.78); text-decoration-color: rgba(122, 10, 16, 0.7);
+}
+@media (max-width: 359px) {
+  html.d11-look1 .d11-plaque { padding-inline: 10px; }
+  html.d11-look1 .d11-plaque__p { font-size: 26px; }
+  html.d11-look1 .d11-hero__mark .d11-dia { letter-spacing: 0.12em; }
+}
+
+/* the plans: gold-tinted tiles, crimson for the chosen one */
+html.d11-look1 [data-d11-off].plan,
+html.d11-look1 .picker--card [data-d11-off].plan {
+  border-color: var(--d11-line);
+  background: linear-gradient(180deg, #FFFCF3 0%, #FFF1CC 100%);
+}
+html.d11-look1 .plan.is-on,
+html.d11-look1 .plan:has(input:checked) {
+  border-color: var(--d11-red);
+  box-shadow: inset 0 0 0 1px var(--d11-red), 0 8px 20px rgba(208, 16, 26, 0.16);
+}
+html.d11-look1 .plan__dot { border-color: #C9A35A; }
+html.d11-look1 .plan.is-on .plan__dot,
+html.d11-look1 .plan:has(input:checked) .plan__dot { border-color: var(--d11-red); }
+html.d11-look1 .plan__dot::after { background: var(--d11-red); }
+html.d11-look1 .plan:has(input:focus-visible) { outline-color: var(--d11-red-d); }
+html.d11-look1 .plan__mark { background: var(--d11-red-d); color: var(--d11-gold); }
+html.d11-look1 [data-d11-off] .plan__cost small { color: var(--d11-ink); }
+html.d11-look1 .plan.is-ring { animation: none; }
+/* the upgrade note and the buttons follow the crimson */
+html.d11-look1 .nudge__box { background: #FDEDEA; color: var(--d11-ink); }
+html.d11-look1 .nudge button { border-color: var(--d11-red); color: var(--d11-ink); }
+html.d11-look1 .bh__up { color: var(--d11-ink); }
+html.d11-look1 .buy {
+  background: linear-gradient(180deg, #DD1721 0%, #B10C15 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 233, 168, 0.45), 0 8px 20px rgba(208, 16, 26, 0.3);
+}
+html.d11-look1 .pick { background: var(--d11-red); border-color: var(--d11-red); }
+@media (hover: hover) {
+  html.d11-look1 .buy:hover { background: #A50C14; }
+  html.d11-look1 .pick:hover { background: #A50C14; border-color: #A50C14; }
+  html.d11-look1 .nudge button:hover { background: rgba(208, 16, 26, 0.06); border-color: var(--d11-red-d); color: var(--d11-ink); }
+}
+
+/* version B: the same lockup in one compact row (no 一年一次 line, the plaque in two rows),
+   so the buy button stays on the first screen at 375×812 */
+html.d11-look1 .bh {
+  --d11-bh: 64px;   /* lockup height + its margin: the crimson ground grows by exactly this */
+  background:
+    radial-gradient(80% 40% at 20% 0%, rgba(255, 170, 110, 0.26), transparent 70%),
+    linear-gradient(var(--d11-red-d) 0, #C3101A 90px, var(--d11-band) calc(132px + var(--d11-bh)), var(--paper) calc(132px + var(--d11-bh)));
+}
+html.d11-look1 .bh .d11-hero { height: 60px; padding: 0; margin-bottom: 4px; border-bottom: 0; }
+html.d11-look1 .bh .d11-hero__mark { font-size: 50px; }
+html.d11-look1 .bh .d11-hero__mark .d11-dia { display: none; }
+html.d11-look1 .bh .d11-hero__mark::before { top: -0.22em; }
+html.d11-look1 .bh .d11-plaque {
+  grid-template-columns: auto auto; column-gap: 8px; row-gap: 0; align-items: baseline;
+  padding: 6px 11px 7px; transform: rotate(1.5deg);
+}
+html.d11-look1 .bh .d11-plaque__k { font-size: 12.5px; }
+html.d11-look1 .bh .d11-plaque__tag { justify-self: end; font-size: 11.5px; line-height: 17px; }
+html.d11-look1 .bh .d11-plaque__p { font-size: 25px; }
+html.d11-look1 .bh .d11-plaque__was { font-size: 11.5px; }
+@media (max-width: 359px) {
+  html.d11-look1 .bh .d11-hero__mark { font-size: 42px; }
+  html.d11-look1 .bh .d11-plaque { column-gap: 6px; padding-inline: 9px; }
+  html.d11-look1 .bh .d11-plaque__p { font-size: 21px; }
+  html.d11-look1 .bh .d11-plaque__was { font-size: 10.5px; }
+}
+html.d11-look1 .bh__eye { color: rgba(255, 233, 200, 0.9); }
+html.d11-look1 .bh__tick { color: var(--d11-gold); }
+
+/* ---------------------------------------------------------------
+   Look 2 — 節日框 (festive frame): banner on top, ribbons + sparkles on the 3/6 packs
+   --------------------------------------------------------------- */
+/* Corner ribbon 「雙11價」: one rotated band; clip-path cuts its two ends at 45°, which
+   after rotate(45deg) lie flat along the tile's top and right edges (80×18 band:
+   centre (80−18)/2·cos45 = 21.9px in from each edge; it covers the corner up to
+   x+y ≈ 57px, so the price column moves 50px in). */
+html.d11-look2 [data-d11-off].plan { padding-right: 50px; }
+/* version B: name over its small line, so the narrower row still fits beside the ribbon */
+html.d11-look2 .bh__plans [data-d11-off] .plan__what b,
+html.d11-look2 .bh__plans [data-d11-off] .plan__what small { display: block; margin-left: 0; }
+html.d11-look2 .bh__plans [data-d11-off].plan { padding-block: 7px; }
+html.d11-look2 .bh__plans .plan--6[data-d11-off] { padding-top: 13px; }   /* clear of the 90日 tab */
+html.d11-look2 [data-d11-off].plan::after,
+html.d11-look2 [data-d11-off].pricing-card::after {
+  content: '雙11價';
+  position: absolute; z-index: 2; top: 12.92px; right: -18.08px;
+  width: 80px; height: 18px;
+  transform: rotate(45deg);
+  -webkit-clip-path: polygon(18px 0, 62px 0, 80px 18px, 0 18px);
+          clip-path: polygon(18px 0, 62px 0, 80px 18px, 0 18px);
+  background: linear-gradient(180deg, #FFF4CC 0%, #FFE08A 48%, var(--d11-amber) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), inset 0 -1px 0 var(--d11-bronze);
+  color: var(--d11-ink);
+  font-family: var(--d11-heavy); font-weight: 900; font-size: 11px; line-height: 18px;
+  letter-spacing: 0.04em; text-align: center; white-space: nowrap;
+  pointer-events: none;
+}
+/* the rotated band's box pokes ~13px past the right edge before clip-path trims it; clip
+   that overhang so it can never widen a page (top/bottom stay visible for the tabs) */
+html.d11-look2 [data-d11-off].plan,
+html.d11-look2 [data-d11-off].pricing-card { overflow-x: clip; }
+/* the 90日 tab moves left of the ribbon */
+html.d11-look2 .plans:not(.bh__plans) [data-d11-off] .plan__mark { right: 62px; }
+/* gold sparkles at the price */
+html.d11-look2 [data-d11-off] .plan__cost b::before,
+html.d11-look2 [data-d11-off] .pricing-card__price::before {
+  content: ''; display: inline-block; width: 17px; height: 15px; margin-right: 4px; vertical-align: 0.42em;
+  background: var(--d11-sparkle) center / contain no-repeat;
+  animation: d11-twinkle 2.6s ease-in-out infinite;
+}
+/* version A's taller tiles: the sparkle sits in the corner under the ribbon instead, so the
+   name column keeps its width (「完整療程」 never breaks, down to 360px) */
+html.d11-look2 .plans:not(.bh__plans) [data-d11-off] .plan__cost b::before {
+  position: absolute; right: 15px; bottom: 13px; width: 22px; height: 19px; margin: 0;
+}
+/* narrower phones: a slimmer price column so 「完整療程」/「基本配套」 never break beside the ribbon */
+@media (max-width: 389px) {
+  html.d11-look2 .plans:not(.bh__plans) [data-d11-off].plan { padding-right: 44px; padding-top: 13px; }
+  html.d11-look2 .plans:not(.bh__plans) [data-d11-off] .plan__cost b { font-size: 1.15rem; }
+  html.d11-look2 .plans:not(.bh__plans) [data-d11-off] .plan__what b { font-size: 1.25rem; }
+}
+@keyframes d11-twinkle {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  50% { transform: scale(0.72) rotate(18deg); opacity: 0.7; }
+}
+html.d11-look2 [data-d11-off].plan:not(.is-on):not(:has(input:checked)) { border-color: var(--d11-line); }
+
+/* ---------------------------------------------------------------
+   Look 3 — 優惠券 (coupon): the strip above the plans, the 3/6 packs as gold tickets
+   --------------------------------------------------------------- */
+/* The strip: stub | perforation | body. Perforated left and right edges and two notches
+   on the perforation line are cut with one mask (four layers): the edge bites are two
+   half-width layers added together, the notches are intersected on top. */
+html.d11-look3 .d11-coupon {
+  --stub: 78px;
+  position: relative;
+  grid-template-columns: var(--stub) 1fr; align-items: center;
+  min-height: 64px; margin: 0 0 22px;
+  border-radius: 8px;
+  color: var(--d11-gold);
+  background:
+    radial-gradient(120% 160% at 0% 0%, #E5231F 0%, #C70F18 50%, #9A0B13 100%);
+  -webkit-mask:
+    radial-gradient(circle 7px at var(--stub) 0, #0000 97%, #000),
+    radial-gradient(circle 7px at var(--stub) 100%, #0000 97%, #000),
+    radial-gradient(circle 3.5px at 0 50%, #0000 97%, #000) 0 0 / 51% 11px repeat-y,
+    radial-gradient(circle 3.5px at 100% 50%, #0000 97%, #000) 100% 0 / 51% 11px repeat-y;
+  -webkit-mask-composite: source-in, source-in, source-over, source-over;
+          mask:
+    radial-gradient(circle 7px at var(--stub) 0, #0000 97%, #000),
+    radial-gradient(circle 7px at var(--stub) 100%, #0000 97%, #000),
+    radial-gradient(circle 3.5px at 0 50%, #0000 97%, #000) 0 0 / 51% 11px repeat-y,
+    radial-gradient(circle 3.5px at 100% 50%, #0000 97%, #000) 100% 0 / 51% 11px repeat-y;
+          mask-composite: intersect, intersect, add, add;
+}
+html.d11-look3 .d11-coupon p { margin: 0; }
+html.d11-look3 .d11-coupon__stub {
+  position: relative; align-self: stretch;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+  padding: 8px 0 8px 6px;
+}
+/* the perforation: dashes drawn as a background, not a border */
+html.d11-look3 .d11-coupon__stub::after {
+  content: ''; position: absolute; top: 10px; bottom: 10px; right: -1px; width: 2px;
+  background: repeating-linear-gradient(180deg, rgba(255, 233, 168, 0.75) 0 5px, transparent 5px 9px);
+}
+html.d11-look3 .d11-coupon__stub b { font-family: var(--d11-heavy); font-weight: 900; font-size: 24px; line-height: 1.05; transform: skewX(-9deg); text-shadow: 0 1px 0 var(--d11-amber), 0 2px 0 var(--d11-bronze), 0 3px 4px rgba(60, 0, 8, 0.5); }
+html.d11-look3 .d11-coupon__stub span { font-size: 13px; font-weight: 700; letter-spacing: 0.3em; padding-left: 0.3em; }
+html.d11-look3 .d11-coupon__body { display: grid; gap: 1px; padding: 9px 14px 10px 16px; }
+html.d11-look3 .d11-coupon__body b { font-family: var(--d11-heavy); font-weight: 900; font-size: 19px; line-height: 1.25; letter-spacing: 0.06em; color: #FFF6DA; }
+html.d11-look3 .d11-coupon__body span { font-size: 14px; font-weight: 700; line-height: 1.4; color: var(--d11-gold); white-space: nowrap; }
+@media (max-width: 359px) {
+  html.d11-look3 .d11-coupon { --stub: 66px; }
+  html.d11-look3 .d11-coupon__stub b { font-size: 21px; }
+  html.d11-look3 .d11-coupon__body { padding-inline: 12px 10px; }
+  html.d11-look3 .d11-coupon__body span { font-size: 13px; }
+}
+
+/* the 3/6 packs: gold ticket, dashed inner frame, a notch on each side, a red stamp
+   「雙11減$222 / 減$111」 straddling the top edge (the 90日 tab moves to the left) */
+html.d11-look3 .picker--card { --d11-notch-bg: var(--card); }
+html.d11-look3 .plans:not(.bh__plans) { gap: 22px; }
+/* version B: a stamp needs room only above a 3/6 tile; the strip is a little tighter */
+html.d11-look3 .bh__plans [data-d11-off] + [data-d11-off] { margin-top: 4px; }
+html.d11-look3 .bh__buy .d11-coupon { --stub: 70px; min-height: 50px; margin-bottom: 14px; }
+html.d11-look3 .bh__buy .d11-coupon__stub { padding-block: 5px; }
+html.d11-look3 .bh__buy .d11-coupon__stub b { font-size: 20px; }
+html.d11-look3 .bh__buy .d11-coupon__stub span { font-size: 12px; }
+html.d11-look3 .bh__buy .d11-coupon__body { padding-block: 6px 7px; }
+html.d11-look3 .bh__buy .d11-coupon__body b { font-size: 16px; line-height: 1.2; }
+html.d11-look3 .bh__buy .d11-coupon__body span { font-size: 13px; line-height: 1.35; }
+html.d11-look3 .bh__plans [data-d11-off].plan::before { top: -12px; font-size: 12.5px; line-height: 18px; }
+html.d11-look3 [data-d11-off].plan,
+html.d11-look3 .picker--card [data-d11-off].plan {
+  padding-top: 18px;
+  border-color: var(--d11-line);
+  background: linear-gradient(180deg, #FFF9E6 0%, #FFEDBE 100%);
+  outline: 1px dashed rgba(160, 82, 26, 0.42); outline-offset: -6px;
+}
+html.d11-look3 .bh__plans [data-d11-off].plan { padding-top: 13px; }
+html.d11-look3 [data-d11-off].plan:has(input:focus-visible) { outline: 2px solid var(--d11-red-d); outline-offset: 2px; }
+html.d11-look3 [data-d11-off].plan::after,
+html.d11-look3 [data-d11-off].pricing-card::after {
+  content: ''; position: absolute; inset: -1px; z-index: 1; border-radius: inherit; pointer-events: none;
+  background:
+    radial-gradient(circle at 0 50%, var(--d11-notch-bg) 7px, var(--d11-line) 7.5px 8.5px, transparent 9px),
+    radial-gradient(circle at 100% 50%, var(--d11-notch-bg) 7px, var(--d11-line) 7.5px 8.5px, transparent 9px);
+}
+html.d11-look3 [data-d11-off].plan::before {
+  content: '雙11減$' attr(data-d11-off);
+  position: absolute; z-index: 2; top: -14px; right: 14px;
+  padding: 0 8px; border: 2px solid var(--d11-red); border-radius: 6px;
+  background: #FFFDF7; color: var(--d11-red);
+  box-shadow: inset 0 0 0 1.5px #FFFDF7, inset 0 0 0 2.5px rgba(208, 16, 26, 0.5);
+  font-family: var(--d11-heavy); font-weight: 900; font-size: 13.5px; line-height: 21px; letter-spacing: 0.03em;
+  white-space: nowrap; transform: rotate(-6deg); pointer-events: none;
+}
+html.d11-look3 [data-d11-off] .plan__mark { right: auto; left: 46px; }
+html.d11-look3 .plan.is-on[data-d11-off],
+html.d11-look3 [data-d11-off].plan:has(input:checked) {
+  border-color: var(--d11-red);
+  box-shadow: inset 0 0 0 1px var(--d11-red), 0 8px 18px rgba(208, 16, 26, 0.14);
+}
+html.d11-look3 .plan.is-on[data-d11-off] .plan__dot,
+html.d11-look3 [data-d11-off].plan:has(input:checked) .plan__dot { border-color: var(--d11-red); }
+html.d11-look3 [data-d11-off] .plan__dot::after { background: var(--d11-red); }
+html.d11-look3 .plan.is-on[data-d11-off]::after,
+html.d11-look3 [data-d11-off].plan:has(input:checked)::after {
+  background:
+    radial-gradient(circle at 0 50%, var(--d11-notch-bg) 7px, var(--d11-red) 7.5px 9px, transparent 9.5px),
+    radial-gradient(circle at 100% 50%, var(--d11-notch-bg) 7px, var(--d11-red) 7.5px 9px, transparent 9.5px);
+}
+/* sticky bar: a small red 雙11價 chip after the plan name, the price in red */
+html.d11-look3 .sticky { border-top: 1px dashed rgba(208, 16, 26, 0.45); }
+html.d11-look3 .sticky__info span { color: var(--d11-red); font-weight: 700; }
+html.d11-look3 .sticky__info b::after {
+  content: '雙11價'; display: inline-block; margin-left: 6px; padding: 0 6px; border-radius: 4px;
+  background: var(--d11-red); color: var(--d11-gold);
+  font-size: 11.5px; line-height: 18px; vertical-align: 1px; letter-spacing: 0.04em;
+}
+
+/* ---------------------------------------------------------------
+   Looks 1 + 2: the sticky bar turns red with a gold button
+   --------------------------------------------------------------- */
+html.d11-look1 .sticky,
+html.d11-look2 .sticky {
+  background: linear-gradient(180deg, #C8101A 0%, #980B13 100%);
+  border-top: 1px solid rgba(255, 233, 168, 0.55);
+  box-shadow: 0 -6px 20px rgba(122, 10, 16, 0.22);
+}
+html.d11-look1 .sticky__info b,
+html.d11-look2 .sticky__info b { color: #fff; }
+html.d11-look1 .sticky__info span,
+html.d11-look2 .sticky__info span { color: #FFE3C2; font-weight: 500; }
+html.d11-look1 .sticky__buy,
+html.d11-look2 .sticky__buy {
+  background: linear-gradient(180deg, #FFF3C4 0%, #FFE08A 45%, var(--d11-amber) 100%);
+  color: var(--d11-ink);
+  box-shadow: inset 0 0 0 1px rgba(160, 82, 26, 0.5), 0 4px 10px rgba(60, 0, 8, 0.3);
+}
+
+/* ---------------------------------------------------------------
+   /promo/hmg/ — tablet and desktop
+   --------------------------------------------------------------- */
+@media (min-width: 640px) {
+  html.d11-look1 .d11-hero { justify-content: center; gap: 40px; }
+}
+@media (min-width: 900px) {
+  html.d11-look3 .bh__buy { --d11-notch-bg: var(--card); }
+  html.d11-look1 .bh {
+    background:
+      radial-gradient(60% 50% at 18% 0%, rgba(255, 170, 110, 0.24), transparent 70%),
+      linear-gradient(var(--d11-red-d) 0, #C3101A 120px, var(--d11-band) calc(220px + var(--d11-bh)), var(--paper) calc(220px + var(--d11-bh)));
+  }
+  html.d11-look1 .bh .d11-hero { justify-content: flex-start; gap: 36px; }
+}
+@media (min-width: 1024px) {
+  html.d11-look3 .hero__buy .picker { --d11-notch-bg: var(--card); }
+  html.d11-look1 .hero {
+    background:
+      radial-gradient(50% 60% at 18% 20%, rgba(255, 170, 110, 0.24), transparent 70%),
+      linear-gradient(180deg, var(--d11-red-d) 0%, #C3101A 30%, var(--d11-band) 100%);
+  }
+  html.d11-look1 .hero::after { background: var(--d11-band); }
+  html.d11-look1 .hero__band,
+  html.d11-look1 .hero__stage { background: none; }
+  html.d11-look1 .hero__buy .picker { box-shadow: 0 24px 60px rgba(60, 0, 8, 0.4), 0 0 0 1px rgba(255, 233, 168, 0.5); }
+  html.d11-look1 .d11-hero { justify-content: flex-start; gap: 48px; padding-top: 4px; margin-bottom: 18px; }
+  html.d11-look1 .d11-hero__mark { font-size: 112px; }
+  html.d11-look1 .d11-hero__mark .d11-dia { font-size: 18px; }
+  html.d11-look1 .d11-plaque { padding: 14px 20px 15px 18px; }
+  html.d11-look1 .d11-plaque__k { font-size: 15px; }
+  html.d11-look1 .d11-plaque__p { font-size: 40px; }
+  html.d11-look1 .d11-plaque__was { font-size: 14px; }
+}
+
+/* =================================================================
+   Brand pages (home, en, imuglo, tiger-milk-king): price cards
+   ================================================================= */
+html.d11 [data-d11-off] .pricing-card__amount {
+  font-family: var(--d11-heavy); font-weight: 900; color: var(--d11-red); letter-spacing: -0.01em;
+}
+html.d11 [data-d11-off] .pricing-card__currency { color: var(--d11-red); font-weight: 700; }
+html.d11 [data-d11-off] .pricing-card__original-price { color: var(--color-text-muted); }
+html.d11 [data-d11-off] .pricing-card__original-price s { text-decoration-color: rgba(122, 10, 16, 0.6); }
+html.d11 [data-d11-off] .pricing-card__savings { color: var(--d11-red); }
+
+/* look 1: gold cards, crimson top edge, badge and button */
+html.d11-look1 [data-d11-off].pricing-card {
+  background: linear-gradient(180deg, #FFFCF3 0%, #FFF0C9 100%);
+  box-shadow: 0 0 0 1px var(--d11-line), 0 10px 24px rgba(160, 82, 26, 0.14);
+}
+html.d11-look1 .pricing-card--recommended,
+html.d11-look1 .pricing-card--value { border-top-color: var(--d11-red); }
+html.d11-look1 [data-d11-off] .pricing-card__badge { background: var(--d11-red); color: var(--d11-gold); }
+html.d11-look1 [data-d11-off] .pricing-card__cta:not(.pricing-card__cta--coming-soon) { background: var(--d11-red); }
+@media (hover: hover) { html.d11-look1 [data-d11-off] .pricing-card__cta:not(.pricing-card__cta--coming-soon):hover { background: #A50C14; } }
+
+/* look 2: the corner ribbon (shared rule above) + sparkles; a gold edge. The card's badge
+   moves to the left so it never meets the ribbon on the narrow two-up cards. */
+html.d11-look2 [data-d11-off].pricing-card { box-shadow: 0 0 0 1px var(--d11-line), var(--shadow-md); }
+html.d11-look2 [data-d11-off] .pricing-card__badge { left: 10px; transform: translateY(-50%); }
+
+/* look 3: gold ticket with notches + the 減$ stamp right under the price */
+html.d11-look3 [data-d11-off].pricing-card {
+  background: linear-gradient(180deg, #FFF9E6 0%, #FFEDBE 100%);
+  border-top: 0;
+  box-shadow: 0 0 0 1px var(--d11-line), var(--shadow-md);
+  outline: 1px dashed rgba(160, 82, 26, 0.42); outline-offset: -7px;
+}
+html.d11-look3 [data-d11-off].pricing-card::before {
+  content: '雙11減$' attr(data-d11-off);
+  order: 1; align-self: center; margin: -2px 0 12px;
+  padding: 0 9px; border: 2px solid var(--d11-red); border-radius: 6px;
+  background: #FFFDF7; color: var(--d11-red);
+  box-shadow: inset 0 0 0 1.5px #FFFDF7, inset 0 0 0 2.5px rgba(208, 16, 26, 0.5);
+  font-family: var(--d11-heavy); font-weight: 900; font-size: 14px; line-height: 22px; letter-spacing: 0.03em;
+  white-space: nowrap; transform: rotate(-5deg);
+}
+html.d11-look3 [data-d11-off] .pricing-card__details,
+html.d11-look3 [data-d11-off] .pricing-card__shipping { order: 1; }
+html.d11-look3 [data-d11-off] .pricing-card__cta { order: 2; }
+
+@media (prefers-reduced-motion: reduce) {
+  html.d11 .d11-gold, html.d11 [data-d11-off] .plan__cost b::before,
+  html.d11 [data-d11-off] .pricing-card__price::before { animation: none; }
+}

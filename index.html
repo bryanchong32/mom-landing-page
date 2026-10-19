@@ -74,6 +74,9 @@
   <link rel="stylesheet" href="css/design-tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/sections.css">
+  <!-- 雙11 sale treatment: off unless js/d11.js switches it on (d11.css is all scoped under html.d11) -->
+  <script src="js/d11.js?v=1"></script>
+  <link rel="stylesheet" href="css/d11.css?v=1">
 
   <!-- Organization Schema -->
   <script type="application/ld+json">
@@ -110,6 +113,9 @@
   <!-- ============================================================
        Site Header
        ============================================================ -->
+  <!-- 雙11 (css/d11.css, js/d11.js): hidden unless the sale is on -->
+  <p class="d11-bar d11-bar--brand" hidden><b class="d11-gold">雙11優惠</b><span class="d11-bar__sep" aria-hidden="true">·</span><span>3盒起結帳自動減價</span></p>
+
   <header class="site-header" role="banner">
     <div class="site-header__inner">
       <!-- Brand -->
@@ -948,7 +954,7 @@
           </article>
 
           <!-- Card 2: 3 Boxes (Recommended) -->
-          <article class="pricing-card pricing-card--recommended animate-on-scroll">
+          <article class="pricing-card pricing-card--recommended animate-on-scroll" data-d11-off="111">
             <span class="pricing-card__badge">最受歡迎</span>
             <div class="pricing-card__product-img">
               <img src="images/homega-bottle-thumb.webp" alt="Homega 魚油王" width="80" height="160" loading="lazy">
@@ -957,24 +963,24 @@
               <h3 class="pricing-card__title">3盒</h3>
               <p class="pricing-card__capsules text-small">180 粒</p>
             </div>
-            <p class="pricing-card__original-price"><s>HK$2,100</s></p>
+            <p class="pricing-card__original-price"><s data-d11="平時 HK$1,650">HK$2,100</s></p>
             <div class="pricing-card__price">
               <span class="pricing-card__currency">HK$</span>
-              <span class="pricing-card__amount">1,650</span>
+              <span class="pricing-card__amount" data-d11="1,539">1,650</span>
             </div>
             <div class="pricing-card__details">
-              <p class="pricing-card__savings">節省HK$450</p>
+              <p class="pricing-card__savings" data-d11="節省HK$561">節省HK$450</p>
             </div>
             <div class="pricing-card__shipping">
               <span class="pricing-card__shipping-free">免運費</span>
             </div>
-            <a href="https://store.tigroxglobal.com/hk/zh-TW/express/3hmg" class="btn-cta pricing-card__cta" target="_blank" rel="noopener" data-checkout="3box" data-value="1650" data-product="Homega">
+            <a href="https://store.tigroxglobal.com/hk/zh-TW/express/3hmg" class="btn-cta pricing-card__cta" target="_blank" rel="noopener" data-checkout="3box" data-value="1650" data-d11-value="1539" data-product="Homega">
               立即選購
             </a>
           </article>
 
           <!-- Card 3: 6 Boxes -->
-          <article class="pricing-card pricing-card--value animate-on-scroll">
+          <article class="pricing-card pricing-card--value animate-on-scroll" data-d11-off="222">
             <span class="pricing-card__badge pricing-card__badge--value">效果最完整</span>
             <div class="pricing-card__product-img">
               <img src="images/homega-bottle-thumb.webp" alt="Homega 魚油王" width="80" height="160" loading="lazy">
@@ -983,18 +989,18 @@
               <h3 class="pricing-card__title">6盒</h3>
               <p class="pricing-card__capsules text-small">360 粒</p>
             </div>
-            <p class="pricing-card__original-price"><s>HK$4,200</s></p>
+            <p class="pricing-card__original-price"><s data-d11="平時 HK$3,000">HK$4,200</s></p>
             <div class="pricing-card__price">
               <span class="pricing-card__currency">HK$</span>
-              <span class="pricing-card__amount">3,000</span>
+              <span class="pricing-card__amount" data-d11="2,778">3,000</span>
             </div>
             <div class="pricing-card__details">
-              <p class="pricing-card__savings">節省HK$1,200</p>
+              <p class="pricing-card__savings" data-d11="節省HK$1,422">節省HK$1,200</p>
             </div>
             <div class="pricing-card__shipping">
               <span class="pricing-card__shipping-free">免運費</span>
             </div>
-            <a href="https://store.tigroxglobal.com/hk/zh-TW/express/6hmg" class="btn-cta pricing-card__cta" target="_blank" rel="noopener" data-checkout="6box" data-value="3000" data-product="Homega">
+            <a href="https://store.tigroxglobal.com/hk/zh-TW/express/6hmg" class="btn-cta pricing-card__cta" target="_blank" rel="noopener" data-checkout="6box" data-value="3000" data-d11-value="2778" data-product="Homega">
               立即選購
             </a>
           </article>
@@ -1324,7 +1330,7 @@
     <div class="sticky-cta__inner">
       <div class="sticky-cta__info">
         <span class="sticky-cta__product-name">HOMEGA 魚油王</span>
-        <span class="sticky-cta__price">HK$550/盒起</span>
+        <span class="sticky-cta__price" data-d11="HK$513/盒起">HK$550/盒起</span>
       </div>
       <a href="#pricing" class="btn-cta sticky-cta__btn">
         查看方案

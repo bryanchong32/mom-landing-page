@@ -76,6 +76,9 @@
   <link rel="stylesheet" href="css/design-tokens.css">
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/sections.css">
+  <!-- 雙11 sale treatment: off unless js/d11.js switches it on (d11.css is all scoped under html.d11) -->
+  <script src="../js/d11.js?v=1"></script>
+  <link rel="stylesheet" href="../css/d11.css?v=1">
 
   <!-- Organization Schema -->
   <script type="application/ld+json">
@@ -112,6 +115,9 @@
   <!-- ============================================================
        Site Header
        ============================================================ -->
+  <!-- 雙11 (css/d11.css, js/d11.js): hidden unless the sale is on -->
+  <p class="d11-bar d11-bar--brand" hidden><b class="d11-gold">雙11優惠</b><span class="d11-bar__sep" aria-hidden="true">·</span><span>3盒起結帳自動減價</span></p>
+
   <header class="site-header" role="banner">
     <div class="site-header__inner">
       <!-- Brand -->
@@ -761,7 +767,7 @@
           </article>
 
           <!-- Card 2: 3 Boxes (Recommended) -->
-          <article class="pricing-card pricing-card--recommended animate-on-scroll">
+          <article class="pricing-card pricing-card--recommended animate-on-scroll" data-d11-off="111">
             <span class="pricing-card__badge">最受歡迎</span>
             <div class="pricing-card__product-img">
               <img src="images/tmk-sachet-thumb.webp" alt="Tiger Milk King 虎奶菇" width="80" height="160" loading="lazy">
@@ -771,25 +777,26 @@
               <p class="pricing-card__capsules text-small">60 包</p>
               <p class="pricing-card__plan-label text-small">基本配套</p>
             </div>
+            <p class="pricing-card__original-price d11-was" hidden><s>平時 HK$1,650</s></p>
             <div class="pricing-card__price">
               <span class="pricing-card__currency">HK$</span>
-              <span class="pricing-card__amount">1,650</span>
+              <span class="pricing-card__amount" data-d11="1,539">1,650</span>
             </div>
             <div class="pricing-card__details">
-              <p class="pricing-card__per-box">HK$550/盒</p>
-              <p class="pricing-card__per-day text-small">HK$27.50/日</p>
-              <p class="pricing-card__savings">節省HK$450</p>
+              <p class="pricing-card__per-box" data-d11="HK$513/盒">HK$550/盒</p>
+              <p class="pricing-card__per-day text-small" data-d11="HK$25.65/日">HK$27.50/日</p>
+              <p class="pricing-card__savings" data-d11="節省HK$561">節省HK$450</p>
             </div>
             <div class="pricing-card__shipping">
               <span class="pricing-card__shipping-free">免運費</span>
             </div>
-            <a href="https://store.tigroxglobal.com/hk/zh-TW/express/3tml" class="btn-cta pricing-card__cta" target="_blank" rel="noopener" data-checkout="3box" data-value="1650" data-product="Tiger Milk King">
+            <a href="https://store.tigroxglobal.com/hk/zh-TW/express/3tml" class="btn-cta pricing-card__cta" target="_blank" rel="noopener" data-checkout="3box" data-value="1650" data-d11-value="1539" data-product="Tiger Milk King">
               立即選購
             </a>
           </article>
 
           <!-- Card 3: 6 Boxes -->
-          <article class="pricing-card animate-on-scroll">
+          <article class="pricing-card animate-on-scroll" data-d11-off="222">
             <div class="pricing-card__product-img">
               <img src="images/tmk-sachet-thumb.webp" alt="Tiger Milk King 虎奶菇" width="80" height="160" loading="lazy">
             </div>
@@ -798,19 +805,20 @@
               <p class="pricing-card__capsules text-small">120 包</p>
               <p class="pricing-card__plan-label text-small">完整療程</p>
             </div>
+            <p class="pricing-card__original-price d11-was" hidden><s>平時 HK$3,000</s></p>
             <div class="pricing-card__price">
               <span class="pricing-card__currency">HK$</span>
-              <span class="pricing-card__amount">3,000</span>
+              <span class="pricing-card__amount" data-d11="2,778">3,000</span>
             </div>
             <div class="pricing-card__details">
-              <p class="pricing-card__per-box">HK$500/盒</p>
-              <p class="pricing-card__per-day text-small">HK$25/日</p>
-              <p class="pricing-card__savings">節省HK$1,200</p>
+              <p class="pricing-card__per-box" data-d11="HK$463/盒">HK$500/盒</p>
+              <p class="pricing-card__per-day text-small" data-d11="HK$23.15/日">HK$25/日</p>
+              <p class="pricing-card__savings" data-d11="節省HK$1,422">節省HK$1,200</p>
             </div>
             <div class="pricing-card__shipping">
               <span class="pricing-card__shipping-free">免運費</span>
             </div>
-            <a href="https://store.tigroxglobal.com/hk/zh-TW/express/6tml" class="btn-cta pricing-card__cta" target="_blank" rel="noopener" data-checkout="6box" data-value="3000" data-product="Tiger Milk King">
+            <a href="https://store.tigroxglobal.com/hk/zh-TW/express/6tml" class="btn-cta pricing-card__cta" target="_blank" rel="noopener" data-checkout="6box" data-value="3000" data-d11-value="2778" data-product="Tiger Milk King">
               立即選購
             </a>
           </article>
@@ -820,7 +828,7 @@
           <ul>
             <li>全單免運費，順豐速遞1-2日送達</li>
             <li>建議首次選購3盒（60日），以完整觀察身體變化</li>
-            <li>每日成本低至HK$25（6盒方案），比一次呼吸科門診費用更經濟</li>
+            <li>每日成本低至<span data-d11="HK$23.15">HK$25</span>（6盒方案），比一次呼吸科門診費用更經濟</li>
           </ul>
         </div>
       </div>
@@ -1122,7 +1130,7 @@
     <div class="sticky-cta__inner">
       <div class="sticky-cta__info">
         <span class="sticky-cta__product-name">TIGER MILK KING 虎奶菇</span>
-        <span class="sticky-cta__price">HK$550/盒起</span>
+        <span class="sticky-cta__price" data-d11="HK$513/盒起">HK$550/盒起</span>
       </div>
       <a href="#pricing" class="btn-cta sticky-cta__btn">
         查看方案
