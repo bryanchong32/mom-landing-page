@@ -74,9 +74,6 @@
   <link rel="stylesheet" href="../css/design-tokens.css">
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/sections.css">
-  <!-- 雙11 sale treatment: off unless js/d11.js switches it on (d11.css is all scoped under html.d11) -->
-  <script src="../js/d11.js?v=1"></script>
-  <link rel="stylesheet" href="../css/d11.css?v=1">
 
   <!-- Organization Schema -->
   <script type="application/ld+json">
@@ -113,9 +110,6 @@
   <!-- ============================================================
        Site Header
        ============================================================ -->
-  <!-- 雙11 (css/d11.css, js/d11.js): hidden unless the sale is on -->
-  <p class="d11-bar d11-bar--brand" hidden><b class="d11-gold">雙11優惠</b><span class="d11-bar__sep" aria-hidden="true">·</span><span>3盒起結帳自動減價</span></p>
-
   <header class="site-header" role="banner">
     <div class="site-header__inner">
       <!-- Brand -->
@@ -892,7 +886,7 @@
           </article>
 
           <!-- Card 2: 3 Boxes (Recommended) -->
-          <article class="pricing-card pricing-card--recommended animate-on-scroll" data-d11-off="111">
+          <article class="pricing-card pricing-card--recommended animate-on-scroll">
             <span class="pricing-card__badge">MOST POPULAR</span>
             <div class="pricing-card__product-img">
               <img src="../images/homega-bottle-thumb.webp" alt="Homega Fish Oil" width="80" height="160" loading="lazy">
@@ -902,15 +896,14 @@
               <p class="pricing-card__capsules text-small">180 capsules</p>
               <p class="pricing-card__plan-label text-small">Starter</p>
             </div>
-            <p class="pricing-card__original-price d11-was" hidden><s>HK$1,650</s></p>
             <div class="pricing-card__price">
               <span class="pricing-card__currency">HK$</span>
-              <span class="pricing-card__amount" data-d11="1,539">1,650</span>
+              <span class="pricing-card__amount">1,650</span>
             </div>
             <div class="pricing-card__details">
-              <p class="pricing-card__per-box" data-d11="HK$513/box">HK$550/box</p>
-              <p class="pricing-card__per-day text-small" data-d11="HK$17.10/day">HK$18.33/day</p>
-              <p class="pricing-card__savings" data-d11="Save HK$561">Save HK$450</p>
+              <p class="pricing-card__per-box">HK$550/box</p>
+              <p class="pricing-card__per-day text-small">HK$18.33/day</p>
+              <p class="pricing-card__savings">Save HK$450</p>
             </div>
             <div class="pricing-card__shipping">
               <span class="pricing-card__shipping-free">Free Shipping</span>
@@ -922,7 +915,7 @@
           </article>
 
           <!-- Card 3: 6 Boxes -->
-          <article class="pricing-card animate-on-scroll" data-d11-off="222">
+          <article class="pricing-card animate-on-scroll">
             <div class="pricing-card__product-img">
               <img src="../images/homega-bottle-thumb.webp" alt="Homega Fish Oil" width="80" height="160" loading="lazy">
             </div>
@@ -931,15 +924,14 @@
               <p class="pricing-card__capsules text-small">360 capsules</p>
               <p class="pricing-card__plan-label text-small">Full Program</p>
             </div>
-            <p class="pricing-card__original-price d11-was" hidden><s>HK$3,000</s></p>
             <div class="pricing-card__price">
               <span class="pricing-card__currency">HK$</span>
-              <span class="pricing-card__amount" data-d11="2,778">3,000</span>
+              <span class="pricing-card__amount">3,000</span>
             </div>
             <div class="pricing-card__details">
-              <p class="pricing-card__per-box" data-d11="HK$463/box">HK$500/box</p>
-              <p class="pricing-card__per-day text-small" data-d11="HK$15.43/day">HK$16.67/day</p>
-              <p class="pricing-card__savings" data-d11="Save HK$1,422">Save HK$1,200</p>
+              <p class="pricing-card__per-box">HK$500/box</p>
+              <p class="pricing-card__per-day text-small">HK$16.67/day</p>
+              <p class="pricing-card__savings">Save HK$1,200</p>
             </div>
             <div class="pricing-card__shipping">
               <span class="pricing-card__shipping-free">Free Shipping</span>
@@ -955,7 +947,7 @@
           <ul>
             <li>Free shipping on all orders — SF Express, 1-2 day delivery</li>
             <li>We recommend starting with 3 boxes (90 days) to give your body time to respond</li>
-            <li>As low as <span data-d11="HK$15.43">HK$16.67</span> per day on the 6-box plan — less than a cup of coffee</li>
+            <li>As low as HK$16.67 per day on the 6-box plan — less than a cup of coffee</li>
           </ul>
         </div>
       </div>
@@ -1233,7 +1225,7 @@
     <div class="sticky-cta__inner">
       <div class="sticky-cta__info">
         <span class="sticky-cta__product-name">HOMEGA Fish Oil</span>
-        <span class="sticky-cta__price" data-d11="HK$513/box from">HK$550/box from</span>
+        <span class="sticky-cta__price">HK$550/box from</span>
       </div>
       <a href="#pricing" class="btn-cta sticky-cta__btn">
         View Plans

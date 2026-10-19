@@ -74,9 +74,10 @@
   <link rel="stylesheet" href="css/design-tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/sections.css">
-  <!-- 雙11 sale treatment: off unless js/d11.js switches it on (d11.css is all scoped under html.d11) -->
-  <script src="js/d11.js?v=1"></script>
-  <link rel="stylesheet" href="css/d11.css?v=1">
+  <!-- 雙11 sale treatment (css/d11.css): every rule sits under <html data-offer="d11">, which nginx adds
+       while the sale runs; the heavy face below downloads only while something uses it -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+Hei+HK:wght@900&text=%E9%9B%99%E5%84%AA%E6%83%A0%E7%B5%90%E5%B8%B3%E8%87%AA%E5%8B%95%E6%B8%9B%E5%83%B9HK%240123456789%2C&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="css/d11.css?v=2">
 
   <!-- Organization Schema -->
   <script type="application/ld+json">
@@ -113,7 +114,7 @@
   <!-- ============================================================
        Site Header
        ============================================================ -->
-  <!-- 雙11 (css/d11.css, js/d11.js): hidden unless the sale is on -->
+  <!-- 雙11 (css/d11.css): hidden unless nginx marks the page data-offer="d11" -->
   <p class="d11-bar d11-bar--brand" hidden><b class="d11-gold">雙11優惠</b><span class="d11-bar__sep" aria-hidden="true">·</span><span>3盒起結帳自動減價</span></p>
 
   <header class="site-header" role="banner">
@@ -963,13 +964,13 @@
               <h3 class="pricing-card__title">3盒</h3>
               <p class="pricing-card__capsules text-small">180 粒</p>
             </div>
-            <p class="pricing-card__original-price"><s data-d11="平時 HK$1,650">HK$2,100</s></p>
+            <p class="pricing-card__original-price"><s><span class="d11-n">HK$2,100</span><span class="d11-y" hidden>平時 HK$1,650</span></s></p>
             <div class="pricing-card__price">
               <span class="pricing-card__currency">HK$</span>
-              <span class="pricing-card__amount" data-d11="1,539">1,650</span>
+              <span class="pricing-card__amount"><span class="d11-n">1,650</span><span class="d11-y" hidden>1,539</span></span>
             </div>
             <div class="pricing-card__details">
-              <p class="pricing-card__savings" data-d11="節省HK$561">節省HK$450</p>
+              <p class="pricing-card__savings"><span class="d11-n">節省HK$450</span><span class="d11-y" hidden>雙11再減 HK$111</span></p>
             </div>
             <div class="pricing-card__shipping">
               <span class="pricing-card__shipping-free">免運費</span>
@@ -989,13 +990,13 @@
               <h3 class="pricing-card__title">6盒</h3>
               <p class="pricing-card__capsules text-small">360 粒</p>
             </div>
-            <p class="pricing-card__original-price"><s data-d11="平時 HK$3,000">HK$4,200</s></p>
+            <p class="pricing-card__original-price"><s><span class="d11-n">HK$4,200</span><span class="d11-y" hidden>平時 HK$3,000</span></s></p>
             <div class="pricing-card__price">
               <span class="pricing-card__currency">HK$</span>
-              <span class="pricing-card__amount" data-d11="2,778">3,000</span>
+              <span class="pricing-card__amount"><span class="d11-n">3,000</span><span class="d11-y" hidden>2,778</span></span>
             </div>
             <div class="pricing-card__details">
-              <p class="pricing-card__savings" data-d11="節省HK$1,422">節省HK$1,200</p>
+              <p class="pricing-card__savings"><span class="d11-n">節省HK$1,200</span><span class="d11-y" hidden>雙11再減 HK$222</span></p>
             </div>
             <div class="pricing-card__shipping">
               <span class="pricing-card__shipping-free">免運費</span>
@@ -1330,7 +1331,7 @@
     <div class="sticky-cta__inner">
       <div class="sticky-cta__info">
         <span class="sticky-cta__product-name">HOMEGA 魚油王</span>
-        <span class="sticky-cta__price" data-d11="HK$513/盒起">HK$550/盒起</span>
+        <span class="sticky-cta__price"><span class="d11-n">HK$550/盒起</span><span class="d11-y" hidden>HK$513/盒起</span></span>
       </div>
       <a href="#pricing" class="btn-cta sticky-cta__btn">
         查看方案

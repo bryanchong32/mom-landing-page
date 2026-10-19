@@ -34,27 +34,49 @@
   /* -----------------------------------------------------------------
      1. Plan picker
      ----------------------------------------------------------------- */
+  // d11: the 雙11 price of the 6/3 packs (1樽 has none). nginx marks <html data-offer="d11">
+  // while the sale runs; css/d11.css then shows the 雙11 words, so every text below is written
+  // both ways (dual) and this file never decides which words show. Only the tracked basket
+  // value (data-value on the buy links) follows the attribute here.
   var PLANS = {
     '6': { path: '6hmg', checkout: '6box', value: 3000, label: '購買完整療程 · HK$3,000',
-           plan: '完整療程 · 6樽', price: 'HK$3,000 · 每日 HK$16.7', nudge: '' },
+           plan: '完整療程 · 6樽', price: 'HK$3,000 · 每日 HK$16.7', nudge: '',
+           d11: { value: 2778, label: '購買完整療程 · HK$2,778', price: 'HK$2,778 · 每日 HK$15.4' } },
     '3': { path: '3hmg', checkout: '3box', value: 1650, label: '購買基本配套 · HK$1,650',
            plan: '基本配套 · 3樽', price: 'HK$1,650 · 每日 HK$18.3',
-           nudge: '加 HK$1,350 多 3 樽，|6樽完整療程即享 90日退款保證。' },
+           nudge: '加 HK$1,350 多 3 樽，|6樽完整療程即享 90日退款保證。',
+           d11: { value: 1539, label: '購買基本配套 · HK$1,539', price: 'HK$1,539 · 每日 HK$17.1',
+                  nudge: '加 HK$1,239 多 3 樽，|6樽完整療程即享 90日退款保證。' } },
     // 1樽: names the symptoms (the owner's call, 2 Oct, risk accepted) and links to the 4–6 month chart
     '1': { path: '1hmg', checkout: '1box', value: 700, label: '購買 1樽 · HK$700',
            plan: '1樽 · 30日', price: 'HK$700 · 每日 HK$23.3', why: true,
            nudge: '1樽只夠 30 日。|想改善三高、手腳麻痺，|建議選擇 3樽或 6樽配套。' }
   };
-  // 雙11: /js/d11.js (in <head>) sets window.D11 only while the sale is on; its prices
-  // replace these, so every buy button, the sticky bar and the upgrade note follow
-  var d11 = window.D11 && window.D11.plans;
-  if (d11) Object.keys(d11).forEach(function (k) {
-    if (PLANS[k]) Object.keys(d11[k]).forEach(function (f) { PLANS[k][f] = d11[k][f]; });
-  });
+  var d11On = document.documentElement.getAttribute('data-offer') === 'd11';
+
+  // Writes `fill` (a function that fills one element with words) into el once, or, when the
+  // 雙11 words differ, twice: <span class="d11-n">normal</span><span class="d11-y" hidden>雙11</span>
+  // (the same markup the HTML ships, so the first call on load changes nothing on screen)
+  function dual(el, normal, sale, fill) {
+    el.textContent = '';
+    if (!sale || sale === normal) { fill(el, normal); return; }
+    var n = document.createElement('span'), y = document.createElement('span');
+    n.className = 'd11-n'; y.className = 'd11-y'; y.hidden = true;
+    fill(n, normal); fill(y, sale);
+    el.appendChild(n); el.appendChild(y);
+  }
+  function words(el, s) { el.textContent = s; }
+  // one span per phrase (split at |): lines break between phrases, never inside a word like 穩定水平
+  function phrases(el, s) {
+    s.split('|').forEach(function (part) {
+      var ph = document.createElement('span'); ph.className = 'nudge__ph'; ph.textContent = part; el.appendChild(ph);
+    });
+  }
 
   function applyPlan(key, snapAll) {
     var p = PLANS[key];
     if (!p) return;
+    var sale = p.d11 || {};          // the 雙11 words and value (none for 1樽)
 
     each(document.querySelectorAll('[data-plans] input[type="radio"]'), function (r) {
       r.checked = (r.value === key);
@@ -69,9 +91,9 @@
         a.href = url.toString();
       } catch (e) { /* leave the link as it was */ }
       a.setAttribute('data-checkout', p.checkout);
-      a.setAttribute('data-value', String(p.value));
+      a.setAttribute('data-value', String(d11On && sale.value ? sale.value : p.value));
       var label = a.querySelector('[data-buy-label]');
-      if (label) label.textContent = p.label;
+      if (label) dual(label, p.label, sale.label, words);
     });
 
     each(document.querySelectorAll('[data-boxes]'), function (b) { b.setAttribute('data-n', key); });
@@ -90,7 +112,9 @@
     var sp = document.querySelector('[data-sticky-plan]');
     var sr = document.querySelector('[data-sticky-price]');
     if (sp) sp.textContent = p.plan;
-    if (sr) sr.textContent = p.price;
+    if (sr) dual(sr, p.price, sale.price, words);
+    // the sticky bar's 雙11價 chip (css/d11.css) shows for the 6/3 packs only
+    if (sp && sp.parentNode) sp.parentNode.setAttribute('data-n', key);
 
     // The upgrade note opens and folds with a CSS transition (.is-open); while it folds
     // away it keeps its last words, so it never collapses from empty. A note the reader
@@ -110,12 +134,7 @@
     }
     each(notes, function (n) {
       if (p.nudge) {                                     // folding away (6樽), the link stays with its words
-        // one span per phrase (split at |): lines break between phrases, never inside a word like 穩定水平
-        var txt = n.querySelector('[data-nudge-text]');
-        txt.textContent = '';
-        p.nudge.split('|').forEach(function (s) {
-          var ph = document.createElement('span'); ph.className = 'nudge__ph'; ph.textContent = s; txt.appendChild(ph);
-        });
+        dual(n.querySelector('[data-nudge-text]'), p.nudge, sale.nudge, phrases);
         var why = n.querySelector('[data-nudge-why]');
         if (why) why.hidden = !p.why;
       }

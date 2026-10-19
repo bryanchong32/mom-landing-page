@@ -75,9 +75,10 @@
   <link rel="stylesheet" href="css/design-tokens.css">
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/sections.css">
-  <!-- 雙11 sale treatment: off unless js/d11.js switches it on (d11.css is all scoped under html.d11) -->
-  <script src="../js/d11.js?v=1"></script>
-  <link rel="stylesheet" href="../css/d11.css?v=1">
+  <!-- 雙11 sale treatment (css/d11.css): every rule sits under <html data-offer="d11">, which nginx adds
+       while the sale runs; the heavy face below downloads only while something uses it -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chiron+Hei+HK:wght@900&text=%E9%9B%99%E5%84%AA%E6%83%A0%E7%B5%90%E5%B8%B3%E8%87%AA%E5%8B%95%E6%B8%9B%E5%83%B9HK%240123456789%2C&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="../css/d11.css?v=2">
 
   <!-- Organization Schema -->
   <script type="application/ld+json">
@@ -114,7 +115,7 @@
   <!-- ============================================================
        Site Header
        ============================================================ -->
-  <!-- 雙11 (css/d11.css, js/d11.js): hidden unless the sale is on -->
+  <!-- 雙11 (css/d11.css): hidden unless nginx marks the page data-offer="d11" -->
   <p class="d11-bar d11-bar--brand" hidden><b class="d11-gold">雙11優惠</b><span class="d11-bar__sep" aria-hidden="true">·</span><span>3盒起結帳自動減價</span></p>
 
   <header class="site-header" role="banner">
@@ -844,12 +845,12 @@
             <p class="pricing-card__original-price d11-was" hidden><s>平時 HK$1,650</s></p>
             <div class="pricing-card__price">
               <span class="pricing-card__currency">HK$</span>
-              <span class="pricing-card__amount" data-d11="1,539">1,650</span>
+              <span class="pricing-card__amount"><span class="d11-n">1,650</span><span class="d11-y" hidden>1,539</span></span>
             </div>
             <div class="pricing-card__details">
-              <p class="pricing-card__per-box" data-d11="HK$513/盒">HK$550/盒</p>
-              <p class="pricing-card__per-day text-small" data-d11="HK$25.65/日">HK$27.50/日</p>
-              <p class="pricing-card__savings" data-d11="節省HK$561">節省HK$450</p>
+              <p class="pricing-card__per-box"><span class="d11-n">HK$550/盒</span><span class="d11-y" hidden>HK$513/盒</span></p>
+              <p class="pricing-card__per-day text-small"><span class="d11-n">HK$27.50/日</span><span class="d11-y" hidden>HK$25.65/日</span></p>
+              <p class="pricing-card__savings"><span class="d11-n">節省HK$450</span><span class="d11-y" hidden>雙11再減 HK$111</span></p>
             </div>
             <div class="pricing-card__shipping">
               <span class="pricing-card__shipping-free">免運費</span>
@@ -872,12 +873,12 @@
             <p class="pricing-card__original-price d11-was" hidden><s>平時 HK$3,000</s></p>
             <div class="pricing-card__price">
               <span class="pricing-card__currency">HK$</span>
-              <span class="pricing-card__amount" data-d11="2,778">3,000</span>
+              <span class="pricing-card__amount"><span class="d11-n">3,000</span><span class="d11-y" hidden>2,778</span></span>
             </div>
             <div class="pricing-card__details">
-              <p class="pricing-card__per-box" data-d11="HK$463/盒">HK$500/盒</p>
-              <p class="pricing-card__per-day text-small" data-d11="HK$23.15/日">HK$16.67/日</p>
-              <p class="pricing-card__savings" data-d11="節省HK$1,422">節省HK$1,200</p>
+              <p class="pricing-card__per-box"><span class="d11-n">HK$500/盒</span><span class="d11-y" hidden>HK$463/盒</span></p>
+              <p class="pricing-card__per-day text-small"><span class="d11-n">HK$16.67/日</span><span class="d11-y" hidden>HK$23.15/日</span></p>
+              <p class="pricing-card__savings"><span class="d11-n">節省HK$1,200</span><span class="d11-y" hidden>雙11再減 HK$222</span></p>
             </div>
             <div class="pricing-card__shipping">
               <span class="pricing-card__shipping-free">免運費</span>
@@ -892,7 +893,7 @@
           <ul>
             <li>全單免運費，順豐速遞1-2日送達</li>
             <li>建議首次選購3盒（60日），以完整觀察身體變化</li>
-            <li>每日成本低至<span data-d11="HK$23.15">HK$16.67</span>（6盒方案），相當於一杯咖啡</li>
+            <li>每日成本低至<span class="d11-n">HK$16.67</span><span class="d11-y" hidden>HK$23.15</span>（6盒方案），相當於一杯咖啡</li>
           </ul>
         </div>
       </div>
@@ -1195,7 +1196,7 @@
     <div class="sticky-cta__inner">
       <div class="sticky-cta__info">
         <span class="sticky-cta__product-name">IMUGLO 莓益果</span>
-        <span class="sticky-cta__price" data-d11="HK$513/盒起">HK$550/盒起</span>
+        <span class="sticky-cta__price"><span class="d11-n">HK$550/盒起</span><span class="d11-y" hidden>HK$513/盒起</span></span>
       </div>
       <a href="#pricing" class="btn-cta sticky-cta__btn">
         查看方案
