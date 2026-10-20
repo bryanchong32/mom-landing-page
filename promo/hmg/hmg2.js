@@ -44,9 +44,9 @@
            d11: { value: 2778, label: '購買完整療程 · HK$2,778', price: 'HK$2,778 · 每日 HK$15.4' } },
     '3': { path: '3hmg', checkout: '3box', value: 1650, label: '購買基本配套 · HK$1,650',
            plan: '基本配套 · 3樽', price: 'HK$1,650 · 每日 HK$18.3',
-           nudge: '加 HK$1,350 多 3 樽，|6樽完整療程即享 90日退款保證。',
+           nudge: '加 HK$1,350 多 3 樽，|涵蓋整段 4–6 個月累積期。',
            d11: { value: 1539, label: '購買基本配套 · HK$1,539', price: 'HK$1,539 · 每日 HK$17.1',
-                  nudge: '加 HK$1,239 多 3 樽，|6樽完整療程即享 90日退款保證。' } },
+                  nudge: '加 HK$1,239 多 3 樽，|涵蓋整段 4–6 個月累積期。' } },
     // 1樽: names the symptoms (the owner's call, 2 Oct, risk accepted) and links to the 4–6 month chart
     '1': { path: '1hmg', checkout: '1box', value: 700, label: '購買 1樽 · HK$700',
            plan: '1樽 · 30日', price: 'HK$700 · 每日 HK$23.3', why: true,
@@ -97,12 +97,6 @@
     });
 
     each(document.querySelectorAll('[data-boxes]'), function (b) { b.setAttribute('data-n', key); });
-
-    // The guarantee covers the 6-bottle course only, so the line right above the buy
-    // button claims it only then; 「已售出 50,000+ 瓶」 stays, so the line keeps its height
-    each(document.querySelectorAll('.trustline'), function (t) {
-      each(t.querySelectorAll('a, .trustline__dot'), function (el) { el.hidden = key !== '6'; });
-    });
 
     // Lines meant for one plan only (version B's upgrade line under its picker)
     each(document.querySelectorAll('[data-plan-only]'), function (el) {

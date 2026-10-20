@@ -166,7 +166,7 @@ html[data-offer="d11"] .d11-coupon__body span { font-size: 14px; font-weight: 70
 }
 
 /* The 3/6 packs: gold ticket, dashed inner frame, a notch on each side, a red stamp
-   「雙11減$222 / 減$111」 straddling the top edge (the 90日 tab moves to the left) */
+   「雙11減$222 / 減$111」 straddling the top edge */
 html[data-offer="d11"] .picker--card { --d11-notch-bg: var(--card); }
 html[data-offer="d11"] .plans:not(.bh__plans) { gap: 22px; }
 /* version B: a stamp needs room only above a 3/6 tile; the strip is a little tighter */
@@ -204,7 +204,6 @@ html[data-offer="d11"] [data-d11-off].plan::before {
   font-family: var(--d11-heavy); font-weight: 900; font-size: 13.5px; line-height: 21px; letter-spacing: 0.03em;
   white-space: nowrap; transform: rotate(-6deg); pointer-events: none;
 }
-html[data-offer="d11"] [data-d11-off] .plan__mark { right: auto; left: 46px; }
 html[data-offer="d11"] .plan.is-on[data-d11-off],
 html[data-offer="d11"] [data-d11-off].plan:has(input:checked) {
   border-color: var(--d11-red);
